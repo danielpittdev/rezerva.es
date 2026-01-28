@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('servicios_conf', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            $table->string('pregunta');
+            $table->boolean('obligatorio')->default(false);
+            $table->enum('tipo', ['check', 'text', 'textarea', 'number'])->default('text');
+            $table->foreignId('servicio_id')->constrained('servicios')->onDelete('cascade');
             $table->timestamps();
         });
     }

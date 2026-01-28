@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            // Stripe
+            $table->string('stripe_id');
+            $table->string('stripe_monto');
+            // Configuracion
+            $table->decimal('monto', total: 9, places: 2);
+            $table->decimal('comision', total: 9, places: 2);
+            $table->decimal('total', total: 9, places: 2);
+            // Negocio
+            $table->foreignId('negocio')->constrained('negocios')->onDelete('cascade');
+            $table->foreignId('servicio')->constrained('servicios')->onDelete('cascade');
             $table->timestamps();
         });
     }

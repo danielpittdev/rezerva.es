@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('nombre');
-            $table->string('apellido_1');
-            $table->string('apellido_2');
+            $table->string('apellido');
             $table->string('email');
             $table->string('password');
             $table->string('avatar')->nullable();
+            // Ajustes de interés
+            $table->string('empresa_nombre')->nullable();
             // Otros ajustes
             $table->boolean('verificado')->default(false);
             // Timestamps

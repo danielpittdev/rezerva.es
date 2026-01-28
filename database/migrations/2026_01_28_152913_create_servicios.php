@@ -16,7 +16,15 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('nombre');
             $table->string('descripcion')->nullable();
-            $table->enum('tipo', ['puntual', 'hostelero', 'barberia', 'consultoria', 'otros'])->default('psicologia');
+            $table->decimal('precio', total: 8, places: 2);
+            $table->decimal('stock', total: 8, places: 0)->default(0);
+            $table->enum('tipo', ['recurrente', 'unico', 'eventual'])->default('recurrente');
+            $table->boolean('pago_online')->default(false);
+            $table->string('stripe_id')->nullable();
+            // Complementos
+            $table->string('icono')->nullable();
+            // Negocio
+            $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('colaboradores', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
+            // Stripe
+            $table->enum('tipo', ['acceso'])->default('acceso');
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');
             $table->timestamps();
         });
     }
