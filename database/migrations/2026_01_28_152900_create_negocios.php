@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('negocios', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid');
+            $table->string('nombre');
+            $table->string('descripcion')->nullable();
+            $table->enum('tipo', ['psicologia', 'restaurante', 'barberia', 'consultoria', 'otros'])->default('psicologia');
+            // Información postal
+            $table->string('postal_direccion');
+            $table->string('postal_codigo');
+            $table->string('postal_ciudad');
+            $table->string('postal_pais');
+            // Información contacto
+            $table->string('info_email')->nullable();
+            $table->string('info_telefono')->nullable();
+            // Complementos
+            $table->string('icono')->nullable();
+            $table->string('banner')->nullable();
+            // Otros ajustes
+            $table->boolean('verificado')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('negocios');
+    }
+};
