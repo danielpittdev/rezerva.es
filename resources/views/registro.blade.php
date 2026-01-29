@@ -8,14 +8,15 @@
                <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-10 w-auto" />
                <h2 class="mt-8 text-2xl/9 font-bold tracking-tight">Registrarse</h2>
                <p class="mt-2 text-sm/6 text-gray-400">
-                  ¿No eres miembro?
-                  <a href="{{ route('registro') }}" class="font-semibold text-indigo-500 hover:text-indigo-300">Empieza ahora</a>
+                  ¿Eres miembro?
+                  <a href="{{ route('login') }}" class="font-semibold text-indigo-500 hover:text-indigo-300">Inicia sesión</a>
                </p>
             </div>
 
             <div class="mt-10">
                <div>
                   <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2">
+                     @csrf
                      <div class="xl:col-span-2 col-span-1">
                         <label for="email" class="block text-sm/6 font-medium">Correo electrónico</label>
                         <div class="mt-2">
@@ -33,7 +34,7 @@
                      </div>
 
                      <div class="xl:col-span-1 col-span-1">
-                        <label for="apellido" class="block text-sm/6 font-medium">apellido</label>
+                        <label for="apellido" class="block text-sm/6 font-medium">Apellido</label>
                         <div class="mt-2">
                            <input id="apellido" type="text" name="apellido" autocomplete="apellido"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
@@ -41,15 +42,15 @@
                      </div>
 
                      <div class="xl:col-span-full col-span-1">
-                        <label for="nombre_empresa" class="block text-sm/6 font-medium">Empresa</label>
+                        <label for="empresa_nombre" class="block text-sm/6 font-medium">Empresa</label>
                         <div class="mt-2">
-                           <input id="nombre_empresa" type="text" name="nombre_empresa" autocomplete="nombre_empresa"
+                           <input id="empresa_nombre" type="text" name="empresa_nombre" autocomplete="empresa_nombre"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                         </div>
                      </div>
 
                      <div class="xl:col-span-full col-span-1">
-                        <label for="password" class="block text-sm/6 font-medium">Password</label>
+                        <label for="password" class="block text-sm/6 font-medium">Contraseña</label>
                         <div class="mt-2">
                            <input id="password" type="password" name="password" autocomplete="current-password"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
@@ -57,9 +58,9 @@
                      </div>
 
                      <div class="xl:col-span-full col-span-1">
-                        <label for="password" class="block text-sm/6 font-medium">Password</label>
+                        <label for="password_confirmation" class="block text-sm/6 font-medium">Confirma contraseña</label>
                         <div class="mt-2">
-                           <input id="password" type="password" name="password" autocomplete="current-password"
+                           <input id="password_confirmation" type="password_confirmation" name="password_confirmation" autocomplete="current-password"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                         </div>
                      </div>
@@ -78,14 +79,10 @@
                            </div>
                            <label for="terminos_condiciones" class="block text-sm/6">Términos y condiciones</label>
                         </div>
-
-                        <div class="text-sm/6">
-                           <a href="{{ route('recuperar') }}" class="font-semibold text-indigo-500 hover:text-indigo-400">Contraseña olvidada</a>
-                        </div>
                      </div>
 
                      <div class="col-span-full">
-                        <button type="submit" class="text-base-100 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Iniciar sesión</button>
+                        <button type="submit" class="text-base-100 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Crear cuenta</button>
                      </div>
                   </form>
                </div>

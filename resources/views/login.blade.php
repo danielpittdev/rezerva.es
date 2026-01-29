@@ -16,6 +16,7 @@
             <div class="mt-10">
                <div>
                   <form id="login" action="{{ route('api_login') }}" method="POST" class="space-y-6">
+                     @csrf
                      <div>
                         <label for="email" class="block text-sm/6 font-medium">Email address</label>
                         <div class="mt-2">
@@ -76,7 +77,7 @@
          peticion(loginForm, {
             resetForm: true,
             highlightInputs: true,
-            showAlert: false
+            showAlert: false,
          });
       });
    </script>

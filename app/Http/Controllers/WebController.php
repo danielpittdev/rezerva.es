@@ -23,6 +23,7 @@ class WebController extends Controller
 
     public function resetear($id)
     {
-        return view('resetear');
+        $token = $id;
+        return view('resetear', compact('token'));
     }
 }
