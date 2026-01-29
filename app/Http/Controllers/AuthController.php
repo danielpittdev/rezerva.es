@@ -67,6 +67,10 @@ class AuthController extends Controller
     # Recuperación de contraseña
     public function recuperar(Request $request): JsonResponse
     {
+        $validacion = $request->validate([
+            'email' => 'required|email'
+        ]);
+
         // Generar token único
         $token = Str::random(60);
 
