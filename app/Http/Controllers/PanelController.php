@@ -16,8 +16,18 @@ class PanelController extends Controller
         return view('panel.negocios');
     }
 
-    public function empleados()
+    public function servicios()
     {
-        return view('panel.empleados');
+        return view('panel.servicios');
+    }
+
+    public function reservas()
+    {
+        return view('panel.reservas');
+    }
+
+    public function ajustes()
+    {
+        return view('panel.ajustes');
     }
 }

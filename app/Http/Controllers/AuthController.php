@@ -29,9 +29,12 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+        $token = $usuario->createToken('auth_token')->plainTextToken;
+        setcookie('jwt', $token, time() + 3600, '/'); // 1 hora
 
         return response()->json([
             'mensaje' => 'Inicio correcto',
+            'token' => $token,
             'redirect' => route('panel'),
         ]);
     }

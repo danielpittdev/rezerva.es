@@ -24,6 +24,7 @@ class Negocios extends Model
         'icono',
         'banner',
         'verificado',
+        'usuario_id'
     ];
 
     protected function casts(): array
@@ -34,8 +35,13 @@ class Negocios extends Model
         ];
     }
 
-    public function servicio()
+    public function usuario()
     {
-        return $this->belongsTo(Servicios::class, 'servicio_id');
+        return $this->belongsTo(Usuarios::class, 'usuario_id');
+    }
+
+    public function servicios()
+    {
+        return $this->hasMany(Servicios::class, 'negocio_id');
     }
 }

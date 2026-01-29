@@ -54,6 +54,11 @@ class Usuarios extends Authenticatable
         ];
     }
 
+    public function negocios()
+    {
+        return $this->hasMany(Negocios::class, 'usuario_id');
+    }
+
     public function colaboradores()
     {
         return $this->hasMany(Colaboradores::class, 'usuario_id');

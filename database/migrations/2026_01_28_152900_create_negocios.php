@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('banner')->nullable();
             // Otros ajustes
             $table->boolean('verificado')->default(false);
+            // FK
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade');
             $table->timestamps();
         });
     }

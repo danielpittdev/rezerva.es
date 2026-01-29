@@ -1,4 +1,4 @@
-@extends('html.plantilla.blank')
+@extends('components.html.plantilla.blank')
 
 @section('contenido')
    <div class="flex min-h-full">

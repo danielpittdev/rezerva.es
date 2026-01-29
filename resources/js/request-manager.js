@@ -52,6 +52,17 @@ export default async function peticion(form, config = {}) {
       }
 
       if (config.resetForm) form.reset();
+
+      if (typeof config.funcion === "function") {
+        config.funcion(resp); // le pasamos respuesta por si la necesita
+      }
+
+      // 👉 SOLO si reciclar = true
+      if (config.reciclar && btn) {
+        btn.classList.remove('cursor-not-allowed', 'opacity-50');
+        btn.disabled = false;
+      }
+
       if (config.reload) setTimeout(() => window.location.reload(), 200);
       if (redirect) window.location.href = redirect;
     }
