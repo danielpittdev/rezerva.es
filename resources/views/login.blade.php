@@ -44,7 +44,7 @@
                                  </svg>
                               </div>
                            </div>
-                           <label for="remember-me" class="block text-sm/6">Remember me</label>
+                           <label for="remember-me" class="block text-sm/6">Recordarme</label>
                         </div>
 
                         <div class="text-sm/6">
@@ -53,7 +53,7 @@
                      </div>
 
                      <div>
-                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Iniciar sesión</button>
+                        <button type="submit" class="text-base-100 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Iniciar sesión</button>
                      </div>
                   </form>
                </div>

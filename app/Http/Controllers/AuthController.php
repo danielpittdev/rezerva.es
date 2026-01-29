@@ -31,4 +31,30 @@ class AuthController extends Controller
             'token' => $token
         ]);
     }
+
+    public function registro(Request $request): JsonResponse
+    {
+        $validacion = $request->validate([
+            'nombre' => 'required|string|max:40',
+            'apellido' => 'required|string|max:50',
+            'nombre_empresa' => 'required|string|min:3',
+            'password' => 'required|string|min:6',
+            'email' => 'required|email|max:50|confirmed|unique:usuarios',
+            'terminos_condiciones' => 'required',
+        ]);
+
+        # Registro
+        $usuario = Usuarios::create([
+            'nombre' => $validacion['nombre'],
+            'apellido' => $validacion['apellido'],
+            'nombre_empresa' => $validacion['nombre_empresa'],
+            'password' => Hash::make($validacion['password']),
+            'email' => $validacion['email'],
+        ]);
+
+        # Respuesta
+        return response()->json([
+            'mensaje' => 'Registro completo',
+        ]);
+    }
 }

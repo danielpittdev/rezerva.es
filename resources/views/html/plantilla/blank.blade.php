@@ -7,7 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>Auth - {{ env('APP_NAME') }}</title>
 
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
+      @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/request-manager.js'])
    </head>
 
    <body class="h-full">
