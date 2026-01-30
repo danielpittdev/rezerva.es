@@ -2,14 +2,20 @@
 
 @section('contenido')
    <section class=" flex justify-between items-start">
-      <div class="caja">
-         <h1 class="text-md font-medium">
-            Información del negocio
-         </h1>
+      <div class="flex items-center gap-5">
+         <div class="icono">
+            <img src="" class="bg-blue-500 rounded-full size-15" alt="">
+         </div>
 
-         <p class="text-xl font-medium">
-            {{ $negocio->nombre }}
-         </p>
+         <div class="caja">
+            <h1 class="text-md font-light">
+               Información del negocio
+            </h1>
+
+            <p class="text-xl font-medium">
+               {{ $negocio->nombre }}
+            </p>
+         </div>
       </div>
 
       <button command="show-modal" commandfor="drawer_crear_servicio" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
@@ -18,12 +24,17 @@
 
    </section>
 
-   <section class="">
-      <ul id="load_lista_servicios" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
-         <li class="flex py-8">
-            <span class="mx-auto loading loading-spinner loading-md"></span>
-         </li>
-      </ul>
+   <section class="grid grid-cols-[auto_1fr]">
+      <div class="caja w-xs">
+         adad
+      </div>
+      <div class="caja">
+         <ul id="load_lista_servicios" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
+            <li class="flex py-8">
+               <span class="mx-auto loading loading-spinner loading-md"></span>
+            </li>
+         </ul>
+      </div>
    </section>
 @endsection
 
