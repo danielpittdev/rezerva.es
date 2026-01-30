@@ -1,9 +1,10 @@
 @php
    $paginas = [
        'inicio' => ['ruta' => 'panel', 'icono' => 'house'],
-       'negocios' => ['ruta' => 'negocios', 'icono' => 'persons'],
-       'servicios' => ['ruta' => 'servicios', 'icono' => 'persons'],
-       'reservas' => ['ruta' => 'reservas', 'icono' => 'persons'],
+       'negocios' => ['ruta' => 'negocios', 'icono' => 'briefcase'],
+       'servicios' => ['ruta' => 'servicios', 'icono' => 'wrench'],
+       'reservas' => ['ruta' => 'reservas', 'icono' => 'calendar'],
+       'horarios' => ['ruta' => 'horarios', 'icono' => 'clock'],
    ];
 @endphp
 
@@ -34,10 +35,10 @@
                            @foreach ($paginas as $pagina => $param)
                               <li>
                                  <a href="{{ route($param['ruta']) }}"
-                                    class="{{ request()->routeIs($param['ruta']) ? 'bg-base-content/70 text-white text-base-content' : 'hover:bg-base-content/5' }} group flex gap-x-3 rounded-md p-2 text-sm/6 font-medium text-base-content">
+                                    class="{{ request()->routeIs($param['ruta']) ? 'bg-base-content/70 text-white text-base-content' : 'hover:bg-base-content/5' }} group flex gap-x-3 rounded-md p-2 text-md font-medium text-base-content">
                                     <div class="flex items-center gap-3">
                                        <span>
-                                          @svg('gravityui-' . $param['icono'], 'size-4.5 items-center')
+                                          @svg('gravityui-' . $param['icono'], 'size-6 items-center')
                                        </span>
                                        {{ ucfirst($pagina) }}
                                     </div>
@@ -87,7 +88,7 @@
                   @foreach ($paginas as $pagina => $param)
                      <li>
                         <a href="{{ route($param['ruta']) }}"
-                           class="flex items-center {{ request()->routeIs($param['ruta']) ? 'text-base-content/50 bg-base-300/70 ring ring-base-content/10 hover:bg-base-content/5 px-2' : 'text-base-content hover:bg-base-content/5' }} hover:pl-2 duration-200 group flex gap-x-3 rounded-md text-sm/6 p-1 font-medium">
+                           class="flex items-center {{ request()->routeIs($param['ruta']) ? 'text-base-content/50 bg-base-300/70 hover:bg-base-300 ring ring-base-content/10 px-2' : 'text-base-content hover:bg-base-content/5' }} hover:pl-2 duration-200 group flex gap-x-3 rounded-md text-sm/6 py-1.5 px-1 font-medium">
                            <span>
                               @svg('gravityui-' . $param['icono'], 'size-4.5 items-center')
                            </span>

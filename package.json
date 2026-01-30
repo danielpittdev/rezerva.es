@@ -18,7 +18,9 @@
     },
     "dependencies": {
         "@tailwindplus/elements": "^1.0.22",
+        "apexcharts": "^5.3.6",
         "form-backend-validation": "^2.4.0",
-        "jquery": "^4.0.0"
+        "jquery": "^4.0.0",
+        "preline": "^4.0.1"
     }
 }

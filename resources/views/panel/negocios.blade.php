@@ -15,10 +15,9 @@
       <button command="show-modal" commandfor="drawer_crear_negocio" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
          Añadir negocio
       </button>
-
    </section>
 
-   <section class="">
+   <section class="sec">
       <ul id="load_lista_negocios" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
          <li class="flex py-8">
             <span class="mx-auto loading loading-spinner loading-md"></span>

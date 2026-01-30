@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Horarios;
 use App\Models\Negocios;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Models\HorarioExcepcional;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,46 +48,51 @@ class ApiNegocio extends Controller
     public function show($id): JsonResponse
     {
         $negocio = Negocios::whereUuid($id)->first()->load('servicios');
+
+        # Cargas
         $servicios = $negocio->servicios;
+        $horarios_recurrentes = Horarios::where('negocio_id', $negocio->id)->get()->sortBy('id')->groupBy('dia');
+        $horarios_puntuales = HorarioExcepcional::where('negocio_id', $negocio->id)->orderBy('fecha')->orderBy('franja_inicio')->get()->groupBy('fecha');;
 
         $lista_servicios = view('components.listas.servicios.lista', compact('servicios'))->render();
+        $lista_horario_recurrente = view('components.listas.horarios.recurrente', compact('horarios_recurrentes'))->render();
+        $lista_horario_puntual = view('components.listas.horarios.puntual', compact('horarios_puntuales'))->render();
 
         return response()->json([
             'servicios' => $servicios,
-            'lista_servicios' => $lista_servicios
+            'lista_servicios' => $lista_servicios,
+            'lista_horario_recurrente' => $lista_horario_recurrente,
+            'lista_horario_puntual' => $lista_horario_puntual,
         ], 201);
     }
 
     public function update(Request $request, $id): JsonResponse
     {
-        $user = Negocios::find($id);
-        if (!$user) return response()->json(['error' => 'Not found'], 404);
+        $negocio = Negocios::whereUuid($id);
+        if (!$negocio) return response()->json(['error' => 'Not found'], 404);
 
         $validated = $request->validate([
             'nombre' => 'sometimes|string',
-            'apellido' => 'sometimes|string|max:110',
-            'email' => 'sometimes|email|unique:usuarios',
-            'password' => 'sometimes|min:8',
-            'avatar' => 'sometimes|string',
-            'empresa_nombre' => 'sometimes|string',
-            'verificado' => 'sometimes|string',
+            'descripcion' => 'sometimes|string',
+            'tipo' => 'sometimes|string',
+            'postal_direccion' => 'sometimes|string',
+            'postal_codigo' => 'sometimes|string',
+            'postal_ciudad' => 'sometimes|string',
+            'postal_pais' => 'sometimes|string',
+            'info_email' => 'nullable|string',
+            'info_telefono' => 'nullable|string',
         ]);
 
-        // Hashear la contraseña si se está actualizando
-        if (isset($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        }
-
-        $user->update($validated);
-        return response()->json($user);
+        $negocio->update($validated);
+        return response()->json($negocio);
     }
 
     public function destroy($id): JsonResponse
     {
-        $user = Negocios::find($id);
-        if (!$user) return response()->json(['error' => 'Not found'], 404);
+        $negocio = Negocios::find($id);
+        if (!$negocio) return response()->json(['error' => 'Not found'], 404);
 
-        $user->delete();
+        $negocio->delete();
         return response()->json(['message' => 'Deleted']);
     }
 }

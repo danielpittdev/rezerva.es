@@ -44,4 +44,14 @@ class Negocios extends Model
     {
         return $this->hasMany(Servicios::class, 'negocio_id');
     }
+
+    public function horarios_recurrentes()
+    {
+        return $this->hasMany(Horarios::class, 'negocio_id');
+    }
+
+    public function horarios_puntuales()
+    {
+        return $this->hasMany(HorarioExcepcional::class, 'negocio_id');
+    }
 }

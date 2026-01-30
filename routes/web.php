@@ -21,6 +21,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
     Route::get('/reservas', [PanelController::class, 'reservas'])->name('reservas');
+    Route::get('/horarios', [PanelController::class, 'horarios'])->name('horarios');
     Route::get('/ajustes', [PanelController::class, 'ajustes'])->name('ajustes');
 
     Route::prefix('single')->middleware('auth:web')->group(function () {

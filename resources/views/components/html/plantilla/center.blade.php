@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" class="h-full bg-base-100">
+<html lang="en" data-theme="light" class="h-full bg-base-100">
 
    <head>
       <meta charset="UTF-8">
@@ -8,6 +8,8 @@
       <title>Panel - {{ env('APP_NAME') }}</title>
 
       @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/request-manager.js'])
+      <link rel="stylesheet" href="./assets/vendor/apexcharts/dist/apexcharts.css">
+
    </head>
 
    <body class="h-full">

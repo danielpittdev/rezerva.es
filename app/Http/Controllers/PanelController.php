@@ -26,6 +26,11 @@ class PanelController extends Controller
         return view('panel.reservas');
     }
 
+    public function horarios()
+    {
+        return view('panel.horarios');
+    }
+
     public function ajustes()
     {
         return view('panel.ajustes');
