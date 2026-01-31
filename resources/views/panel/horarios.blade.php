@@ -36,10 +36,6 @@
                            Horario habitual para recibir reservas
                         </small>
                      </div>
-
-                     <button command="show-modal" commandfor="drawer_editar_negocio" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
-                        Agregar franja
-                     </button>
                   </div>
                </div>
 
@@ -68,10 +64,6 @@
                            Franjas en días concretos sin afectar a tu horario recurrente
                         </small>
                      </div>
-
-                     <button command="show-modal" commandfor="drawer_editar_negocio" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
-                        Agregar franja
-                     </button>
                   </div>
                </div>
 

@@ -60,6 +60,11 @@ const calendar = {
     this.currentDate = new Date(this.selectedDate); // sincroniza el mes
     this.renderMonth();
     this.renderHorizontalCalendar();
+
+    // Llamar callback si existe (para actualizar reservas)
+    if (typeof llamarReservas === 'function') {
+      llamarReservas();
+    }
   },
 
   // === Navegación semanal ===

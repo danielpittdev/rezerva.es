@@ -6,7 +6,7 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Clientes extends Model
+class Empleados extends Model
 {
     use HasFactory, HasUuid;
 
@@ -16,21 +16,26 @@ class Clientes extends Model
         'apellido',
         'email',
         'telefono',
+        'tipo',
+        'estado',
         'negocio_id',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'tipo' => 'string',
+            'estado' => 'string',
+        ];
+    }
 
     public function negocio()
     {
         return $this->belongsTo(Negocios::class, 'negocio_id');
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Reviews::class, 'cliente_id');
-    }
-
     public function reservas()
     {
-        return $this->hasMany(Reserva::class, 'cliente_id');
+        return $this->hasMany(Reserva::class, 'empleado_id');
     }
 }

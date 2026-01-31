@@ -30,7 +30,7 @@ class ApiServicio extends Controller
             'nombre' => 'required|string',
             'descripcion' => 'required|string',
             'precio' => 'required|string',
-            'stock' => 'required|string',
+            'duracion' => 'nullable|string',
             'tipo' => 'required|string',
             'pago_online' => 'nullable|bool',
             'icono' => 'nullable|string',

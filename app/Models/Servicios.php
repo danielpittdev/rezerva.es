@@ -15,8 +15,6 @@ class Servicios extends Model
         'nombre',
         'descripcion',
         'precio',
-        'stock',
-        'tipo',
         'pago_online',
         'stripe_id',
         'icono',
@@ -27,7 +25,6 @@ class Servicios extends Model
     {
         return [
             'precio' => 'decimal:2',
-            'stock' => 'decimal:0',
             'pago_online' => 'boolean',
         ];
     }
@@ -44,7 +41,7 @@ class Servicios extends Model
 
     public function reservas()
     {
-        return $this->hasMany(Reservas::class, 'servicio_id');
+        return $this->hasMany(Reserva::class, 'servicio_id');
     }
 
     public function facturas()

@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servicios', function (Blueprint $table) {
+        Schema::create('empleados', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            // Personal
             $table->string('nombre');
-            $table->string('descripcion')->nullable();
-            $table->decimal('duracion', total: 2, places: 0)->nullable();
-            $table->decimal('precio', total: 8, places: 2);
-            $table->boolean('pago_online')->default(false);
-            $table->string('stripe_id')->nullable();
-            // Complementos
-            $table->string('icono')->nullable();
-            // Negocio
+            $table->string('apellido');
+            $table->string('email');
+            $table->string('telefono');
+            // Configuracion
+            $table->enum('tipo', ['empleado', 'colaborador', 'administrador']);
+            $table->enum('estado', ['activo']);
+
+            // FK
             $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');
             $table->timestamps();
         });
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servicios');
+        Schema::dropIfExists('empleados');
     }
 };

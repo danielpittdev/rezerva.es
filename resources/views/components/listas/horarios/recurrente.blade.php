@@ -37,6 +37,8 @@
                      </el-dropdown>
                   </div>
                @endforeach
+            @else
+               Ninguno
             @endif
          </td>
       </tr>

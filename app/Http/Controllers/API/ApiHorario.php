@@ -125,13 +125,19 @@ class ApiHorario extends Controller
         return response()->json($excepcion, 200);
     }
 
-
     public function destroy($id): JsonResponse
     {
-        $negocio = Horarios::whereUuid($id);
-        if (!$negocio) return response()->json(['error' => 'Not found'], 404);
+        $horario = Horarios::whereUuid($id)->first();
 
-        $negocio->delete();
-        return response()->json(['message' => 'Deleted']);
+        if (!$horario) {
+            $horario = HorarioExcepcional::whereUuid($id)->first();
+        }
+
+        if (!$horario) {
+            return response()->json(['message' => 'Horario no encontrado'], 404);
+        }
+
+        $horario->delete();
+        return response()->json(['message' => 'Horario eliminado'], 200);
     }
 }

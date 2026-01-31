@@ -6,28 +6,25 @@ use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reservas extends Model
+class Registros extends Model
 {
     use HasFactory, HasUuid;
 
     protected $fillable = [
         'uuid',
-        'estado',
-        'servicio_id',
-        'pago_online',
-        'fecha',
+        'negocio',
+        'cliente',
+        'empleado',
+        'stripe',
     ];
 
     protected function casts(): array
     {
         return [
-            'pago_online' => 'boolean',
-            'fecha' => 'datetime',
+            'negocio' => 'array',
+            'cliente' => 'array',
+            'empleado' => 'array',
+            'stripe' => 'array',
         ];
-    }
-
-    public function servicio()
-    {
-        return $this->belongsTo(Servicios::class, 'servicio_id');
     }
 }

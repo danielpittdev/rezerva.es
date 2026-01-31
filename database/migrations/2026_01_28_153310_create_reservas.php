@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado'])->default('pendiente');
             //
             $table->foreignId('servicio_id')->constrained('servicios')->onDelete('cascade');
-            $table->boolean('pago_online')->default(false);
+            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade')->nullable();
+            //
             $table->timestamp('fecha');
-
+            $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado'])->default('pendiente');
+            //
             $table->timestamps();
         });
     }

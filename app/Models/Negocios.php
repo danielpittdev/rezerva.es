@@ -31,7 +31,6 @@ class Negocios extends Model
     {
         return [
             'verificado' => 'boolean',
-            'fecha' => 'datetime',
         ];
     }
 
@@ -53,5 +52,25 @@ class Negocios extends Model
     public function horarios_puntuales()
     {
         return $this->hasMany(HorarioExcepcional::class, 'negocio_id');
+    }
+
+    public function clientes()
+    {
+        return $this->hasMany(Clientes::class, 'negocio_id');
+    }
+
+    public function empleados()
+    {
+        return $this->hasMany(Empleados::class, 'negocio_id');
+    }
+
+    public function colaboradores()
+    {
+        return $this->hasMany(Colaboradores::class, 'negocio_id');
+    }
+
+    public function facturas()
+    {
+        return $this->hasMany(Facturas::class, 'negocio_id');
     }
 }

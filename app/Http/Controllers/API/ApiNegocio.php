@@ -55,12 +55,14 @@ class ApiNegocio extends Controller
         $horarios_puntuales = HorarioExcepcional::where('negocio_id', $negocio->id)->orderBy('fecha')->orderBy('franja_inicio')->get()->groupBy('fecha');;
 
         $lista_servicios = view('components.listas.servicios.lista', compact('servicios'))->render();
+        $lista_servicios_select = view('components.listas.negocios.servicios', compact('servicios'))->render();
         $lista_horario_recurrente = view('components.listas.horarios.recurrente', compact('horarios_recurrentes'))->render();
         $lista_horario_puntual = view('components.listas.horarios.puntual', compact('horarios_puntuales'))->render();
 
         return response()->json([
             'servicios' => $servicios,
             'lista_servicios' => $lista_servicios,
+            'lista_servicios_select' => $lista_servicios_select,
             'lista_horario_recurrente' => $lista_horario_recurrente,
             'lista_horario_puntual' => $lista_horario_puntual,
         ], 201);
