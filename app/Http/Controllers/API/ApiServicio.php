@@ -15,11 +15,11 @@ class ApiServicio extends Controller
 
     public function index(): JsonResponse
     {
-        $negocios = Auth::user()->negocios;
-        $lista = view('components.listas.negocios.lista', compact('negocios'))->render();
+        $servicios = Auth::servicio()->negocios->load('servicios')->flatMap->servicios;
+        $lista = view('components.listas.servicios.lista_grande', compact('servicios'))->render();
 
         return response()->json([
-            'negocios' => $negocios,
+            'servicios' => $servicios,
             'lista' => $lista
         ]);
     }
@@ -59,17 +59,18 @@ class ApiServicio extends Controller
 
     public function update(Request $request, $id): JsonResponse
     {
-        $user = Servicios::find($id);
-        if (!$user) return response()->json(['error' => 'Not found'], 404);
+        $servicio = Servicios::whereUuid($id);
+        if (!$servicio) return response()->json(['error' => 'Not found'], 404);
 
         $validated = $request->validate([
-            'nombre' => 'sometimes|string',
-            'apellido' => 'sometimes|string|max:110',
-            'email' => 'sometimes|email|unique:usuarios',
-            'password' => 'sometimes|min:8',
-            'avatar' => 'sometimes|string',
-            'empresa_nombre' => 'sometimes|string',
-            'verificado' => 'sometimes|string',
+            'nombre' => 'required|string',
+            'descripcion' => 'required|string',
+            'precio' => 'required|string',
+            'duracion' => 'nullable|string',
+            'tipo' => 'required|string',
+            'pago_online' => 'nullable|bool',
+            'icono' => 'nullable|string',
+            'negocio_id' => 'uuid',
         ]);
 
         // Hashear la contraseña si se está actualizando
@@ -77,16 +78,16 @@ class ApiServicio extends Controller
             $validated['password'] = Hash::make($validated['password']);
         }
 
-        $user->update($validated);
-        return response()->json($user);
+        $servicio->update($validated);
+        return response()->json($servicio);
     }
 
     public function destroy($id): JsonResponse
     {
-        $user = Servicios::find($id);
-        if (!$user) return response()->json(['error' => 'Not found'], 404);
+        $servicio = Servicios::find($id);
+        if (!$servicio) return response()->json(['error' => 'Not found'], 404);
 
-        $user->delete();
+        $servicio->delete();
         return response()->json(['message' => 'Deleted']);
     }
 }

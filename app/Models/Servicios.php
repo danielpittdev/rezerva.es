@@ -16,6 +16,7 @@ class Servicios extends Model
         'descripcion',
         'precio',
         'pago_online',
+        'duracion',
         'stripe_id',
         'icono',
         'negocio_id',

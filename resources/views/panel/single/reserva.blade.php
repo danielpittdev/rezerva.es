@@ -13,12 +13,12 @@
 
    </section>
 
-   <section class="grid lg:grid-cols-12 grid-cols-1 items-start gap-3">
+   <section class="grid lg:grid-cols-[auto_1fr] grid-cols-1 items-start gap-3">
 
       <!-- Izquierda -->
-      <section class="lg:col-span-6 col-span-full space-y-3">
+      <section class="col-span-1 lg:col-span-auto space-y-3">
          <!-- Servicios -->
-         <div class="bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
+         <div class="min-w-[330px] bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
             <div class="p-4 border-b border-base-content/10">
                <div class="flex items-center justify-between min-h-8">
                   <span class="font-medium text-md">
@@ -29,7 +29,7 @@
 
             <div class="material p-4">
                <div class="overflow-x-auto">
-                  <form id="login" action="{{ route('reserva.update', ['reserva' => $reserva->uuid]) }}" method="POST" class="space-y-3 grid lg:grid-cols-4 grid-cols-1 gap-3">
+                  <form id="reserva_actualizar" action="{{ route('reserva.update', ['reserva' => $reserva->uuid]) }}" method="POST" class="space-y-3 grid lg:grid-cols-4 grid-cols-1 gap-3">
                      @csrf
                      @method('PUT')
 
@@ -85,49 +85,31 @@
                   </form>
 
                   <script>
-                     const loginForm = document.getElementById('login');
+                     const reserva_actualizarForm = document.getElementById('reserva_actualizar');
 
-                     loginForm.addEventListener('submit', (e) => {
+                     reserva_actualizarForm.addEventListener('submit', (e) => {
                         e.preventDefault();
-                        peticion(loginForm, {
-                           resetForm: true,
+                        peticion(reserva_actualizarForm, {
+                           resetForm: false,
                            highlightInputs: true,
                            showAlert: false,
+                           reciclar: true,
                         });
                      });
                   </script>
                </div>
             </div>
          </div>
-
-         <!-- Horarios -->
-         <div class="bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
-            <div class="p-4 border-b border-base-content/10">
-               <div class="flex items-center justify-between min-h-8">
-                  <span class="font-medium text-md">
-                     Horarios
-                  </span>
-               </div>
-            </div>
-
-            <div class="material">
-               <div class="overflow-x-auto">
-                  <table id="load_horarios_recurrente" class="table">
-
-                  </table>
-               </div>
-            </div>
-         </div>
       </section>
 
       <!-- Derecha -->
-      <section class="lg:col-span-6 col-span-full space-y-3">
-         <!-- Clientes habituales -->
+      <section class="lg:col-span-1 col-span-full space-y-3">
+         <!-- Datos del cliente -->
          <div class="bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 col-span-full">
             <div class="p-4 border-b border-base-content/10">
                <div class="flex items-center justify-between min-h-8">
                   <span class="font-medium text-md">
-                     Clientes habituales
+                     Datos del cliente
                   </span>
                </div>
             </div>
@@ -135,8 +117,23 @@
             <div class="material">
                <div class="overflow-x-auto">
                   <table class="table">
-                     <tbody id="load_clientes_habituales">
+                     <tbody id="load_datos_cliente">
+                        <tr>
+                           <td>
+                              <div class="caja">
+                                 {{ $reserva->cliente->nombre . ' ' . $reserva->cliente->apellido }}
+                              </div>
 
+                              <div class="caja">
+                                 {{ $reserva->cliente->email . ' ' . $reserva->cliente->telefono }}
+                              </div>
+                           </td>
+                           <td class="text-end">
+                              <span class="text-base-content/70">
+                                 Veces recurrente: {{ $reserva->cliente->reservas->count() }}
+                              </span>
+                           </td>
+                        </tr>
                      </tbody>
                   </table>
                </div>

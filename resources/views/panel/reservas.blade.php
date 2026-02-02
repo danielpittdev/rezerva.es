@@ -42,7 +42,7 @@
          </button>
       </div>
 
-      <div class="bg-base-100 p-2 rounded-lg relative box border border-base-content/10 overflow-y-auto min-w-[18vw]">
+      <div class="bg-base-100 p-2 rounded-lg relative box border border-base-content/10 overflow-y-auto min-w-[15vw]">
          <!-- Calendario -->
          <div class="calendai bg-base-100 p-2 border border-base-content/10 rounded-md">
 
@@ -305,7 +305,7 @@
                               highlightInputs: true,
                               showAlert: false,
                               reciclar: true,
-                              funcion: llamarServicios
+                              funcion: llamarReservas
                            });
 
                         });
@@ -389,31 +389,33 @@
          // URL del endpoint de reservas
          let url = "/api/v1/reserva/buscar";
 
-         $.ajax({
-            type: "GET",
-            url: url,
-            data: {
-               "negocio": negocioUuid,
-               "fecha": fecha,
-               "lista": "lista_grande"
-            },
-            headers: {
-               "Authorization": "Bearer " + localStorage.getItem('token'),
-               "Accept": "application/json"
-            },
-            beforeSend: function() {
-               $('#load_ajax_reservas').append(`<div class="absolute h-full w-full flex items-center justify-center"><span class="loading loading-spinner loading-md"></span></div>`);
-            },
-            success: function(response) {
-               $('#load_ajax_reservas').empty().append(response.html);
+         setTimeout(function() {
+            $.ajax({
+               type: "GET",
+               url: url,
+               data: {
+                  "negocio": negocioUuid,
+                  "fecha": fecha,
+                  "lista": "lista_grande"
+               },
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json"
+               },
+               beforeSend: function() {
+                  $('#load_ajax_reservas').append(`<div class="absolute h-full w-full flex items-center justify-center"><span class="loading loading-spinner loading-md"></span></div>`);
+               },
+               success: function(response) {
+                  $('#load_ajax_reservas').empty().append(response.html);
 
-               console.log(response)
-            },
-            error: function(error) {
-               console.error('Error al obtener reservas:', error);
-               $('#load_ajax_reservas').html('<li class="px-4 py-3 text-center text-red-500">Error al cargar las reservas</li>');
-            }
-         });
+                  console.log(response)
+               },
+               error: function(error) {
+                  console.error('Error al obtener reservas:', error);
+                  $('#load_ajax_reservas').html('<li class="px-4 py-3 text-center text-red-500">Error al cargar las reservas</li>');
+               }
+            });
+         }, 500)
       }
 
       document.addEventListener('DOMContentLoaded', function() {
