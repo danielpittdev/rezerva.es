@@ -27,6 +27,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::prefix('single')->middleware('auth:web')->group(function () {
         Route::get('/', [PanelController::class, 'inicio'])->name('single');
         Route::get('/negocio/{id}', [SingleController::class, 'negocio'])->name('negocio');
+        Route::get('/reserva/{id}', [SingleController::class, 'reserva'])->name('reserva');
         Route::get('/servicio/{id}', [SingleController::class, 'servicio'])->name('servicio');
     });
 });

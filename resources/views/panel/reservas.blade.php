@@ -42,7 +42,7 @@
          </button>
       </div>
 
-      <div class="bg-base-300 p-2 rounded-lg relative box border border-base-content/10 overflow-y-auto min-w-[18vw]">
+      <div class="bg-base-100 p-2 rounded-lg relative box border border-base-content/10 overflow-y-auto min-w-[18vw]">
          <!-- Calendario -->
          <div class="calendai bg-base-100 p-2 border border-base-content/10 rounded-md">
 
@@ -88,7 +88,7 @@
             <div class="space-y-4 xl:hidden block mx-auto max-w-sm">
                <!-- Controles -->
                <div class="flex items-center justify-between">
-                  <button id="btn-prev" class="p-2 rounded-full hover:bg-base-300">
+                  <button id="btn-prev" class="p-2 rounded-full hover:bg-base-200">
                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                      </svg>
@@ -96,7 +96,7 @@
 
                   <h2 id="mes-actual-mobile" class="text-md font-semibold text-base-content text-center">*</h2>
 
-                  <button id="btn-next" class="p-2 rounded-full hover:bg-base-300">
+                  <button id="btn-next" class="p-2 rounded-full hover:bg-base-200">
                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                      </svg>
@@ -110,12 +110,11 @@
          </div>
       </div>
 
-      <div class="col-start-2 col-span-2 bg-base-300 rounded-lg relative box border border-base-content/10 overflow-y-auto">
-         <ul id="load_ajax_reservas" role="list" class="divide-y divide-base-content/10">
+      <div class="relative col-start-2 col-span-2 bg-base-100 rounded-lg relative box border border-base-content/10 overflow-y-auto">
+         <ul id="load_ajax_reservas" role="list" disabled class="relative divide-y divide-base-content/10 h-full">
 
          </ul>
       </div>
-
    </section>
 @endsection
 
@@ -403,12 +402,9 @@
                "Accept": "application/json"
             },
             beforeSend: function() {
-               $('#load_ajax_reservas').html('<li class="px-4 py-3 text-center text-base-content/50">Cargando reservas...</li>');
+               $('#load_ajax_reservas').append(`<div class="absolute h-full w-full flex items-center justify-center"><span class="loading loading-spinner loading-md"></span></div>`);
             },
             success: function(response) {
-               console.log('Reservas obtenidas:', response);
-
-               // Limpiar el contenedor
                $('#load_ajax_reservas').empty().append(response.html);
 
                console.log(response)

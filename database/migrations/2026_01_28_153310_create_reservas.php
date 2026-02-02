@@ -17,7 +17,7 @@ return new class extends Migration
             //
             $table->foreignId('servicio_id')->constrained('servicios')->onDelete('cascade');
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
-            $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade')->nullable();
+            $table->foreignId('empleado_id')->nullable()->constrained('empleados')->onDelete('cascade');
             //
             $table->timestamp('fecha');
             $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado'])->default('pendiente');

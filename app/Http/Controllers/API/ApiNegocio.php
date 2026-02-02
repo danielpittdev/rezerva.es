@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Clientes;
 use App\Models\Horarios;
 use App\Models\Negocios;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class ApiNegocio extends Controller
         return response()->json($negocio, 201);
     }
 
-    public function show($id): JsonResponse
+    public function show($id)
     {
         $negocio = Negocios::whereUuid($id)->first()->load('servicios');
 
@@ -53,11 +54,13 @@ class ApiNegocio extends Controller
         $servicios = $negocio->servicios;
         $horarios_recurrentes = Horarios::where('negocio_id', $negocio->id)->get()->sortBy('id')->groupBy('dia');
         $horarios_puntuales = HorarioExcepcional::where('negocio_id', $negocio->id)->orderBy('fecha')->orderBy('franja_inicio')->get()->groupBy('fecha');;
+        $clientes = Clientes::where('negocio_id', $negocio->id)->get();
 
         $lista_servicios = view('components.listas.servicios.lista', compact('servicios'))->render();
         $lista_servicios_select = view('components.listas.negocios.servicios', compact('servicios'))->render();
         $lista_horario_recurrente = view('components.listas.horarios.recurrente', compact('horarios_recurrentes'))->render();
         $lista_horario_puntual = view('components.listas.horarios.puntual', compact('horarios_puntuales'))->render();
+        $lita_clientes = view('components.listas.clientes.habituales', compact('clientes'))->render();
 
         return response()->json([
             'servicios' => $servicios,
@@ -65,6 +68,7 @@ class ApiNegocio extends Controller
             'lista_servicios_select' => $lista_servicios_select,
             'lista_horario_recurrente' => $lista_horario_recurrente,
             'lista_horario_puntual' => $lista_horario_puntual,
+            'lita_clientes' => $lita_clientes,
         ], 201);
     }
 

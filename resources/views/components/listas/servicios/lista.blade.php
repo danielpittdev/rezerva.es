@@ -11,7 +11,7 @@
    @endforeach
 @else
    <li class="flex items-center justify-between gap-x-6 py-5">
-      <div class="p-2 text-base-content/70">
+      <div class="px-4 text-base-content/70">
          No tienes ningún servicio creado
    </li>
 @endif

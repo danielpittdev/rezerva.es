@@ -103,21 +103,8 @@
 
             <div class="material">
                <div class="overflow-x-auto">
-                  <table id="load_horarios_table" class="table">
-                     <tbody>
-                        <!-- row 1 -->
-                        <tr>
-                           <td>Cy Ganderton</td>
-                           <td>Quality Control Specialist</td>
-                           <td>Blue</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr>
-                           <td>Brice Swyre</td>
-                           <td>Tax Accountant</td>
-                           <td>Red</td>
-                        </tr>
-                     </tbody>
+                  <table id="load_horarios_recurrente" class="table">
+
                   </table>
                </div>
             </div>
@@ -138,20 +125,9 @@
 
             <div class="material">
                <div class="overflow-x-auto">
-                  <table id="load_clientes_habituales" class="table">
-                     <tbody>
-                        <!-- row 1 -->
-                        <tr>
-                           <td>Cy Ganderton</td>
-                           <td>Quality Control Specialist</td>
-                           <td>Blue</td>
-                        </tr>
-                        <!-- row 3 -->
-                        <tr>
-                           <td>Brice Swyre</td>
-                           <td>Tax Accountant</td>
-                           <td>Red</td>
-                        </tr>
+                  <table class="table">
+                     <tbody id="load_clientes_habituales">
+
                      </tbody>
                   </table>
                </div>
@@ -169,7 +145,9 @@
             </div>
 
             <div class="material">
-               <div id="chart"></div>
+               <div class="p-4">
+                  No disponible
+               </div>
             </div>
          </div>
       </section>
@@ -453,24 +431,72 @@
    </script>
 
    <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      function llamadaHorario() {
 
-         var options = {
-            chart: {
-               type: 'line',
-               height: 300
+         let id = "{{ $negocio->uuid }}";
+
+         let urlBase = "{{ route('negocio.show', ['negocio' => '__ID__']) }}";
+         let url = urlBase.replace('__ID__', id);
+
+         $.ajax({
+            type: "GET",
+            url: url,
+            headers: {
+               "Authorization": "Bearer " + localStorage.getItem('token'),
+               "Accept": "application/json"
             },
-            series: [{
-               name: 'Reservas',
-               data: [10, 8, 35, 51, 49, 90, 192]
-            }],
-            xaxis: {
-               categories: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
-            }
-         };
+            beforeSend: function() {
+               $('#load_horarios_recurrente').empty().append(`
+                  <li class="flex py-8">
+                     <span class="mx-auto loading loading-spinner loading-md"></span>
+                  </li>
+               `)
 
-         var chart = new ApexCharts(document.querySelector("#chart"), options);
-         chart.render();
+               $('#load_clientes_habituales').empty().append(`
+                  <li class="flex py-8">
+                     <span class="mx-auto loading loading-spinner loading-md"></span>
+                  </li>
+               `)
+            },
+            success: function(r) {
+               $('#load_horarios_recurrente').empty().append(r.lista_horario_recurrente)
+               $('#load_clientes_habituales').empty().append(r.lita_clientes)
+            },
+            error: function(e) {
+               console.log(e.responseJSON);
+            }
+         });
+      }
+
+      document.addEventListener('submit', async function(e) {
+         const form = e.target;
+         if (!form.classList.contains('elim_horario')) return;
+         e.preventDefault();
+
+         if (!confirm('¿Eliminar este horario?')) return;
+
+         try {
+            await axios.post(form.action, new FormData(form), {
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json"
+               }
+            });
+
+            // 👉 Recargar listas
+            if (typeof llamadaHorario === "function") {
+               llamadaHorario();
+            }
+
+         } catch (err) {
+            alert('Error eliminando horario');
+            console.error(err.response?.data);
+         }
+      });
+
+      window.addEventListener('load', function() {
+         // document.getElementById('modal_o').show()
+         llamadaHorario()
       });
    </script>
 @endsection

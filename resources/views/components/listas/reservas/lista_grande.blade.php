@@ -1,6 +1,17 @@
 @foreach ($reservas as $reserva)
-   <li class="flex items-center justify-between gap-x-6 px-5 py-5">
-      <div class="min-w-0">
+   <li class="flex items-center justify-between gap-x-6 px-5 py-5 bg-base-100 hover:bg-base-100/50">
+      <div class="min-w-0 space-y-1">
+
+         <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-base-content/70">
+            <span class="inline-flex items-center rounded-md bg-base-300 px-2 py-1 text-xs font-medium text-base-content inset-ring inset-ring-base-content/20">
+               <p class="whitespace-nowrap"><time datetime="{{ $reserva->fecha }}">{{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('H:i') }}</time></p>
+            </span>
+
+            -
+
+            {{ $reserva->servicio->nombre }} ({{ number_format($reserva->servicio->precio, 2, ',', '.') }})
+         </div>
+
          <div class="flex items-start gap-x-3">
             <p class="text-sm/6 font-semibold text-base-content">{{ $reserva->cliente->nombre }} {{ $reserva->cliente->apellido }}</p>
 
@@ -28,15 +39,10 @@
          @endswitch
 
       </div>
-      <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-base-content/70">
-         <p class="whitespace-nowrap"><time datetime="{{ $reserva->fecha }}">{{ $reserva->fecha }}</time></p>
-         {{-- <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
-               <circle r="1" cx="1" cy="1" />
-            </svg> --}}
-      </div>
+
    </div>
    <div class="flex flex-none items-center gap-x-4">
-      <a href="#" class="hidden rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 sm:block">View project<span class="sr-only">, GraphQL API</span></a>
+      <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hidden rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 sm:block">Ver reserva<span class="sr-only">, GraphQL API</span></a>
       {{-- <el-dropdown class="relative flex-none">
             <button class="relative block text-base-content/70 hover:text-base-content">
                <span class="absolute -inset-2.5"></span>
