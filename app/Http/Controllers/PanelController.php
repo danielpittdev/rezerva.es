@@ -21,6 +21,11 @@ class PanelController extends Controller
         return view('panel.servicios');
     }
 
+    public function clientes()
+    {
+        return view('panel.clientes');
+    }
+
     public function reservas()
     {
         return view('panel.reservas');

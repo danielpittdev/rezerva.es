@@ -54,7 +54,7 @@ export default async function peticion(form, config = {}) {
       if (config.resetForm) form.reset();
 
       if (typeof config.funcion === "function") {
-        config.funcion(resp); // le pasamos respuesta por si la necesita
+        setTimeout(() => config.funcion(resp), 500);
       }
 
       // 👉 SOLO si reciclar = true

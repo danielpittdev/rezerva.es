@@ -1,7 +1,7 @@
 @extends('components.html.plantilla.fullbody')
 
 @section('contenido')
-   <section class="grid h-full grid-cols-[auto_1fr_1fr] grid-rows-[auto_1fr] gap-2 grid-rows-1">
+   <section class="grid h-full lg:grid-cols-[auto_1fr_1fr] grid-cols-1 lg:grid-rows-[auto_1fr] grid-rows-[auto_auto_1fr] gap-2 grid-rows-1">
 
       <div class="bg-base-200 flex justify-between col-span-full">
          <!--SELECT-->
@@ -42,12 +42,12 @@
          </button>
       </div>
 
-      <div class="bg-base-100 p-2 rounded-lg relative box border border-base-content/10 overflow-y-auto min-w-[15vw]">
+      <div class="lg:bg-base-100 lg:p-2 rounded-lg relative box lg:border border-base-content/10 lg:overflow-y-auto lg:min-w-[15vw] w-auto">
          <!-- Calendario -->
-         <div class="calendai bg-base-100 p-2 border border-base-content/10 rounded-md">
+         <div class="calendai lg:bg-base-100 lg:p-2 lg:border border-base-content/10 rounded-md">
 
             <!-- Desktop -->
-            <div class="xl:block hidden caja max-w-xs mx-auto">
+            <div class="lg:block hidden caja max-w-xs mx-auto">
 
                <!-- Selectores -->
                <div class="flex items-center justify-center text-base-content">
@@ -85,7 +85,7 @@
             </div>
 
             <!-- Móvil -->
-            <div class="space-y-4 xl:hidden block mx-auto max-w-sm">
+            <div class="space-y-4 lg:hidden block">
                <!-- Controles -->
                <div class="flex items-center justify-between">
                   <button id="btn-prev" class="p-2 rounded-full hover:bg-base-200">
@@ -110,7 +110,7 @@
          </div>
       </div>
 
-      <div class="relative col-start-2 col-span-2 bg-base-100 rounded-lg relative box border border-base-content/10 overflow-y-auto">
+      <div class="relative lg:col-start-2 lg:col-span-2 bg-base-100 rounded-lg relative box border border-base-content/10 overflow-y-auto">
          <ul id="load_ajax_reservas" role="list" disabled class="relative divide-y divide-base-content/10 h-full">
 
          </ul>
@@ -142,7 +142,7 @@
                   </div>
                   <div class="relative mt-6 flex-1 px-4 sm:px-6">
 
-                     <form id="crearReserva" action="{{ route('reserva.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
+                     <form id="formuCrearReserva" action="{{ route('reserva.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
                         <!-- Tipo de negocio -->
@@ -256,7 +256,7 @@
                         <div class="lg:col-span-full col-span-full">
                            <label for="estado" class="block text-sm/6 font-medium">Estado</label>
                            @php
-                              $estados = ['pendiente', 'confirmado', 'cancelado', 'finalizado'];
+                              $estados = ['pendiente', 'confirmado', 'cancelado', 'completado'];
                            @endphp
 
                            <div class="mt-2">
@@ -294,22 +294,6 @@
                            <button type="submit" class="rounded-md bg-base-100 p-2 px-3 text-sm font-semibold text-base-content hover:text-base-content/70 shadow-xs inset-ring inset-ring-base-content/20 hover:bg-base-200">Crear reserva</button>
                         </div>
                      </form>
-
-                     <script>
-                        const crearReserva = document.getElementById('crearReserva');
-
-                        crearReserva.addEventListener('submit', (e) => {
-                           e.preventDefault();
-                           peticion(crearReserva, {
-                              resetForm: true,
-                              highlightInputs: true,
-                              showAlert: false,
-                              reciclar: true,
-                              funcion: llamarReservas
-                           });
-
-                        });
-                     </script>
 
                   </div>
                </div>
@@ -403,7 +387,7 @@
                   "Accept": "application/json"
                },
                beforeSend: function() {
-                  $('#load_ajax_reservas').append(`<div class="absolute h-full w-full flex items-center justify-center"><span class="loading loading-spinner loading-md"></span></div>`);
+                  $('#load_ajax_reservas').empty().append(`<div class="absolute h-full w-full flex items-center justify-center"><span class="loading loading-spinner loading-md"></span></div>`);
                },
                success: function(response) {
                   $('#load_ajax_reservas').empty().append(response.html);
@@ -415,7 +399,7 @@
                   $('#load_ajax_reservas').html('<li class="px-4 py-3 text-center text-red-500">Error al cargar las reservas</li>');
                }
             });
-         }, 500)
+         }, 100)
       }
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -433,6 +417,22 @@
          // Llamar reservas cuando cambia el negocio principal
          $('#negocio_id').on('change', function() {
             llamarReservas();
+         });
+
+
+         const formuCrearReserva = document.getElementById('formuCrearReserva');
+
+         formuCrearReserva.addEventListener('submit', (e) => {
+            e.preventDefault();
+            peticion(formuCrearReserva, {
+               resetForm: true,
+               highlightInputs: true,
+               showAlert: false,
+               reciclar: true,
+               funcion: llamarReservas,
+               onSuccess: document.getElementById('modal_crear_reserva').hide()
+            });
+
          });
       });
    </script>

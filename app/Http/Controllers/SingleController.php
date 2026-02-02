@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reserva;
 use App\Models\Negocios;
 use App\Models\Servicios;
+use App\Models\Clientes;
 use Illuminate\Http\Request;
 
 class SingleController extends Controller
@@ -25,5 +26,11 @@ class SingleController extends Controller
     {
         $reserva = Reserva::whereUuid($id)->first();
         return view('panel.single.reserva', compact('reserva'));
+    }
+
+    public function cliente($id)
+    {
+        $cliente = Clientes::whereUuid($id)->with(['negocio'])->first();
+        return view('panel.single.cliente', compact('cliente'));
     }
 }

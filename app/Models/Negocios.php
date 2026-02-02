@@ -73,4 +73,9 @@ class Negocios extends Model
     {
         return $this->hasMany(Facturas::class, 'negocio_id');
     }
+
+    public function reservas()
+    {
+        return $this->hasManyThrough(Reserva::class, Servicios::class, 'negocio_id', 'servicio_id');
+    }
 }

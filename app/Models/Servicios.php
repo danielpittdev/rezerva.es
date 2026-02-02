@@ -35,7 +35,7 @@ class Servicios extends Model
         return $this->belongsTo(Negocios::class, 'negocio_id');
     }
 
-    public function configuraciones()
+    public function preguntas()
     {
         return $this->hasMany(ServiciosConf::class, 'servicio_id');
     }

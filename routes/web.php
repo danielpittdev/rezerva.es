@@ -20,6 +20,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/', [PanelController::class, 'inicio'])->name('panel');
     Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
+    Route::get('/clientes', [PanelController::class, 'clientes'])->name('clientes');
     Route::get('/reservas', [PanelController::class, 'reservas'])->name('reservas');
     Route::get('/horarios', [PanelController::class, 'horarios'])->name('horarios');
     Route::get('/ajustes', [PanelController::class, 'ajustes'])->name('ajustes');
@@ -29,5 +30,6 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
         Route::get('/negocio/{id}', [SingleController::class, 'negocio'])->name('negocio');
         Route::get('/reserva/{id}', [SingleController::class, 'reserva'])->name('reserva');
         Route::get('/servicio/{id}', [SingleController::class, 'servicio'])->name('servicio');
+        Route::get('/cliente/{id}', [SingleController::class, 'cliente'])->name('cliente');
     });
 });

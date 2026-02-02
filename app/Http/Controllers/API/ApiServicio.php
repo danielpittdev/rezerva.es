@@ -15,13 +15,26 @@ class ApiServicio extends Controller
 
     public function index(): JsonResponse
     {
-        $servicios = Auth::servicio()->negocios->load('servicios')->flatMap->servicios;
+        $servicios = Auth::user()->negocios->load('servicios')->flatMap->servicios;
         $lista = view('components.listas.servicios.lista_grande', compact('servicios'))->render();
 
         return response()->json([
             'servicios' => $servicios,
             'lista' => $lista
         ]);
+    }
+
+    public function show($id): JsonResponse
+    {
+        $negocio = Servicios::whereUuid($id)->first()->load('servicios');
+        $servicios = $negocio->servicios;
+
+        $lista_servicios = view('components.listas.servicios.lista', compact('servicios'))->render();
+
+        return response()->json([
+            'servicios' => $servicios,
+            'lista_servicios' => $lista_servicios
+        ], 201);
     }
 
     public function store(Request $request): JsonResponse
@@ -44,19 +57,6 @@ class ApiServicio extends Controller
         return response()->json($servicio, 201);
     }
 
-    public function show($id): JsonResponse
-    {
-        $negocio = Servicios::whereUuid($id)->first()->load('servicios');
-        $servicios = $negocio->servicios;
-
-        $lista_servicios = view('components.listas.servicios.lista', compact('servicios'))->render();
-
-        return response()->json([
-            'servicios' => $servicios,
-            'lista_servicios' => $lista_servicios
-        ], 201);
-    }
-
     public function update(Request $request, $id): JsonResponse
     {
         $servicio = Servicios::whereUuid($id);
@@ -64,14 +64,20 @@ class ApiServicio extends Controller
 
         $validated = $request->validate([
             'nombre' => 'required|string',
-            'descripcion' => 'required|string',
+            'descripcion' => 'nullable|string',
             'precio' => 'required|string',
             'duracion' => 'nullable|string',
-            'tipo' => 'required|string',
-            'pago_online' => 'nullable|bool',
+            'tipo' => 'nullable|string',
+            'pago_online' => 'nullable',
             'icono' => 'nullable|string',
             'negocio_id' => 'uuid',
         ]);
+
+        if ($request->pago_online) {
+            $validated['pago_online'] = true;
+        } else {
+            $validated['pago_online'] = false;
+        }
 
         // Hashear la contraseña si se está actualizando
         if (isset($validated['password'])) {

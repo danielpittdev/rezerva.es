@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Negocios;
 use Carbon\Carbon;
 use App\Models\Usuarios;
 use Illuminate\Support\Str;
@@ -51,6 +52,11 @@ class AuthController extends Controller
             'terminos_condiciones' => 'required',
         ]);
 
+        # Mayusculas
+        $validacion['nombre'] = ucfirst($validacion['nombre']);
+        $validacion['apellido'] = ucfirst($validacion['apellido']);
+        $validacion['empresa_nombre'] = ucfirst($validacion['empresa_nombre']);
+
         # Registro
         $usuario = Usuarios::create([
             'nombre' => $validacion['nombre'],
@@ -58,6 +64,19 @@ class AuthController extends Controller
             'empresa_nombre' => $validacion['empresa_nombre'],
             'password' => Hash::make($validacion['password']),
             'email' => $validacion['email'],
+        ]);
+
+        $negocio = Negocios::create([
+            'nombre' => 'Tu negocio',
+            'descripcion' => 'Descripción corta',
+            'tipo' => 'otros',
+            'postal' => 'otros',
+            'tipo' => 'otros',
+            'postal_direccion' => 'Calle',
+            'postal_codigo' => '00000',
+            'postal_ciudad' => 'Ciudad',
+            'postal_pais' => 'País',
+            'usuario_id' => $usuario->id,
         ]);
 
         # Respuesta

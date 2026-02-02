@@ -1,26 +1,36 @@
 @extends('components.html.plantilla.center')
 
 @section('contenido')
-   <section class="bg-base-100 p-5 border border-base-content/10 rounded-md flex justify-between items-start">
-      <div class="flex items-center gap-5">
+   <section class="relative bg-base-100 @if ($negocio->banner) pb-80 @endif p-5 border border-base-content/10 rounded-md flex justify-between items-start">
+      <div class="flex items-center gap-5 z-10">
          <div class="icono">
-            <img src="" class="bg-blue-500 rounded-full size-15" alt="">
+            @if ($negocio->icono)
+               <img src="{{ asset('storage/' . $negocio->icono) }}" class="rounded-full size-15 object-cover border border-base-content/20" alt="{{ $negocio->nombre }}">
+            @else
+               <div class="bg-indigo-500 rounded-full size-15 flex items-center justify-center text-white text-2xl font-bold">
+                  {{ strtoupper(substr($negocio->nombre, 0, 1)) }}
+               </div>
+            @endif
          </div>
 
          <div class="caja">
-            <h1 class="text-md font-light">
+            <h1 class="text-sm text-base-content/70 font-light">
                Información del negocio
             </h1>
 
-            <p class="text-xl font-medium">
+            <p class="text-lg font-medium">
                {{ $negocio->nombre }}
             </p>
          </div>
       </div>
 
-      <button command="show-modal" commandfor="drawer_editar_negocio" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
+      <button command="show-modal" commandfor="drawer_editar_negocio" class="z-10 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
          Editar negocio
       </button>
+
+      @if ($negocio->banner)
+         <img class="z-1 w-full h-[75%] object-cover absolute bottom-0 start-0" src="{{ Storage::url($negocio->banner) }}" alt="">
+      @endif
 
    </section>
 
@@ -34,8 +44,8 @@
             <span class="font-normal text-sm text-base-content/70">
                Reservas atendidas
             </span>
-            <span class="font-semibold text-xl">
-               29
+            <span id="reservas_finalizadas" class="font-semibold text-xl">
+               <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
 
@@ -44,8 +54,8 @@
             <span class="font-normal text-sm text-base-content/70">
                Reservas atendidas este mes
             </span>
-            <span class="font-semibold text-xl">
-               299
+            <span id="reservas_este_mes" class="font-semibold text-xl">
+               <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
 
@@ -54,8 +64,8 @@
             <span class="font-normal text-sm text-base-content/70">
                Ingresos estimados
             </span>
-            <span class="font-semibold text-xl">
-               12.129,90
+            <span id="ingresos_estimados" class="font-semibold text-xl">
+               <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
       </section>
@@ -309,7 +319,7 @@
                   </div>
                   <div class="relative mt-6 flex-1 px-4 sm:px-6">
 
-                     <form id="editarNegocio" action="{{ route('negocio.update', ['negocio' => $negocio->uuid]) }}" method="PUT" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
+                     <form id="editarNegocio" action="{{ route('negocio.update', ['negocio' => $negocio->uuid]) }}" method="POST" enctype="multipart/form-data" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
                         @method('PUT')
 
@@ -333,16 +343,16 @@
 
                         <!-- Tipo de negocio -->
                         <div class="lg:col-span-full col-span-full">
-                           <label for="descripcion" class="block text-sm/6 font-medium">Tipo de negocio</label>
+                           <label for="tipo" class="block text-sm/6 font-medium">Tipo de negocio</label>
                            @php
                               $tipos = ['psicologia', 'barberia', 'restaurante', 'otros'];
                            @endphp
 
                            <div class="mt-2">
-                              <el-select id="select" name="tipo" value="{{ $negocio->tipo }}" class="mt-2 block">
+                              <el-select id="select_tipo" name="tipo" value="{{ $negocio->tipo }}" class="mt-2 block">
                                  <button type="button"
                                     class="bg-base-200 grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/20 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
-                                    <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Tom Cook</el-selectedcontent>
+                                    <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">{{ ucfirst($negocio->tipo) }}</el-selectedcontent>
                                     <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
                                        <path
                                           d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
@@ -369,8 +379,92 @@
                            </div>
                         </div>
 
+                        <!-- Dirección postal -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
+                           <div class="mt-2">
+                              <input id="postal_direccion" type="text" name="postal_direccion" value="{{ $negocio->postal_direccion }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Código postal -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
+                           <div class="mt-2">
+                              <input id="postal_codigo" type="text" name="postal_codigo" value="{{ $negocio->postal_codigo }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Ciudad -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
+                           <div class="mt-2">
+                              <input id="postal_ciudad" type="text" name="postal_ciudad" value="{{ $negocio->postal_ciudad }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- País -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
+                           <div class="mt-2">
+                              <input id="postal_pais" type="text" name="postal_pais" value="{{ $negocio->postal_pais }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="info_email" class="block text-sm/6 font-medium">Email de contacto</label>
+                           <div class="mt-2">
+                              <input id="info_email" type="email" name="info_email" value="{{ $negocio->info_email }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="info_telefono" class="block text-sm/6 font-medium">Teléfono de contacto</label>
+                           <div class="mt-2">
+                              <input id="info_telefono" type="tel" name="info_telefono" value="{{ $negocio->info_telefono }}"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Icono -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="icono" class="block text-sm/6 font-medium">Icono del negocio</label>
+                           @if ($negocio->icono)
+                              <div class="mt-2 mb-2">
+                                 <img src="{{ asset('storage/' . $negocio->icono) }}" alt="Icono actual" class="size-20 rounded-full object-cover border border-base-content/20">
+                              </div>
+                           @endif
+                           <div class="mt-2">
+                              <input id="icono" type="file" name="icono" accept="image/*"
+                                 class="block w-full text-sm text-base-content file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+                              <p class="mt-1 text-xs text-base-content/70">PNG, JPG, GIF (máx. 2MB)</p>
+                           </div>
+                        </div>
+
+                        <!-- Banner -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="banner" class="block text-sm/6 font-medium">Banner del negocio</label>
+                           @if ($negocio->banner)
+                              <div class="mt-2 mb-2">
+                                 <img src="{{ asset('storage/' . $negocio->banner) }}" alt="Banner actual" class="w-full h-32 rounded-md object-cover border border-base-content/20">
+                              </div>
+                           @endif
+                           <div class="mt-2">
+                              <input id="banner" type="file" name="banner" accept="image/*"
+                                 class="block w-full text-sm text-base-content file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+                              <p class="mt-1 text-xs text-base-content/70">PNG, JPG, GIF (máx. 5MB) - Recomendado: 1920x400px</p>
+                           </div>
+                        </div>
+
                         <div class="col-span-full mt-6">
-                           <button type="submit" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Actualizar</button>
+                           <button type="submit" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Actualizar negocio</button>
                         </div>
                      </form>
 
@@ -383,7 +477,8 @@
                               resetForm: false,
                               highlightInputs: true,
                               showAlert: false,
-                              reciclar: true,
+                              reciclar: false,
+                              reload: true,
                            });
 
                         });
@@ -461,6 +556,13 @@
             success: function(r) {
                $('#load_horarios_recurrente').empty().append(r.lista_horario_recurrente)
                $('#load_clientes_habituales').empty().append(r.lita_clientes)
+
+               // Actualizar estadísticas
+               if (r.estadisticas) {
+                  $('#reservas_finalizadas').text(r.estadisticas.reservas_finalizadas)
+                  $('#reservas_este_mes').text(r.estadisticas.reservas_este_mes)
+                  $('#ingresos_estimados').html(r.estadisticas.ingresos_estimados + ' <span class="text-base font-normal">€</span>')
+               }
             },
             error: function(e) {
                console.log(e.responseJSON);

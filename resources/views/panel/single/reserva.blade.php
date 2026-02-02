@@ -34,7 +34,7 @@
                      @method('PUT')
 
                      <div class="lg:col-span-full col-span-1">
-                        <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
+                        <label for="estado" class="block text-sm/6 font-medium">Estado</label>
                         <div class="mt-2">
                            <el-select id="estado" name="estado" value="{{ $reserva->estado }}" class="mt-2 block">
                               <button type="button"
@@ -51,7 +51,7 @@
                                  class="max-h-60 w-(--button-width) overflow-auto rounded-md p-1 text-base shadow-lg outline-1 outline-base-content/20 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
 
                                  @php
-                                    $estados = ['pendiente', 'confirmado', 'cancelado', 'finalizado'];
+                                    $estados = ['pendiente', 'confirmado', 'cancelado', 'completado'];
                                  @endphp
 
                                  @foreach ($estados as $estado)
