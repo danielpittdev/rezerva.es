@@ -27,7 +27,7 @@
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="relative flex grow flex-col gap-y-5 overflow-y-auto bg-base-100 px-6 pb-2 ring-1 ring-white/10">
                <div class="relative flex h-16 shrink-0 items-center">
-                  <img src="{{ asset('/media/logo/icon_blanco.svg') }}" alt="{{ env('APP_NAME') }}" class="h-8 w-auto" />
+                  <img src="{{ asset('/media/logo/icon.png') }}" alt="{{ env('APP_NAME') }}" class="h-8 w-auto" />
                </div>
                <nav class="flex flex-1 flex-col">
                   <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -79,7 +79,7 @@
    <div class="flex grow flex-col gap-y-5 overflow-y-auto px-6">
       <div class="flex h-16 shrink-0 items-center">
          <a href="{{ route('panel') }}">
-            <img src="{{ asset('/media/logo/icon_blanco.svg') }}" alt="{{ env('APP_NAME') }}" class="h-8 w-auto" />
+            <img src="{{ asset('/media/logo/icon.png') }}" alt="{{ env('APP_NAME') }}" class="h-8 w-auto" />
          </a>
       </div>
       <nav class="flex flex-1 flex-col">

@@ -42,7 +42,7 @@
 
    </div>
    <div class="flex flex-none items-center gap-x-4">
-      <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hidden rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 sm:block">Ver reserva<span class="sr-only">, GraphQL API</span></a>
+      <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hidden rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 sm:block">Ver más<span class="sr-only">, GraphQL API</span></a>
       {{-- <el-dropdown class="relative flex-none">
             <button class="relative block text-base-content/70 hover:text-base-content">
                <span class="absolute -inset-2.5"></span>

@@ -2,7 +2,7 @@
 
 @section('contenido')
    <section class="bg-base-100 p-5 border border-base-content/10 rounded-md flex justify-between items-start">
-      <div class="flex items-center gap-5">
+      <div class="flex items-start gap-5">
          <div class="icono">
             <div class="bg-indigo-500 rounded-full size-15 flex items-center justify-center text-white text-2xl font-bold">
                {{ strtoupper(substr($cliente->nombre, 0, 1)) }}{{ strtoupper(substr($cliente->apellido, 0, 1)) }}
@@ -47,7 +47,7 @@
             <span class="font-normal text-sm text-base-content/70">
                Reservas completadas
             </span>
-            <span id="reservas_completadas" class="font-semibold text-xl">
+            <span id="reservas_completadas" class="font-medium text-xl">
                <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
@@ -57,7 +57,7 @@
             <span class="font-normal text-sm text-base-content/70">
                Reservas este mes
             </span>
-            <span id="reservas_este_mes" class="font-semibold text-xl">
+            <span id="reservas_este_mes" class="font-medium text-xl">
                <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
@@ -67,7 +67,7 @@
             <span class="font-normal text-sm text-base-content/70">
                Gasto total
             </span>
-            <span id="gasto_total" class="font-semibold text-xl">
+            <span id="gasto_total" class="font-medium text-xl">
                <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>
@@ -77,7 +77,7 @@
             <span class="font-normal text-sm text-base-content/70">
                Última reserva
             </span>
-            <span id="ultima_reserva" class="font-semibold text-xl">
+            <span id="ultima_reserva" class="font-medium text-xl">
                <span class="loading loading-spinner loading-sm"></span>
             </span>
          </div>

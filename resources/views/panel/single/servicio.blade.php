@@ -161,7 +161,7 @@
                         <div class="col-span-full">
                            <label for="tipo" class="block text-sm/6 font-medium">Tipo de pregunta</label>
                            @php
-                              $tipos_pregunta = ['text', 'textarea', 'checkbox', 'number'];
+                              $tipos_pregunta = ['text', 'textarea', 'check', 'number'];
                            @endphp
 
                            <div class="mt-2">

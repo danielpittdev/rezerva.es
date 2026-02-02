@@ -50,6 +50,13 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed|min:6',
             'email' => 'required|email|max:50|unique:usuarios',
             'terminos_condiciones' => 'required',
+            // Negocio
+            'descripcion' => 'required|string|max:255',
+            'tipo' => 'required|string|max:50',
+            'postal_direccion' => 'required|string|max:255',
+            'postal_codigo' => 'required|string|max:10',
+            'postal_ciudad' => 'required|string|max:100',
+            'postal_pais' => 'required|string|max:100',
         ]);
 
         # Mayusculas
@@ -67,15 +74,13 @@ class AuthController extends Controller
         ]);
 
         $negocio = Negocios::create([
-            'nombre' => 'Tu negocio',
-            'descripcion' => 'Descripción corta',
-            'tipo' => 'otros',
-            'postal' => 'otros',
-            'tipo' => 'otros',
-            'postal_direccion' => 'Calle',
-            'postal_codigo' => '00000',
-            'postal_ciudad' => 'Ciudad',
-            'postal_pais' => 'País',
+            'nombre' => $validacion['empresa_nombre'] ?? 'Tu negocio',
+            'descripcion' => $validacion['descripcion'] ?? 'Descripción corta',
+            'tipo' => $validacion['tipo'] ?? 'otros',
+            'postal_direccion' => $validacion['postal_direccion'] ?? 'Calle',
+            'postal_codigo' => $validacion['postal_codigo'] ?? '00000',
+            'postal_ciudad' => $validacion['postal_ciudad'] ?? 'Ciudad',
+            'postal_pais' => $validacion['postal_pais'] ?? 'País',
             'usuario_id' => $usuario->id,
         ]);
 

@@ -5,7 +5,7 @@
       <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
          <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
-               <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-10 w-auto" />
+               <img src="/media/logo/icon.png" alt="Your Company" class="h-10 w-auto" />
                <h2 class="mt-8 text-2xl/9 font-bold tracking-tight">Iniciar sesión</h2>
                <p class="mt-2 text-sm/6 text-gray-400">
                   ¿No eres miembro?

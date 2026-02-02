@@ -29,9 +29,11 @@
                </p>
             </div>
             <div class="flex gap-2">
-               <button type="button" onclick="editarCliente('{{ $cliente->uuid }}')" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
-                  Editar
-               </button>
+               <a href="{{ route('cliente', ['id' => $cliente->uuid]) }}">
+                  <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
+                     Editar
+                  </button>
+               </a>
                <button type="button" onclick="eliminarCliente('{{ $cliente->uuid }}')" class="rounded-md bg-red-50 px-2.5 py-1.5 text-sm font-semibold text-red-600 shadow-xs inset-ring inset-ring-red-300 hover:bg-red-100">
                   Eliminar
                </button>

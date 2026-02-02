@@ -5,7 +5,7 @@
       <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
          <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
-               <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-10 w-auto" />
+               <img src="/media/logo/icon.png" alt="Your Company" class="h-10 w-auto" />
                <h2 class="mt-8 text-2xl/9 font-bold tracking-tight">Registrarse</h2>
                <p class="mt-2 text-sm/6 text-gray-400">
                   ¿Eres miembro?
@@ -15,7 +15,7 @@
 
             <div class="mt-10">
                <div>
-                  <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2">
+                  <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2 max-h-[60vh] overflow-y-auto">
                      @csrf
                      <div class="xl:col-span-2 col-span-1">
                         <label for="email" class="block text-sm/6 font-medium">Correo electrónico</label>
@@ -65,6 +65,69 @@
                         </div>
                      </div>
 
+                     <div class="divider col-span-full">
+                        Datos de tu negocio
+                     </div>
+
+                     <!-- Negocio -->
+
+                     <div class="xl:col-span-2 col-span-1">
+                        <label for="descripcion" class="block text-sm/6 font-medium">Descripción</label>
+                        <div class="mt-2">
+                           <input id="descripcion" type="text" name="descripcion" placeholder="Descripción corta de tu negocio"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-2 col-span-1">
+                        <label for="tipo" class="block text-sm/6 font-medium">Tipo de negocio</label>
+                        <div class="mt-2">
+                           <select id="tipo" name="tipo"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
+                              <option value="otros">Otros</option>
+                              <option value="peluqueria">Peluquería</option>
+                              <option value="barberia">Barbería</option>
+                              <option value="estetica">Estética</option>
+                              <option value="spa">Spa</option>
+                              <option value="clinica">Clínica</option>
+                              <option value="gimnasio">Gimnasio</option>
+                              <option value="consultoria">Consultoría</option>
+                           </select>
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-2 col-span-1">
+                        <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
+                        <div class="mt-2">
+                           <input id="postal_direccion" type="text" name="postal_direccion" placeholder="Calle y número" autocomplete="street-address"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-1 col-span-1">
+                        <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
+                        <div class="mt-2">
+                           <input id="postal_codigo" type="text" name="postal_codigo" placeholder="00000" autocomplete="postal-code"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-1 col-span-1">
+                        <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
+                        <div class="mt-2">
+                           <input id="postal_ciudad" type="text" name="postal_ciudad" placeholder="Ciudad" autocomplete="address-level2"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-2 col-span-1">
+                        <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
+                        <div class="mt-2">
+                           <input id="postal_pais" type="text" name="postal_pais" placeholder="País" autocomplete="country-name"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
                      <div class="flex items-center justify-between col-span-full">
                         <div class="flex gap-3">
                            <div class="flex h-6 shrink-0 items-center">
@@ -80,6 +143,8 @@
                            <label for="terminos_condiciones" class="block text-sm/6">Términos y condiciones</label>
                         </div>
                      </div>
+
+
 
                      <div class="col-span-full">
                         <button type="submit" class="text-base-100 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Crear cuenta</button>
