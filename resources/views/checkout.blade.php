@@ -2,21 +2,8 @@
 
 @section('contenido')
    <section class="bg-base-100 min-h-[100vh] pt-10 pb-30">
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-3xl rounded-3xl overflow-hidden">
-         <!-- Imagen -->
-         <div class="p-0 shadow overflow-hidden">
-            <img class="w-full h-70 object-cover" src="/media/img/banner.png" alt="">
-         </div>
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-2xl rounded-3xl overflow-hidden">
 
-         <!-- Título -->
-         <div class="p-5 flex gap-3 items-end absolute left-0 top-50 rounded-md w-sm">
-            <div class="caja">
-               <img class="rounded-full size-27 border-7 border-base-100" src="/media/logo/brand.png" alt="">
-            </div>
-            <h1 class="text-2xl font-medium text-center mb-3">
-               {{ $negocio->nombre }}
-            </h1>
-         </div>
 
          <!-- Cuerpo -->
          <div class="cuerpo min-h-[600px] pt-15 px-5">
