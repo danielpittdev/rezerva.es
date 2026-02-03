@@ -40,4 +40,16 @@ class Reserva extends Model
     {
         return $this->belongsTo(Empleado::class, 'empleado_id');
     }
+
+    public function negocio()
+    {
+        return $this->hasOneThrough(
+            Negocios::class,
+            Servicios::class,
+            'id',
+            'id',
+            'servicio_id',
+            'negocio_id'
+        );
+    }
 }

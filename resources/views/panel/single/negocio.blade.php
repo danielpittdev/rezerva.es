@@ -192,11 +192,31 @@
                      <form id="crearServicio" action="{{ route('servicio.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
+                        <div class="alerta col-span-full p-3 rounded-md"></div>
+
                         <!-- Nombre -->
                         <div class="lg:col-span-full col-span-full">
                            <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
                            <div class="mt-2">
-                              <input id="nombre" type="text" name="nombre" autocomplete="nombre"
+                              <input id="nombre" type="nombre" name="nombre" autocomplete="nombre"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Duración -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="duracion" class="block text-sm/6 font-medium">Duración</label>
+                           <div class="mt-2">
+                              <input id="duracion" type="number" step="1" min="0" name="duracion" autocomplete="duracion"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="precio" class="block text-sm/6 font-medium">Precio</label>
+                           <div class="mt-2">
+                              <input id="precio" type="number" min="0" step="0.01" name="precio" autocomplete="precio"
                                  class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
@@ -210,35 +230,17 @@
                            </div>
                         </div>
 
-                        <!-- Precio -->
-                        <div class="lg:col-span-2 col-span-full">
-                           <label for="precio" class="block text-sm/6 font-medium">Precio</label>
-                           <div class="mt-2">
-                              <input id="precio" type="number" min="0" step="1" name="precio" autocomplete="precio"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-                           </div>
-                        </div>
-
-                        <!-- Stock -->
-                        <div class="lg:col-span-2 col-span-full">
-                           <label for="stock" class="block text-sm/6 font-medium">Stock</label>
-                           <div class="mt-2">
-                              <input id="stock" type="number" min="0" step="1" name="stock" autocomplete="stock"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-                           </div>
-                        </div>
-
-                        <!-- Tipo de negocio -->
+                        <!-- Tipo de servicio -->
                         <div class="lg:col-span-full col-span-full">
-                           <label for="descripcion" class="block text-sm/6 font-medium">Tipo de negocio</label>
+                           <label for="tipo" class="block text-sm/6 font-medium">Tipo de servicio</label>
                            @php
-                              $tipos = ['recurrente', 'eventual'];
+                              $tipos = ['recurrente'];
                            @endphp
 
                            <div class="mt-2">
                               <el-select id="select" name="tipo" value="{{ $tipos[0] }}" class="mt-2 block">
                                  <button type="button"
-                                    class="bg-base-200 grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/20 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                    class="grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/20 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
                                     <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Tom Cook</el-selectedcontent>
                                     <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
                                        <path
@@ -267,7 +269,8 @@
                         </div>
 
                         <div class="col-span-full mt-6">
-                           <button type="submit" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Crear servicio</button>
+                           <button type="submit" class="cursor-pointer flex ml-auto justify-center rounded-md bg-indigo-600 text-white px-4 py-1.5 text-sm/6 font-semibold hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Crear
+                              servicio</button>
                         </div>
 
                         <input hidden type="text" name="negocio_id" value="{{ $negocio->uuid }}">

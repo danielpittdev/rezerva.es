@@ -81,35 +81,6 @@
                      </span>
                   </el-option>
 
-                  <el-option value="vertical" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
-                     <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <span>Vertical</span>
-                     </span>
-                     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
-                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
-                           <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
-                        </svg>
-                     </span>
-                  </el-option>
-
-                  <el-option value="horizontal" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
-                     <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-                        </svg>
-                        <span>Horizontal</span>
-                     </span>
-                     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
-                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
-                           <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
-                        </svg>
-                     </span>
-                  </el-option>
-
                </el-options>
             </el-select>
          </div>
@@ -219,9 +190,12 @@
                      </div>
                   </div>
                   <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                     <div class="alerta col-span-full p-3 rounded-md"></div>
 
                      <form id="formuCrearReserva" action="{{ route('reserva.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
+
+                        <div class="col-span-full alerta"></div>
 
                         <!-- Tipo de negocio -->
                         <div class="lg:col-span-2 col-span-full">
@@ -451,6 +425,8 @@
             fecha = `${fechaActual.getFullYear()}-${String(fechaActual.getMonth() + 1).padStart(2, '0')}-${String(fechaActual.getDate()).padStart(2, '0')}`;
          }
 
+         document.getElementById('modal_crear_reserva').hide()
+
          // URL del endpoint de reservas
          let url = "/api/v1/reserva/buscar";
 
@@ -529,8 +505,7 @@
                highlightInputs: true,
                showAlert: false,
                reciclar: true,
-               funcion: llamarReservas,
-               onSuccess: document.getElementById('modal_crear_reserva').hide()
+               funcion: llamarReservas
             });
 
          });

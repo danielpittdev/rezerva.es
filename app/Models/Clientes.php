@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Laravel\Cashier\Billable;
 use App\Models\Traits\HasUuid;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Clientes extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, Billable;
 
     protected $fillable = [
         'uuid',
@@ -16,6 +17,7 @@ class Clientes extends Model
         'apellido',
         'email',
         'telefono',
+        'stripe_id',
         'negocio_id',
     ];
 

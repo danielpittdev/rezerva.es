@@ -66,14 +66,16 @@
                            {{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('H:i') }}
                         </span>
 
-                        <div class="min-w-0">
-                           <p class="text-sm font-medium text-base-content truncate">
-                              {{ $reserva->cliente->nombre }} {{ $reserva->cliente->apellido }}
-                           </p>
-                           <p class="text-xs text-base-content/70 truncate">
-                              {{ $reserva->servicio->nombre }}
-                           </p>
-                        </div>
+                        <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hover:underline">
+                           <div class="min-w-0">
+                              <p class="text-sm font-medium text-base-content truncate">
+                                 {{ $reserva->cliente->nombre }} {{ $reserva->cliente->apellido }}
+                              </p>
+                              <p class="text-xs text-base-content/70 truncate">
+                                 {{ $reserva->servicio->nombre }}
+                              </p>
+                           </div>
+                        </a>
                      </div>
 
                      <div class="flex items-center gap-2">

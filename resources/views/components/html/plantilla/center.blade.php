@@ -14,7 +14,7 @@
 
    <body class="h-full">
       @include('components.fragments.sidebar')
-      <main class="lg:pl-63 p-2 h-full">
+      <main class="lg:pl-63 p-2 h-full lg:pt-2 pt-19">
          <div class="p-4 h-full bg-base-200 rounded-xl border border-base-content/10 relative overflow-y-auto h-full">
             <div class="mx-auto max-w-6xl space-y-4">
                @yield('contenido')

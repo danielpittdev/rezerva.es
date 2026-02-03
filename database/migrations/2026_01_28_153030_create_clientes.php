@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('email')->nullable();
             $table->string('telefono')->nullable();
+            $table->string('stripe_id')->nullable();
             // FK
             $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade')->nullable();
             $table->timestamps();

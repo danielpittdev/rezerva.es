@@ -8,6 +8,12 @@
  */
 
 return [
+    'nonsus' => [
+        'negocios'  => 1,
+        'clientes'  => 1,
+        'empleados' => 1,
+        'servicios' => 2,
+    ],
     'plus-pn2' => [
         'negocios'  => 1,
         'clientes'  => 3,

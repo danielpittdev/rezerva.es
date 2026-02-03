@@ -43,7 +43,16 @@
                      </div>
 
                      <!-- Caja -->
-                     <div class="lg:col-span-full col-span-1">
+                     <div class="lg:col-span-2 col-span-1">
+                        <label for="duracion" class="block text-sm/6 font-medium">Duración (Min)</label>
+                        <div class="mt-2">
+                           <input id="duracion" type="number" min="0" step="1" name="duracion" autocomplete="duracion" value="{{ $servicio->duracion }}"
+                              class="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
+                     <!-- Caja -->
+                     <div class="lg:col-span-2 col-span-1">
                         <label for="precio" class="block text-sm/6 font-medium">Precio</label>
                         <div class="mt-2">
                            <input id="precio" type="number" min="0" step="0.01" name="precio" autocomplete="precio" value="{{ $servicio->precio }}"
@@ -53,6 +62,13 @@
 
                      <!-- Caja -->
                      <div class="lg:col-span-full col-span-1">
+                        @if ($servicio->pago_online)
+                           <div class="mb-1">
+                              <small class="text-base-content/70">
+                                 El pago online está activo. Todo se procesa en el área de facturación.
+                              </small>
+                           </div>
+                        @endif
                         <label for="pago_online" class="block text-sm/6 font-medium">Pago online</label>
                         <div class="mt-2">
                            <input type="checkbox" name="pago_online" @if ($servicio->pago_online == true) checked @endif class="toggle text-base-content/50 checked:text-green-500" />

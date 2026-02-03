@@ -6,6 +6,9 @@ export default async function peticion(form, config = {}) {
   const btn = form.querySelector('button[type=submit]');
   if (btn) {
     btn.classList.add('cursor-not-allowed', 'opacity-50');
+    if (alerta) {
+      alerta.classList.remove('active');
+    }
     btn.disabled = true;
   }
 
@@ -75,12 +78,33 @@ export default async function peticion(form, config = {}) {
     }
 
     const responseData = err.response?.data;
-    if (alerta) alerta.classList.add('active', 'bg-red-500/20', 'border-red-600/20');
+    if (alerta) alerta.classList.add('active', 'bg-red-500/30', 'border-red-500', 'text-white', 'p-3');
 
     if (err.response?.status === 402) {
       const errors = responseData.errores || responseData.errors || {};
       const globalMsg = responseData.mensaje ?? 'Por favor corrige los errores';
       alert(globalMsg + '. Suscríbete a un plan superior para poder acceder a esta herramienta.')
+    }
+
+    if (err.response?.status === 403) {
+      const errors = responseData.errores || responseData.errors || {};
+      const globalMsg = responseData.mensaje;
+      if (alerta) alerta.innerHTML = `<p class="text-red-700">${globalMsg}</p>`;
+
+      if (config.highlightInputs) {
+        Object.keys(errors).forEach(fieldName => {
+          const escapedName = fieldName.replace(/([[\].])/g, '\\$1');
+          const input = form.querySelector(`[name="${escapedName}"]`);
+          if (input) {
+            input.classList.add('border-red-600/20', 'bg-red-500/20');
+
+            const errorMsg = document.createElement('p');
+            errorMsg.className = 'input-error-msg text-red-600 text-sm mt-1';
+            errorMsg.innerText = errors[fieldName].join(', ');
+            input.insertAdjacentElement('afterend', errorMsg);
+          }
+        });
+      }
     }
 
     if (err.response?.status === 422) {

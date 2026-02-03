@@ -2,6 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Models\Factura;
+use App\Models\Clientes;
 use App\Models\Usuarios;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Events\WebhookReceived;
@@ -32,10 +34,9 @@ class WebhookController
             $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
 
             if ($usuario) {
-                Log::info("Pago exitoso para usuario: {$usuario->id}", [
-                    'amount' => $data['amount_paid'] ?? 0,
-                    'invoice_id' => $data['id'],
-                ]);
+
+                // Lógica
+
                 // TODO: Enviar factura por email, registrar pago en historial, etc.
             }
         }

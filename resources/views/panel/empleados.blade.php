@@ -53,6 +53,8 @@
                      <form id="crearEmpleado" action="{{ route('empleado.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
+                        <div class="alerta col-span-full p-3 rounded-md"></div>
+
                         <!-- Nombre -->
                         <div class="lg:col-span-2 col-span-full">
                            <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
@@ -168,7 +170,8 @@
                         </div>
 
                         <div class="col-span-full mt-6">
-                           <button type="submit" class="cursor-pointer flex ml-auto justify-center rounded-md bg-indigo-600 text-white px-4 py-1.5 text-sm/6 font-semibold hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Crear empleado</button>
+                           <button type="submit" class="cursor-pointer flex ml-auto justify-center rounded-md bg-indigo-600 text-white px-4 py-1.5 text-sm/6 font-semibold hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Crear
+                              empleado</button>
                         </div>
                      </form>
 
@@ -216,9 +219,6 @@
             success: function(r) {
                document.getElementById('modal_o').hide()
                $('#load_lista_empleados').empty().append(r.lista)
-            },
-            error: function(e) {
-               console.log(e.responseJSON);
             }
          });
       }

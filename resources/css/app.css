@@ -14,3 +14,13 @@
 button {
     cursor: pointer !important;
 }
+
+.alerta {
+    position: absolute;
+    display: none;
+}
+
+.alerta.active {
+    position: relative;
+    display: block;
+}

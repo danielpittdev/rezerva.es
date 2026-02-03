@@ -53,11 +53,31 @@
                      <form id="crearServicio" action="{{ route('servicio.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
+                        <div class="alerta col-span-full p-3 rounded-md"></div>
+
                         <!-- Nombre -->
                         <div class="lg:col-span-full col-span-full">
                            <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
                            <div class="mt-2">
                               <input id="nombre" type="nombre" name="nombre" autocomplete="nombre"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Duración -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="duracion" class="block text-sm/6 font-medium">Duración</label>
+                           <div class="mt-2">
+                              <input id="duracion" type="number" step="1" min="0" name="duracion" autocomplete="duracion"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="precio" class="block text-sm/6 font-medium">Precio</label>
+                           <div class="mt-2">
+                              <input id="precio" type="number" min="0" step="0.01" name="precio" autocomplete="precio"
                                  class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
@@ -75,7 +95,7 @@
                         <div class="lg:col-span-2 col-span-full">
                            <label for="tipo" class="block text-sm/6 font-medium">Tipo de servicio</label>
                            @php
-                              $tipos = ['recurrente', 'eventual'];
+                              $tipos = ['recurrente'];
                            @endphp
 
                            <div class="mt-2">
@@ -144,15 +164,6 @@
 
                                  </el-options>
                               </el-select>
-                           </div>
-                        </div>
-
-                        <!-- Precio -->
-                        <div class="lg:col-span-full col-span-full">
-                           <label for="precio" class="block text-sm/6 font-medium">Precio</label>
-                           <div class="mt-2">
-                              <input id="precio" type="number" min="0" step="0.01" name="precio" autocomplete="precio"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
 

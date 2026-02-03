@@ -33,6 +33,9 @@
          </div>
          <div class="flex flex-none items-center gap-x-4">
             <a href="{{ route('empleado', ['id' => $empleado->uuid]) }}" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block">Ver empleado</a>
+            <button type="button" onclick="eliminarEmpleado('{{ $empleado->uuid }}')" class="rounded-md bg-red-50 px-2.5 py-1.5 text-sm font-semibold text-red-600 shadow-xs inset-ring inset-ring-red-300 hover:bg-red-100">
+               Eliminar
+            </button>
          </div>
       </li>
    @endforeach
@@ -43,3 +46,25 @@
       </div>
    </li>
 @endif
+
+<script>
+   function eliminarEmpleado(uuid) {
+      if (!confirm('¿Estás seguro de que deseas eliminar este empleado?')) return;
+
+      $.ajax({
+         type: "DELETE",
+         url: `/api/v1/empleado/${uuid}`,
+         headers: {
+            "Authorization": "Bearer " + localStorage.getItem('token'),
+            "Accept": "application/json"
+         },
+         success: function(r) {
+            llamadaLista();
+         },
+         error: function(e) {
+            console.log(e.responseJSON);
+            alert('Error al eliminar el empleado');
+         }
+      });
+   }
+</script>

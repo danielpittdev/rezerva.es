@@ -42,7 +42,7 @@ class CheckPlanLimit
 
         if (!$user) {
             return response()->json([
-                'message' => 'No autenticado.',
+                'mensaje' => 'No autenticado.',
             ], 401);
         }
 
@@ -52,9 +52,20 @@ class CheckPlanLimit
             ->first();
 
         if (!$suscripcion) {
-            return response()->json([
-                'message' => 'No tienes una suscripción activa.',
-            ], 403);
+            $limites = config("limites.nonsus");
+            $limite = $limites[$recurso] ?? 0;
+
+            $usoActual = $this->contarRecurso($user, $recurso);
+
+            if ($usoActual >= $limite) {
+                return response()->json([
+                    'mensaje' => "Has alcanzado el límite de {$limite} {$recurso}. Suscríbete para obtener más.",
+                    'limite'  => $limite,
+                    'actual'  => $usoActual,
+                ], 403);
+            }
+
+            return $next($request);
         }
 
         $planSlug = $suscripcion->type;
@@ -62,13 +73,13 @@ class CheckPlanLimit
 
         if (!$limites) {
             return response()->json([
-                'message' => 'El plan actual no tiene límites configurados.',
+                'mensaje' => 'El plan actual no tiene límites configurados.',
             ], 403);
         }
 
         if (!isset($limites[$recurso])) {
             return response()->json([
-                'message' => "El recurso '{$recurso}' no tiene un límite definido para este plan.",
+                'mensaje' => "El recurso '{$recurso}' no tiene un límite definido para este plan.",
             ], 403);
         }
 
@@ -77,7 +88,7 @@ class CheckPlanLimit
 
         if ($usoActual >= $limite) {
             return response()->json([
-                'message' => "Has alcanzado el límite de {$limite} {$recurso} para tu plan actual.",
+                'mensaje' => "Has alcanzado el límite de {$limite} {$recurso} para tu plan actual.",
                 'limite'  => $limite,
                 'actual'  => $usoActual,
             ], 403);

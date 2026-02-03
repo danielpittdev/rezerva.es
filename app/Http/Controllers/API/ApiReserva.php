@@ -102,6 +102,9 @@ class ApiReserva extends Controller
             //
             'fecha' => 'required|date',
             'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
+        ], [
+            'servicio_id.required' => "Obligatorio",
+            'servicio_id.uuid' => "No puede estar vacío",
         ]);
 
         // Obtener el servicio para obtener el negocio_id

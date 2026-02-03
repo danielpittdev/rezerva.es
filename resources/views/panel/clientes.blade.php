@@ -52,6 +52,7 @@
 
                      <form id="crearCliente" action="{{ route('cliente.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
+                        <div class="alerta col-span-full p-3 rounded-md"></div>
 
                         <!-- Nombre -->
                         <div class="lg:col-span-2 col-span-full">

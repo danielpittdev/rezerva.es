@@ -56,7 +56,7 @@ class ApiUsuario extends Controller
             'email' => 'sometimes|email',
             'old_password' => 'required_with:password|min:8',
             'password' => 'sometimes|confirmed|min:8',
-            'avatar' => 'sometimes|image|mimes:jpg,jpeg,png,gif|max:1024',
+            'avatar' => 'sometimes|image|mimes:jpg,jpeg,png,gif|max:5048',
             'empresa_nombre' => 'sometimes|string',
             'verificado' => 'sometimes|string',
         ]);

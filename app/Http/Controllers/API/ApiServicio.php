@@ -108,7 +108,7 @@ class ApiServicio extends Controller
 
     public function destroy($id): JsonResponse
     {
-        $servicio = Servicios::find($id);
+        $servicio = Servicios::whereUuid($id);
         if (!$servicio) return response()->json(['error' => 'Not found'], 404);
 
         $servicio->delete();

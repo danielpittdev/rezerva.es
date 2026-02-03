@@ -22,9 +22,10 @@ Route::post('/restablecer', [AuthController::class, 'restablecer'])->name('api_r
 
 Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/', [PanelController::class, 'inicio'])->name('panel');
-    Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
+    // Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
     Route::get('/empleados', [PanelController::class, 'empleados'])->name('empleados');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
+    Route::get('/facturacion', [PanelController::class, 'facturacion'])->name('facturacion');
     Route::get('/clientes', [PanelController::class, 'clientes'])->name('clientes');
     Route::get('/reservas', [PanelController::class, 'reservas'])->name('reservas');
     Route::get('/horarios', [PanelController::class, 'horarios'])->name('horarios');

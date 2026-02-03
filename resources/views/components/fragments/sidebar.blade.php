@@ -1,7 +1,7 @@
 @php
    $paginas = [
        'inicio' => ['ruta' => 'panel', 'icono' => 'house'],
-       'negocios' => ['ruta' => 'negocios', 'icono' => 'briefcase'],
+       //  'negocios' => ['ruta' => 'negocios', 'icono' => 'briefcase'],
        'empleados' => ['ruta' => 'empleados', 'icono' => 'briefcase'],
        'servicios' => ['ruta' => 'servicios', 'icono' => 'wrench'],
        'clientes' => ['ruta' => 'clientes', 'icono' => 'person'],
@@ -102,7 +102,7 @@
                   @endforeach
                </ul>
             </li>
-            {{-- <li class="block">
+            <li class="block">
                <div class="text-xs/6 font-medium">Tus negocios</div>
                <ul role="list" class="-mx-2 mt-2 space-y-1">
                   @foreach (Auth::user()->negocios as $negocio)
@@ -116,7 +116,7 @@
                      </li>
                   @endforeach
                </ul>
-            </li> --}}
+            </li>
             <li class="-mx-6 mt-auto hover:bg-base-200 ">
                <a href="{{ route('ajustes') }}" class="flex items-center gap-x-3 px-6 py-3 text-sm font-semibold text-base-content">
                   <img src="
