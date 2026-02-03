@@ -13,6 +13,7 @@ class Negocios extends Model
     protected $fillable = [
         'uuid',
         'nombre',
+        'slug',
         'descripcion',
         'tipo',
         'postal_direccion',

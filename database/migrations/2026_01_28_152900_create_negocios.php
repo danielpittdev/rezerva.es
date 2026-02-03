@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('nombre');
+            $table->string('slug');
             $table->string('descripcion')->nullable();
             $table->enum('tipo', ['psicologia', 'restaurante', 'barberia', 'consultoria', 'otros'])->default('psicologia');
             // Información postal
