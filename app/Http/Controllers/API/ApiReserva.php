@@ -49,6 +49,9 @@ class ApiReserva extends Controller
 
             $listas = [
                 'lista_grande' => view('components.listas.reservas.lista_grande', compact('reservas'))->render(),
+                'franjas' => view('components.listas.reservas.franjas', compact('reservas'))->render(),
+                'vertical' => view('components.listas.reservas.vertical', compact('reservas'))->render(),
+                'horizontal' => view('components.listas.reservas.horizontal', compact('reservas', 'negocio', 'fecha'))->render(),
             ];
 
             $lista = $listas[$validacion['lista']];

@@ -17,7 +17,7 @@ class StripeController extends Controller
 
         $plan = Planes::where('slug', $request->plan)->first();
 
-        return $request->user()
+        $url = $request->user()
             ->newSubscription($plan->slug, $plan->stripe_id)
             // ->trialDays(0)
             ->allowPromotionCodes()
@@ -26,5 +26,18 @@ class StripeController extends Controller
                 'success_url' => route('checkout.success'),
                 'cancel_url' => route('checkout.cancel'),
             ]);
+
+        return response()->json([
+            'redirect' => $url->url
+        ]);
+    }
+
+    public function billing_portal(Request $request)
+    {
+        $url = $request->user()->redirectToBillingPortal(route('ajustes'));
+
+        return response()->json([
+            'redirect' => $url->getTargetUrl()
+        ]);
     }
 }

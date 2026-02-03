@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('item_suscripcion', function (Blueprint $table) {
+        Schema::table('suscripciones_item', function (Blueprint $table) {
             $table->string('meter_event_name')->nullable()->after('quantity');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('item_suscripcion', function (Blueprint $table) {
+        Schema::table('suscripciones_item', function (Blueprint $table) {
             $table->dropColumn('meter_event_name');
         });
     }

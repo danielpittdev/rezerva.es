@@ -1,7 +1,7 @@
 @extends('components.html.plantilla.fullbody')
 
 @section('contenido')
-   <section class="p-2 rounded-md bg-base-100 border border-base-content/20 flex justify-between items-center">
+   <section class="p-2 rounded-md bg-base-100 border border-base-content/10 flex justify-between items-center">
       <div class="caja">
 
          <!-- Negocio -->
@@ -13,7 +13,7 @@
             <div class="caja">
                <el-select id="negocio_id" name="negocio_id" value="{{ $negocios[0]->uuid }}" class="block">
                   <button type="button"
-                     class="min-w-[150px] grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/20 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                     class="min-w-[150px] grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
                      <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Elige uno</el-selectedcontent>
                      <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
                         <path
@@ -54,7 +54,7 @@
          <!-- Izquierda -->
          <section class="lg:col-span-6 col-span-full space-y-3">
             <!-- Horarios -->
-            <div class="border border-base-content/20 bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
+            <div class="border border-base-content/10 bg-base-100 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
                <div class="p-4 border-b border-base-content/10">
                   <div class="flex items-center justify-between min-h-8">
                      <div class="caja flex flex-col">
@@ -82,7 +82,7 @@
          <!-- Derecha -->
          <section class="lg:col-span-6 col-span-full space-y-3">
             <!-- Horarios -->
-            <div class="border border-base-content/20 bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
+            <div class="border border-base-content/10 bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
                <div class="p-4 border-b border-base-content/10">
                   <div class="flex items-center justify-between min-h-8">
                      <div class="caja flex flex-col">
@@ -117,7 +117,7 @@
 
          <div tabindex="0" class="absolute inset-0 pl-10 focus:outline-none sm:pl-16">
             <el-dialog-panel class="ml-auto block size-full max-w-lg transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700">
-               <div class="relative flex h-full flex-col overflow-y-auto bg-base-100 border-l border-base-content/20 py-6 shadow-xl">
+               <div class="relative flex h-full flex-col overflow-y-auto bg-base-100 border-l border-base-content/10 py-6 shadow-xl">
                   <div class="px-4 sm:px-6">
                      <div class="flex items-start justify-between">
                         <h2 id="drawer-title" class="text-base font-semibold text-base-content">Crear horarios</h2>

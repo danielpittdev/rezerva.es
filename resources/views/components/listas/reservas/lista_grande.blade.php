@@ -1,63 +1,46 @@
-@foreach ($reservas as $reserva)
-   <li class="flex items-center justify-between gap-x-6 px-5 py-5 bg-base-100 hover:bg-base-100/50">
-      <div class="min-w-0 space-y-1">
+<div class="divide-y divide-base-content/10">
+   @foreach ($reservas as $reserva)
+      <li class="flex items-center bg-base-100 hover:bg-base-200/50 justify-between gap-x-4 p-4">
 
-         <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-base-content/70">
-            <span class="inline-flex items-center rounded-md bg-base-300 px-2 py-1 text-xs font-medium text-base-content inset-ring inset-ring-base-content/20">
-               <p class="whitespace-nowrap"><time datetime="{{ $reserva->fecha }}">{{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('H:i') }}</time></p>
+         <div class="flex items-center gap-3 min-w-0">
+            <span class="inline-flex items-center rounded-md bg-base-300 px-2 py-1 text-xs font-medium text-base-content">
+               {{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('H:i') }}
             </span>
 
-            -
+            <div class="min-w-0">
+               <a class="hover:underline" href="{{ route('reserva', ['id' => $reserva->uuid]) }}">
+                  <p class="text-sm font-medium text-base-content truncate">
+                     {{ $reserva->cliente->nombre }} {{ $reserva->cliente->apellido }}
+                  </p>
+                  <p class="text-xs text-base-content/70 truncate">
+                     {{ $reserva->servicio->nombre }}
+                  </p>
+               </a>
 
-            {{ $reserva->servicio->nombre }} ({{ number_format($reserva->servicio->precio, 2, ',', '.') }})
+
+            </div>
          </div>
 
-         <div class="flex items-start gap-x-3">
-            <p class="text-sm/6 font-semibold text-base-content">{{ $reserva->cliente->nombre }} {{ $reserva->cliente->apellido }}</p>
-
+         <div class="flex items-center gap-2">
             @switch($reserva->estado)
                @case('pendiente')
-                  <p class="mt-0.5 rounded-md bg-yellow-500/20 px-1.5 py-0.5 text-xs font-medium text-yellow inset-ring inset-ring-yellow-500/20">{{ ucfirst($reserva->estado) }}</p>
+                  <span class="rounded-full bg-yellow-500/20 px-2 py-0.5 text-xs font-medium text-yellow-600">{{ ucfirst($reserva->estado) }}</span>
                @break
 
                @case('confirmado')
-                  <p class="mt-0.5 rounded-md bg-green-500/20 px-1.5 py-0.5 text-xs font-medium text-green inset-ring inset-ring-green-500/20">{{ ucfirst($reserva->estado) }}</p>
+                  <span class="rounded-full bg-green-500/20 px-2 py-0.5 text-xs font-medium text-green-600">{{ ucfirst($reserva->estado) }}</span>
                @break
 
                @case('cancelado')
-                  <p class="mt-0.5 rounded-md bg-red-500/20 px-1.5 py-0.5 text-xs font-medium text-red inset-ring inset-ring-red-500/20">{{ ucfirst($reserva->estado) }}</p>
+                  <span class="rounded-full bg-red-500/20 px-2 py-0.5 text-xs font-medium text-red-600">{{ ucfirst($reserva->estado) }}</span>
                @break
 
                @case('completado')
-                  <p class="mt-0.5 rounded-md bg-blue-500/20 px-1.5 py-0.5 text-xs font-medium text-blue inset-ring inset-ring-blue-500/20">{{ ucfirst($reserva->estado) }}</p>
+                  <span class="rounded-full bg-blue-500/20 px-2 py-0.5 text-xs font-medium text-blue-600">{{ ucfirst($reserva->estado) }}</span>
                @break
+            @endswitch
+         </div>
 
-
-            @break
-
-            @default
-         @endswitch
-
-      </div>
-
-   </div>
-   <div class="flex flex-none items-center gap-x-4">
-      <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hidden rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 sm:block">Ver más<span class="sr-only">, GraphQL API</span></a>
-      {{-- <el-dropdown class="relative flex-none">
-            <button class="relative block text-base-content/70 hover:text-base-content">
-               <span class="absolute -inset-2.5"></span>
-               <span class="sr-only">Open options</span>
-               <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
-                  <path d="M10 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11.5 15.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" />
-               </svg>
-            </button>
-            <el-menu anchor="bottom end" popover
-               class="w-32 origin-top-right rounded-md bg-base-100 py-2 shadow-lg outline-1 outline-base-content/10 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
-               <a href="#" class="block px-3 py-1 text-sm/6 text-base-content focus:bg-base-200 focus:outline-hidden">Edit<span class="sr-only">, GraphQL API</span></a>
-               <a href="#" class="block px-3 py-1 text-sm/6 text-base-content focus:bg-base-200 focus:outline-hidden">Move<span class="sr-only">, GraphQL API</span></a>
-               <a href="#" class="block px-3 py-1 text-sm/6 text-base-content focus:bg-base-200 focus:outline-hidden">Delete<span class="sr-only">, GraphQL API</span></a>
-            </el-menu>
-         </el-dropdown> --}}
-   </div>
-</li>
-@endforeach
+      </li>
+   @endforeach
+</div>

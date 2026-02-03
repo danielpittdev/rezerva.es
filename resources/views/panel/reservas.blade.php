@@ -3,27 +3,62 @@
 @section('contenido')
    <section class="grid h-full lg:grid-cols-[auto_1fr_1fr] grid-cols-1 lg:grid-rows-[auto_1fr] grid-rows-[auto_auto_1fr] gap-2 grid-rows-1">
 
-      <div class="bg-base-200 flex justify-between col-span-full">
-         <!--SELECT-->
-         <el-select name="negocio_id" id="negocio_id" value="{{ Auth::user()->negocios->first()->uuid }}" class="min-w-[150px] block">
-            <button type="button"
-               class="grid w-full cursor-default grid-cols-1 rounded-md bg-base-100 py-1.5 px-2 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
-               <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Selecciona una</el-selectedcontent>
-               <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-base-content sm:size-4">
-                  <path
-                     d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
-                     clip-rule="evenodd" fill-rule="evenodd" />
-               </svg>
-            </button>
+      <div class="bg-base-200 flex flex-col lg:flex-row lg:items-center lg:justify-between col-span-full gap-2 p-0 rounded-lg">
+         <!--SELECTS-->
+         <div class="flex flex-col sm:flex-row gap-2">
+            <!--SELECT NEGOCIO-->
+            <el-select name="negocio_id" id="negocio_id" value="{{ Auth::user()->negocios->first()->uuid }}" class="sm:min-w-[150px] w-full sm:w-auto">
+               <button type="button"
+                  class="grid w-full cursor-default grid-cols-1 rounded-md bg-base-100 py-1.5 px-2 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                  <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Selecciona una</el-selectedcontent>
+                  <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-base-content sm:size-4">
+                     <path
+                        d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                        clip-rule="evenodd" fill-rule="evenodd" />
+                  </svg>
+               </button>
 
-            <el-options anchor="bottom start" popover
-               class="max-h-60 w-(--button-width) rounded-md bg-base-100 p-1 text-base-content shadow-lg outline-1 outline-base-content/10 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
+               <el-options anchor="bottom start" popover
+                  class="max-h-60 w-(--button-width) rounded-md bg-base-100 p-1 text-base-content shadow-lg outline-1 outline-base-content/10 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
 
-               @foreach (Auth::user()->negocios as $negocio)
-                  <!-- Opción -->
-                  <el-option value="{{ $negocio->uuid }}" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
+                  @foreach (Auth::user()->negocios as $negocio)
+                     <!-- Opción -->
+                     <el-option value="{{ $negocio->uuid }}" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
+                        <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
+                           <span>{{ $negocio->nombre }}</span>
+                        </span>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                           <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                              <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                           </svg>
+                        </span>
+                     </el-option>
+                  @endforeach
+               </el-options>
+
+            </el-select>
+
+            <!--SELECT TIPO VISTA-->
+            <el-select name="tipo_vista" id="tipo_vista" value="lista_grande" class="sm:min-w-[150px] w-full sm:w-auto">
+               <button type="button"
+                  class="grid w-full cursor-default grid-cols-1 rounded-md bg-base-100 py-1.5 px-2 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                  <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Lista</el-selectedcontent>
+                  <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-base-content sm:size-4">
+                     <path
+                        d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                        clip-rule="evenodd" fill-rule="evenodd" />
+                  </svg>
+               </button>
+
+               <el-options anchor="bottom start" popover
+                  class="max-h-60 w-(--button-width) rounded-md bg-base-100 p-1 text-base-content shadow-lg outline-1 outline-base-content/10 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
+
+                  <el-option value="lista_grande" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
                      <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
-                        <span>{{ $negocio->nombre }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                        <span>Lista</span>
                      </span>
                      <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
@@ -31,14 +66,57 @@
                         </svg>
                      </span>
                   </el-option>
-               @endforeach
-            </el-options>
 
-         </el-select>
+                  <el-option value="franjas" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
+                     <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        <span>Franjas</span>
+                     </span>
+                     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                           <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                        </svg>
+                     </span>
+                  </el-option>
+
+                  <el-option value="vertical" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
+                     <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span>Vertical</span>
+                     </span>
+                     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                           <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                        </svg>
+                     </span>
+                  </el-option>
+
+                  <el-option value="horizontal" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden rounded">
+                     <span class="flex items-center gap-2 block truncate font-normal group-aria-selected/option:font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                        </svg>
+                        <span>Horizontal</span>
+                     </span>
+                     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                           <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                        </svg>
+                     </span>
+                  </el-option>
+
+               </el-options>
+            </el-select>
+         </div>
 
          <!--BOTON-->
-         <button command="show-modal" commandfor="drawer_crear_reserva" class="rounded-md bg-base-100 px-2.5 py-1.5 text-sm font-semibold text-base-content/70 shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200">
-            Crear reserva
+         <button command="show-modal" commandfor="drawer_crear_reserva" class="rounded-md bg-base-100 px-3 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 w-full sm:w-auto whitespace-nowrap">
+            Añadir reserva
          </button>
       </div>
 
@@ -357,6 +435,9 @@
          // Obtener el negocio seleccionado
          let negocioUuid = $('#negocio_id').val();
 
+         // Obtener el tipo de vista seleccionado
+         let tipoVista = $('#tipo_vista').val() || 'lista_grande';
+
          // Buscar el elemento con clase "active" (día seleccionado)
          let diaActivo = document.querySelector('.dia.active');
          let fecha;
@@ -380,7 +461,7 @@
                data: {
                   "negocio": negocioUuid,
                   "fecha": fecha,
-                  "lista": "lista_grande"
+                  "lista": tipoVista
                },
                headers: {
                   "Authorization": "Bearer " + localStorage.getItem('token'),
@@ -403,6 +484,18 @@
       }
 
       document.addEventListener('DOMContentLoaded', function() {
+         // Recuperar la vista guardada en localStorage
+         const vistaGuardada = localStorage.getItem('reservas_tipo_vista');
+         if (vistaGuardada) {
+            $('#tipo_vista').val(vistaGuardada);
+            // Actualizar el texto mostrado en el select
+            const opcionSeleccionada = $(`#tipo_vista el-option[value="${vistaGuardada}"]`);
+            if (opcionSeleccionada.length) {
+               const textoOpcion = opcionSeleccionada.find('span span').last().text();
+               $('#tipo_vista el-selectedcontent').text(textoOpcion);
+            }
+         }
+
          // Esperar un momento para asegurar que el calendario esté inicializado
          setTimeout(function() {
             // Cargar reservas iniciales
@@ -416,6 +509,13 @@
 
          // Llamar reservas cuando cambia el negocio principal
          $('#negocio_id').on('change', function() {
+            llamarReservas();
+         });
+
+         // Llamar reservas cuando cambia el tipo de vista
+         $('#tipo_vista').on('change', function() {
+            // Guardar la preferencia en localStorage
+            localStorage.setItem('reservas_tipo_vista', $(this).val());
             llamarReservas();
          });
 

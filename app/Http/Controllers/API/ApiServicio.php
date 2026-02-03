@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Negocios;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Stripe\Stripe;
+use Stripe\Product;
 
 class ApiServicio extends Controller
 {
@@ -59,7 +61,7 @@ class ApiServicio extends Controller
 
     public function update(Request $request, $id): JsonResponse
     {
-        $servicio = Servicios::whereUuid($id);
+        $servicio = Servicios::whereUuid($id)->first();
         if (!$servicio) return response()->json(['error' => 'Not found'], 404);
 
         $validated = $request->validate([
@@ -75,6 +77,22 @@ class ApiServicio extends Controller
 
         if ($request->pago_online) {
             $validated['pago_online'] = true;
+
+            // Crear producto en Stripe solo si se activa pago_online por primera vez
+            if (empty($servicio->stripe_id)) {
+                Stripe::setApiKey(config('cashier.secret'));
+
+                $producto = Product::create([
+                    'name' => $validated['nombre'],
+                    'description' => $validated['descripcion'] ?? null,
+                    'metadata' => [
+                        'servicio_uuid' => $servicio->uuid,
+                        'negocio_id' => $servicio->negocio_id,
+                    ],
+                ]);
+
+                $validated['stripe_id'] = $producto->id;
+            }
         } else {
             $validated['pago_online'] = false;
         }

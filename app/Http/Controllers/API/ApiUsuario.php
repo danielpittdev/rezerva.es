@@ -54,7 +54,8 @@ class ApiUsuario extends Controller
             'nombre' => 'sometimes|string',
             'apellido' => 'sometimes|string|max:110',
             'email' => 'sometimes|email',
-            'password' => 'sometimes|min:8',
+            'old_password' => 'required_with:password|min:8',
+            'password' => 'sometimes|confirmed|min:8',
             'avatar' => 'sometimes|image|mimes:jpg,jpeg,png,gif|max:1024',
             'empresa_nombre' => 'sometimes|string',
             'verificado' => 'sometimes|string',
@@ -64,9 +65,20 @@ class ApiUsuario extends Controller
         if (isset($validated['apellido'])) $validated['apellido'] = ucfirst($validated['apellido']);
         if (isset($validated['empresa_nombre'])) $validated['empresa_nombre'] = ucfirst($validated['empresa_nombre']);
 
-        // Hashear la contraseña si se está actualizando
-        if (isset($validated['password'])) {
+        // Manejar cambio de contraseña
+        if (isset($validated['old_password']) && isset($validated['password'])) {
+            // Verificar que la contraseña antigua sea correcta
+            if (!Hash::check($validated['old_password'], $user->password)) {
+                return response()->json(['error' => 'La contraseña antigua es incorrecta'], 422);
+            }
+            // Hashear la nueva contraseña
             $validated['password'] = Hash::make($validated['password']);
+            // Eliminar old_password del array de actualización
+            unset($validated['old_password']);
+        } else {
+            // Si no se está cambiando la contraseña, eliminar estos campos
+            unset($validated['old_password']);
+            unset($validated['password']);
         }
 
         // Manejar subida de avatar

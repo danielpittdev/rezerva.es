@@ -8,13 +8,13 @@
  */
 
 return [
-    'plus-rfid-1' => [
+    'plus-pn2' => [
         'negocios'  => 1,
         'clientes'  => 3,
         'empleados' => 2,
         'servicios' => 5,
     ],
-    'pro-rfid-1' => [
+    'pro-pn2' => [
         'negocios'  => 5,
         'clientes'  => 10,
         'empleados' => 10,

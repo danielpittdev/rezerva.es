@@ -13,12 +13,11 @@
    <body class="h-full">
       @include('components.fragments.sidebar')
       <main class="lg:pl-63 p-2 lg:pt-2 pt-18 h-full">
-         <div class="p-2 h-full bg-base-200 rounded-xl border border-base-content/10">
+         <div class="p-2 h-full bg-base-200 rounded-xl border border-base-content/10 relative overflow-y-auto h-full">
             @yield('contenido')
          </div>
       </main>
 
-      @yield('drawers')
       @yield('drawers')
       @yield('modales')
       @yield('scripts')
