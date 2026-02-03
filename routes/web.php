@@ -10,6 +10,10 @@ use App\Http\Controllers\PanelController;
 use App\Http\Controllers\SingleController;
 use App\Http\Controllers\StripeController;
 
+Route::get('/', function () {
+    return redirect('login');
+})->name('inicio');
+
 Route::get('/login', [WebController::class, 'login'])->name('login');
 Route::get('/registro', [WebController::class, 'registro'])->name('registro');
 Route::get('/recuperar', [WebController::class, 'recuperar'])->name('recuperar');

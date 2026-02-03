@@ -27,7 +27,6 @@ class Usuarios extends Authenticatable
         'email',
         'password',
         'avatar',
-        'empresa_nombre',
         'verificado',
     ];
 

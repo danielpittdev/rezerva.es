@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             // Ajustes de interés
-            $table->string('empresa_nombre')->nullable();
             // Otros ajustes
             $table->boolean('verificado')->default(false);
             // Timestamps

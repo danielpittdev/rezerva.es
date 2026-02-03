@@ -46,11 +46,11 @@ class AuthController extends Controller
         $validacion = $request->validate([
             'nombre' => 'required|string|max:40',
             'apellido' => 'required|string|max:50',
-            'empresa_nombre' => 'required|string|min:3',
             'password' => 'required|string|confirmed|min:6',
             'email' => 'required|email|max:50|unique:usuarios',
             'terminos_condiciones' => 'required',
             // Negocio
+            'empresa_nombre' => 'required|string|min:3',
             'descripcion' => 'required|string|max:255',
             'tipo' => 'required|string|max:50',
             'postal_direccion' => 'required|string|max:255',
@@ -63,18 +63,19 @@ class AuthController extends Controller
         $validacion['nombre'] = ucfirst($validacion['nombre']);
         $validacion['apellido'] = ucfirst($validacion['apellido']);
         $validacion['empresa_nombre'] = ucfirst($validacion['empresa_nombre']);
+        $validacion['slug'] = Str::slug($validacion['empresa_nombre']);
 
         # Registro
         $usuario = Usuarios::create([
             'nombre' => $validacion['nombre'],
             'apellido' => $validacion['apellido'],
-            'empresa_nombre' => $validacion['empresa_nombre'],
             'password' => Hash::make($validacion['password']),
             'email' => $validacion['email'],
         ]);
 
         $negocio = Negocios::create([
             'nombre' => $validacion['empresa_nombre'] ?? 'Tu negocio',
+            'slug' => Str::slug($validacion['empresa_nombre']),
             'descripcion' => $validacion['descripcion'] ?? 'Descripción corta',
             'tipo' => $validacion['tipo'] ?? 'otros',
             'postal_direccion' => $validacion['postal_direccion'] ?? 'Calle',

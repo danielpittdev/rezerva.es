@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use Carbon\Carbon;
+use App\Models\Reserva;
 use App\Models\Clientes;
 use App\Models\Horarios;
 use App\Models\Negocios;
-use App\Models\Reserva;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\HorarioExcepcional;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class ApiNegocio extends Controller
 {
@@ -43,6 +44,7 @@ class ApiNegocio extends Controller
         ]);
 
         $validated['usuario_id'] = Auth::id();
+        $validated['slug'] = Str::slug($validated['nombre']);
 
         $negocio = Negocios::create($validated);
         return response()->json($negocio, 201);
