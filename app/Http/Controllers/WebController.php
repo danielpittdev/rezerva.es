@@ -38,7 +38,7 @@ class WebController extends Controller
             return response()->json(['error' => 'No autenticado'], 401);
         }
 
-        return response()->json(['success' => true]);
+        return response()->json(['redirect' => route('checkout')]);
     }
 
     public function crearCliente(Request $request)

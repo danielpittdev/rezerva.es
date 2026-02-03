@@ -241,10 +241,15 @@
                }
 
                const data = await response.json();
-               if (data.success) {
+               if (data.redirect) {
                   // Continuar con el proceso de reserva
                   console.log('Sesión válida, continuar con reserva');
+                  // window.location.href = response.redirect;
+                  console.log(data.redirect)
+
+                  window.location.href = data.redirect
                }
+
             } catch (error) {
                console.error('Error:', error);
             }
