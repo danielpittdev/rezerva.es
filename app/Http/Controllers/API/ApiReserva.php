@@ -89,41 +89,32 @@ class ApiReserva extends Controller
         ], 200);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
+
+        $datos_cliente = session()->get('cliente');
+
         $validated = $request->validate([
-            'cliente_nombre' => 'required|string|max:100',
-            'cliente_apellido' => 'required|string|max:100',
-            'cliente_email' => 'nullable|email|max:100',
-            'cliente_telefono' => 'nullable|required_without:cliente_email|string|max:15',
-            //
-            'servicio_id' => 'required|uuid|exists:servicios,uuid',
-            'empleado_id' => 'nullable|uuid|exists:empleados,uuid',
-            //
-            'fecha' => 'required|date',
-            'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
-        ], [
-            'servicio_id.required' => "Obligatorio",
-            'servicio_id.uuid' => "No puede estar vacío",
+            'fecha' => 'required|date_format:Y-m-d',
+            'hora' => 'required|date_format:H:i',
         ]);
 
         // Obtener el servicio para obtener el negocio_id
-        $servicio = Servicios::whereUuid($validated['servicio_id'])->first();
+        $servicio = Servicios::whereUuid($datos_cliente['servicio'])->first();
         if ($request->empleado_id) {
-            $empleado = Empleado::whereUuid($validated['empleado_id'])->first();
+            $empleado = Empleado::whereUuid($datos_cliente['empleado'])->first();
         }
 
         // Buscar o crear el cliente
-        $cliente = Clientes::where('email', $validated['cliente_email'])
+        $cliente = Clientes::where('email', $datos_cliente['email'])
             ->where('negocio_id', $servicio->negocio_id)
             ->first();
 
         if (!$cliente) {
             $cliente = Clientes::create([
-                'nombre' => $validated['cliente_nombre'],
-                'apellido' => $validated['cliente_apellido'],
-                'email' => $validated['cliente_email'],
-                'telefono' => $validated['cliente_telefono'],
+                'nombre' => $datos_cliente['nombre'],
+                'apellido' => $datos_cliente['apellido'],
+                'email' => $datos_cliente['email'],
                 'negocio_id' => $servicio->negocio_id,
             ]);
         }
@@ -133,8 +124,8 @@ class ApiReserva extends Controller
             'servicio_id' => $servicio->id,
             'cliente_id' => $cliente->id,
             'empleado_id' => $empleado->id ?? null,
-            'fecha' => $validated['fecha'],
-            'estado' => $validated['estado'],
+            'fecha' => $validated['fecha'] . ' ' . $validated['hora'],
+            'estado' => 'pendiente',
         ]);
 
         // Crea el registro

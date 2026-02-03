@@ -17,6 +17,7 @@ class Reserva extends Model
         'empleado_id',
         'fecha',
         'estado',
+        'stripe_session_id',
     ];
 
     protected function casts(): array

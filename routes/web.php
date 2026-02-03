@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\API\ApiReserva;
+use App\Http\Controllers\ApiReservaController;
 
 Route::get('/', [WebController::class, 'inicio']);
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
@@ -9,6 +11,12 @@ Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::post('/verificar-sesion-cliente', [WebController::class, 'verificarSesionCliente'])->name('verificar.sesion.cliente');
 Route::post('/crearcliente', [WebController::class, 'crearCliente'])->name('api.cliente');
 Route::post('/horas-disponibles', [WebController::class, 'horasDisponibles'])->name('api.horas.disponibles');
+Route::apiResource('reserva', ApiReserva::class);
+
+// Reservas
+Route::post('/reservar', [ApiReservaController::class, 'store'])->name('api.reserva.store');
+Route::get('/reserva/{reserva}/confirmacion', [ApiReservaController::class, 'confirmacion'])->name('reserva.confirmacion');
+Route::get('/reserva/{reserva}/cancelada', [ApiReservaController::class, 'cancelada'])->name('reserva.cancelada');
 
 Route::get('/a', [WebController::class, 'inicio'])->name('cat_reservas');
 Route::get('/d', [WebController::class, 'inicio'])->name('cat_empleados');

@@ -68,7 +68,7 @@ class WebController extends Controller
         $negocio = Negocios::where('uuid', $request->negocio)->first();
         $servicio = Servicios::where('uuid', $request->servicio)->first();
         $fecha = \Carbon\Carbon::parse($request->fecha);
-        $diaSemana = $fecha->dayOfWeekIso; // 1 = Lunes, 7 = Domingo
+        $diaSemana = strtolower($fecha->format('l')); // monday, tuesday, etc.
 
         // Obtener horario del negocio para ese día
         $horario = \App\Models\Horarios::where('negocio_id', $negocio->id)
