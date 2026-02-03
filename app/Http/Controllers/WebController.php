@@ -14,7 +14,7 @@ class WebController extends Controller
 
     public function negocio($id)
     {
-        $negocio = Negocios::whereUuid($id)->fist();
-        return view('negocio', compact($negocio));
+        $negocio = Negocios::where('slug', $id)->first();
+        return view('negocio', compact('negocio'));
     }
 }

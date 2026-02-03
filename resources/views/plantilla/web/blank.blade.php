@@ -37,10 +37,7 @@
    </head>
 
    <body class="bg-base-100 h-full">
-      @include('fragmento.nav')
-      <div class="pt-22">
-         @yield('contenido')
-      </div>
+      @yield('contenido')
    </body>
 
 </html>
