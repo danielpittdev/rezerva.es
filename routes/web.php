@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 
 Route::get('/', [WebController::class, 'inicio']);
+Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
 
 Route::get('/a', [WebController::class, 'inicio'])->name('cat_reservas');
 Route::get('/d', [WebController::class, 'inicio'])->name('cat_empleados');
