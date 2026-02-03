@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\Planes;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PanelController;
 use App\Http\Controllers\SingleController;
+use App\Http\Controllers\StripeController;
 
 Route::get('/login', [WebController::class, 'login'])->name('login');
 Route::get('/registro', [WebController::class, 'registro'])->name('registro');
@@ -19,6 +23,7 @@ Route::post('/restablecer', [AuthController::class, 'restablecer'])->name('api_r
 Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/', [PanelController::class, 'inicio'])->name('panel');
     Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
+    Route::get('/empleados', [PanelController::class, 'empleados'])->name('empleados');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
     Route::get('/clientes', [PanelController::class, 'clientes'])->name('clientes');
     Route::get('/reservas', [PanelController::class, 'reservas'])->name('reservas');
@@ -28,8 +33,14 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::prefix('single')->middleware('auth:web')->group(function () {
         Route::get('/', [PanelController::class, 'inicio'])->name('single');
         Route::get('/negocio/{id}', [SingleController::class, 'negocio'])->name('negocio');
+        Route::get('/empleado/{id}', [SingleController::class, 'empleado'])->name('empleado');
         Route::get('/reserva/{id}', [SingleController::class, 'reserva'])->name('reserva');
         Route::get('/servicio/{id}', [SingleController::class, 'servicio'])->name('servicio');
         Route::get('/cliente/{id}', [SingleController::class, 'cliente'])->name('cliente');
     });
 });
+
+Route::get('/checkout', [StripeController::class, 'crear_suscripcion'])->name('checkout');
+
+Route::view('/checkout/success', 'checkout.success')->name('checkout.success');
+Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout.cancel');

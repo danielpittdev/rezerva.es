@@ -38,6 +38,6 @@ class Reserva extends Model
 
     public function empleado()
     {
-        return $this->belongsTo(Empleados::class, 'empleado_id');
+        return $this->belongsTo(Empleado::class, 'empleado_id');
     }
 }

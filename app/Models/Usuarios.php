@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Cashier\Billable;
 
 class Usuarios extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens, HasUuid;
+    use HasFactory, Notifiable, HasApiTokens, HasUuid, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +53,11 @@ class Usuarios extends Authenticatable
             'password' => 'hashed',
             'verificado' => 'boolean',
         ];
+    }
+
+    public function getForeignKey(): string
+    {
+        return 'user_id';
     }
 
     public function negocios()

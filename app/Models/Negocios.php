@@ -61,7 +61,7 @@ class Negocios extends Model
 
     public function empleados()
     {
-        return $this->hasMany(Empleados::class, 'negocio_id');
+        return $this->hasMany(Empleado::class, 'negocio_id');
     }
 
     public function colaboradores()

@@ -6,6 +6,7 @@ use App\Models\Reserva;
 use App\Models\Negocios;
 use App\Models\Servicios;
 use App\Models\Clientes;
+use App\Models\Empleado;
 use Illuminate\Http\Request;
 
 class SingleController extends Controller
@@ -14,6 +15,12 @@ class SingleController extends Controller
     {
         $negocio = Negocios::whereUuid($id)->first();
         return view('panel.single.negocio', compact('negocio'));
+    }
+
+    public function empleado($id)
+    {
+        $empleado = Empleado::whereUuid($id)->with('negocio')->first();
+        return view('panel.single.empleado', compact('empleado'));
     }
 
     public function servicio($id)

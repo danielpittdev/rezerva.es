@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('telefono');
             // Configuracion
             $table->enum('tipo', ['empleado', 'colaborador', 'administrador']);
-            $table->enum('estado', ['activo']);
+            $table->enum('estado', ['activo', 'inactivo']);
 
             // FK
             $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');

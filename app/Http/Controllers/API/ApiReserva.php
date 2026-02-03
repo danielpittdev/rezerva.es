@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Clientes;
 use App\Models\Servicios;
-use App\Models\Empleados;
+use App\Models\Empleado;
 use App\Models\Registros;
 use App\Models\Negocios;
 
@@ -104,7 +104,7 @@ class ApiReserva extends Controller
         // Obtener el servicio para obtener el negocio_id
         $servicio = Servicios::whereUuid($validated['servicio_id'])->first();
         if ($request->empleado_id) {
-            $empleado = Empleados::whereUuid($validated['empleado_id'])->first();
+            $empleado = Empleado::whereUuid($validated['empleado_id'])->first();
         }
 
         // Buscar o crear el cliente
