@@ -5,6 +5,10 @@ use App\Http\Controllers\WebController;
 
 Route::get('/', [WebController::class, 'inicio']);
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
+Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
+Route::post('/verificar-sesion-cliente', [WebController::class, 'verificarSesionCliente'])->name('verificar.sesion.cliente');
+Route::post('/crearcliente', [WebController::class, 'crearCliente'])->name('api.cliente');
+Route::post('/horas-disponibles', [WebController::class, 'horasDisponibles'])->name('api.horas.disponibles');
 
 Route::get('/a', [WebController::class, 'inicio'])->name('cat_reservas');
 Route::get('/d', [WebController::class, 'inicio'])->name('cat_empleados');

@@ -5,7 +5,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
       <title>Rezerva.es - @yield('tituloSEO', 'Gestiona reservas y citas para tu negocio')</title>
-      @vite(['resources/js/app.js', 'resources/css/app.css'])
+      @vite(['resources/js/app.js', 'resources/js/request-manager.js', 'resources/js/calendario.js', 'resources/css/app.css'])
 
       <meta name="description" content="@yield('descripcionSEO', 'Automatiza todas tus reservas online')">
       <meta name="robots" content="index,follow">
@@ -38,6 +38,9 @@
 
    <body class="bg-base-100 h-full">
       @yield('contenido')
+
+      @yield('drawers')
+      @yield('scripts')
    </body>
 
 </html>
