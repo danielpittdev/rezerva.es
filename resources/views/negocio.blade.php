@@ -117,7 +117,7 @@
 @endsection
 
 @section('drawers')
-   <el-dialog id="d0_cliente">
+   <el-dialog hidden id="d0_cliente">
       <dialog id="modal_cliente" aria-labelledby="dialog-title" class="z-100 fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent" style="right: var(--el-top-layer-scrollbar-offset, 0px);" open="">
          <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in" inert=""></el-dialog-backdrop>
 
@@ -236,6 +236,7 @@
                });
 
                if (response.status === 401) {
+                  document.getElementById('d0_cliente').removeAttribute('hidden');
                   document.getElementById('d0_cliente').show();
                   return;
                }
@@ -255,7 +256,6 @@
             }
          });
       });
-
 
       const clienteFormForm = document.getElementById('clienteForm');
 

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use GuzzleHttp\Client;
 use App\Models\Reserva;
+use App\Models\Clientes;
+use App\Models\Empleado;
+use App\Models\Negocios;
+use App\Models\Registros;
+use App\Models\Servicios;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\Clientes;
-use App\Models\Servicios;
-use App\Models\Empleado;
-use App\Models\Registros;
-use App\Models\Negocios;
+use Illuminate\Support\Facades\Mail;
 
 class ApiReserva extends Controller
 {
@@ -89,12 +92,47 @@ class ApiReserva extends Controller
         ], 200);
     }
 
+    # Helper
+    public function comprobarReserva($cliente, $servicio, $fecha)
+    {
+        // Busca reserva del mismo cliente, mismo servicio, mismo día
+        $reserva = Reserva::where('cliente_id', $cliente->id)
+            ->where('servicio_id', $servicio->id)
+            ->whereDate('fecha', $fecha)
+            ->first();
+
+        $negocio = $reserva->negocio ?? null;
+        $fecha_antigua = $reserva->fecha ?? null;
+
+        if ($reserva) {
+            $reserva->update(['fecha' => $fecha]);
+
+            # Envío de MAIL
+            $datos = [
+                'usuario' => $cliente,
+                'reserva' => $reserva,
+                'negocio' => $negocio->nombre,
+                'fecha_antigua' => $fecha_antigua
+            ];
+
+            Mail::send('components.email.reserva_actualizar', [
+                'datos' => $datos,
+            ], function ($message) use ($datos) {
+                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                    ->subject('Reserva actualizada');
+            });
+
+            return $reserva;
+        }
+
+        return null;
+    }
+
     public function store(Request $request)
     {
-
         $datos_cliente = session()->get('cliente');
 
-        $validated = $request->validate([
+        $validacion = $request->validate([
             'fecha' => 'required|date_format:Y-m-d',
             'hora' => 'required|date_format:H:i',
         ]);
@@ -105,28 +143,47 @@ class ApiReserva extends Controller
             $empleado = Empleado::whereUuid($datos_cliente['empleado'])->first();
         }
 
-        // Buscar o crear el cliente
-        $cliente = Clientes::where('email', $datos_cliente['email'])
-            ->where('negocio_id', $servicio->negocio_id)
-            ->first();
+        $negocio = $servicio->negocio;
+        $fecha = $validacion['fecha'] . ' ' . $validacion['hora'];
+
+        // Cliente
+        $cliente = Clientes::where('email', $datos_cliente['email'])->where('nombre', $datos_cliente['nombre'])->where('apellido', $datos_cliente['apellido'])->first();
 
         if (!$cliente) {
             $cliente = Clientes::create([
                 'nombre' => $datos_cliente['nombre'],
                 'apellido' => $datos_cliente['apellido'],
                 'email' => $datos_cliente['email'],
-                'negocio_id' => $servicio->negocio_id,
+                'negocio_id' => $negocio->id
             ]);
         }
 
-        // Crear la reserva
-        $reserva = Reserva::create([
-            'servicio_id' => $servicio->id,
-            'cliente_id' => $cliente->id,
-            'empleado_id' => $empleado->id ?? null,
-            'fecha' => $validated['fecha'] . ' ' . $validated['hora'],
-            'estado' => 'pendiente',
-        ]);
+        $yahayreserva = $this->comprobarReserva($cliente, $servicio, $fecha);
+
+        if (!$yahayreserva) {
+            $reserva = Reserva::create([
+                'servicio_id' => $servicio->id,
+                'cliente_id' => $cliente->id,
+                'negocio_id' => $negocio->id,
+                'empleado_id' => $empleado->id ?? null,
+                'fecha' => $validacion['fecha'] . ' ' . $validacion['hora'],
+                'estado' => 'pendiente',
+            ]);
+
+            # Envío de MAIL
+            $datos = [
+                'usuario' => $datos_cliente,
+                'reserva' => $reserva,
+                'negocio' => $negocio->nombre
+            ];
+
+            Mail::send('components.email.reserva', [
+                'datos' => $datos,
+            ], function ($message) use ($datos) {
+                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                    ->subject('Reserva solicitada');
+            });
+        }
 
         // Crea el registro
         $reserva = Registros::create([
@@ -136,9 +193,12 @@ class ApiReserva extends Controller
             'stripe' => null
         ]);
 
+        // Limpiar sesión anterior y guardar nueva
+        session()->forget('cliente');
+
         return response()->json([
             'mensaje' => 'Reserva creada con éxito',
-            'reserva' => $reserva
+            'redirect' => '/'
         ], 201);
     }
 

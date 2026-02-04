@@ -4,9 +4,8 @@
    <section class="bg-base-100 min-h-[100vh] pt-10 pb-30">
       <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-2xl rounded-3xl overflow-hidden">
 
-
          <!-- Cuerpo -->
-         <div class="cuerpo min-h-[600px] lg:pt-15 pt-5 px-5">
+         <div class="cuerpo min-h-[600px] lg:pt-5 pt-5 px-5">
             <form id="crearReservaForm" action="{{ route('reserva.store') }}">
                <div class="grid lg:grid-cols-[auto_1fr] grid-cols-1 gap-4">
 
@@ -76,14 +75,20 @@
                         </div>
 
                      </div>
+
+                     <div class="my-4">
+                        <button type="submit" class="w-full rounded-sm bg-green-500 p-2 text-sm font-semibold text-white shadow-xs hover:bg-green-600">
+                           Reservar
+                        </button>
+                     </div>
                   </div>
 
                   <!-- Caja de horas disponibles -->
                   @csrf
                   <div class="caja">
-                     <div class="lg:px-4">
+                     <div class="lg:px-4 mb-5">
                         <h3 class="text-md font-medium text-base-content mb-4">Selecciona una hora</h3>
-
+                        <div class="alerta"></div>
                         <!-- Loader -->
                         <div id="horas-loader" class="hidden">
                            <div class="flex items-center justify-center py-8">
@@ -115,12 +120,9 @@
                         <!-- Input hidden para la fecha y hora seleccionadas -->
                         <input type="hidden" id="fecha-seleccionada" name="fecha" value="">
                         <input type="hidden" id="hora-seleccionada" name="hora" value="">
+
                      </div>
                   </div>
-
-                  <button type="submit">
-                     Wenviar
-                  </button>
                </div>
             </form>
          </div>
@@ -240,7 +242,7 @@
          peticion(reservaFormCrear, {
             // reload: true,
             resetForm: false,
-            highlightInputs: true,
+            highlightInputs: false,
             showAlert: true,
             reciclar: true
          });

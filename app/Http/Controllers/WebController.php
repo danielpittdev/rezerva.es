@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Reserva;
+use App\Models\Horarios;
 use App\Models\Negocios;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
+use App\Models\HorarioExcepcional;
 
 class WebController extends Controller
 {
@@ -17,6 +20,7 @@ class WebController extends Controller
     public function negocio($id)
     {
         $negocio = Negocios::where('slug', $id)->first();
+        session()->forget('cliente');
         return view('negocio', compact('negocio'));
     }
 
@@ -52,7 +56,8 @@ class WebController extends Controller
             'email' => 'required|email',
         ]);
 
-        // Guardar en sesión
+        // Limpiar sesión anterior y guardar nueva
+        session()->forget('cliente');
         session(['cliente' => $datos]);
 
         return response()->json(['redirect' => route('checkout')]);
@@ -68,42 +73,82 @@ class WebController extends Controller
 
         $negocio = Negocios::where('uuid', $request->negocio)->first();
         $servicio = Servicios::where('uuid', $request->servicio)->first();
-        $fecha = \Carbon\Carbon::parse($request->fecha);
-        $diaSemana = strtolower($fecha->format('l')); // monday, tuesday, etc.
+        $fecha = Carbon::parse($request->fecha);
+        $diaSemana = strtolower($fecha->format('l'));
 
-        // Obtener horario del negocio para ese día
-        $horario = \App\Models\Horarios::where('negocio_id', $negocio->id)
-            ->where('dia', $diaSemana)
+        // Duración del servicio: si es null, slots cada hora (60 min)
+        $duracion = (int) ($servicio->duracion ?? 60);
+        if ($duracion < 30) {
+            $duracion = (int) 15;
+        }
+
+        // Obtener horario (excepción o regular)
+        $excepcion = HorarioExcepcional::where('negocio_id', $negocio->id)
+            ->whereDate('fecha', $fecha->format('Y-m-d'))
             ->first();
 
-        if (!$horario) {
+        if ($excepcion?->cerrado) {
             return response()->json(['horas' => [], 'mensaje' => 'Cerrado este día']);
         }
 
-        $duracion = $servicio->duracion ?? 30;
+        $franjaInicio = $excepcion?->franja_inicio;
+        $franjaFinal = $excepcion?->franja_final;
+
+        if (!$franjaInicio || !$franjaFinal) {
+            $horario = Horarios::where('negocio_id', $negocio->id)
+                ->where('dia', $diaSemana)
+                ->first();
+
+            if (!$horario) {
+                return response()->json(['horas' => [], 'mensaje' => 'Cerrado este día']);
+            }
+
+            $franjaInicio = $horario->franja_inicio;
+            $franjaFinal = $horario->franja_final;
+        }
 
         // Generar slots
-        $inicio = \Carbon\Carbon::parse($fecha->format('Y-m-d') . ' ' . $horario->franja_inicio);
-        $fin = \Carbon\Carbon::parse($fecha->format('Y-m-d') . ' ' . $horario->franja_final);
+        $inicio = Carbon::parse($fecha->format('Y-m-d') . ' ' . $franjaInicio);
+        $fin = Carbon::parse($fecha->format('Y-m-d') . ' ' . $franjaFinal);
+        $ahora = Carbon::now();
+        $esHoy = $fecha->isToday();
 
         $slots = [];
         $actual = $inicio->copy();
 
         while ($actual->copy()->addMinutes($duracion)->lte($fin)) {
-            $slots[] = $actual->format('H:i');
+            if (!$esHoy || $actual->gt($ahora)) {
+                $slots[] = $actual->format('H:i');
+            }
             $actual->addMinutes($duracion);
         }
 
-        // Obtener reservas existentes para ese día y servicio
+        // Obtener reservas existentes
         $reservas = Reserva::where('negocio_id', $negocio->id)
             ->whereDate('fecha', $fecha->format('Y-m-d'))
             ->whereIn('estado', ['pendiente', 'confirmada'])
-            ->pluck('fecha')
-            ->map(fn($f) => \Carbon\Carbon::parse($f)->format('H:i'))
-            ->toArray();
+            ->with('servicio')
+            ->get();
 
-        // Filtrar slots ocupados
-        $horasDisponibles = array_values(array_diff($slots, $reservas));
+        // Calcular slots ocupados
+        $slotsOcupados = [];
+        foreach ($reservas as $reserva) {
+            $inicioReserva = $reserva->fecha;
+            $duracionReserva = (int) ($reserva->servicio->duracion ?? 60);
+            $finReserva = $inicioReserva->copy()->addMinutes($duracionReserva);
+
+            foreach ($slots as $slot) {
+                $slotInicio = Carbon::parse($fecha->format('Y-m-d') . ' ' . $slot);
+                $slotFin = $slotInicio->copy()->addMinutes($duracion);
+
+                // Solapamiento: slotInicio < finReserva AND slotFin > inicioReserva
+                if ($slotInicio->lt($finReserva) && $slotFin->gt($inicioReserva)) {
+                    $slotsOcupados[] = $slot;
+                }
+            }
+        }
+
+        $horasDisponibles = array_values(array_diff($slots, array_unique($slotsOcupados)));
 
         return response()->json(['horas' => $horasDisponibles]);
     }

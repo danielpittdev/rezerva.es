@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\API\ApiReserva;
-use App\Http\Controllers\ApiReservaController;
 
 Route::get('/', [WebController::class, 'inicio']);
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
@@ -14,9 +13,7 @@ Route::post('/horas-disponibles', [WebController::class, 'horasDisponibles'])->n
 Route::apiResource('reserva', ApiReserva::class);
 
 // Reservas
-Route::post('/reservar', [ApiReservaController::class, 'store'])->name('api.reserva.store');
-Route::get('/reserva/{reserva}/confirmacion', [ApiReservaController::class, 'confirmacion'])->name('reserva.confirmacion');
-Route::get('/reserva/{reserva}/cancelada', [ApiReservaController::class, 'cancelada'])->name('reserva.cancelada');
+Route::post('/reservar', [ApiReserva::class, 'store'])->name('api.reserva.store');
 
 Route::get('/a', [WebController::class, 'inicio'])->name('cat_reservas');
 Route::get('/d', [WebController::class, 'inicio'])->name('cat_empleados');

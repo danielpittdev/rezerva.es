@@ -27,6 +27,7 @@ class Servicios extends Model
         return [
             'precio' => 'decimal:2',
             'pago_online' => 'boolean',
+            'duracion' => 'integer',
         ];
     }
 

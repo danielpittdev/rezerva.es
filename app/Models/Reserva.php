@@ -15,6 +15,7 @@ class Reserva extends Model
         'servicio_id',
         'cliente_id',
         'empleado_id',
+        'negocio_id',
         'fecha',
         'estado',
         'stripe_session_id',
@@ -44,13 +45,6 @@ class Reserva extends Model
 
     public function negocio()
     {
-        return $this->hasOneThrough(
-            Negocios::class,
-            Servicios::class,
-            'id',
-            'id',
-            'servicio_id',
-            'negocio_id'
-        );
+        return $this->belongsTo(Negocios::class, 'negocio_id');
     }
 }
