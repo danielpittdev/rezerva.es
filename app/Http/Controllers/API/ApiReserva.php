@@ -37,6 +37,7 @@ class ApiReserva extends Controller
             $reservas = Reserva::whereIn('servicio_id', $serviciosIds)
                 ->whereDate('fecha', $fecha)
                 ->orderBy('fecha', 'ASC')
+                ->where('estado', '!=', 'pago_pendiente')
                 ->with(['servicio', 'cliente', 'empleado'])
                 ->get();
 

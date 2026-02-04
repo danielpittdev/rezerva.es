@@ -18,9 +18,12 @@ return new class extends Migration
             $table->foreignId('servicio_id')->constrained('servicios')->onDelete('cascade');
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
             $table->foreignId('empleado_id')->nullable()->constrained('empleados')->onDelete('cascade');
+            $table->foreignId('negocio_id')->nullable()->constrained('negocios')->onDelete('cascade');
             //
             $table->timestamp('fecha');
-            $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado', 'pago_pendiente'])->default('pendiente');
+            // Stripe
+            $table->foreignId('stripe_event')->nullable();
             //
             $table->timestamps();
         });
