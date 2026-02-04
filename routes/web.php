@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ApiReserva;
 
 Route::get('/', [WebController::class, 'inicio'])->name('inicio');
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
+Route::get('/r/{reserva}', [WebController::class, 'reserva'])->name('reserva');
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::post('/verificar-sesion-cliente', [WebController::class, 'verificarSesionCliente'])->name('verificar.sesion.cliente');
 Route::post('/crearcliente', [WebController::class, 'crearCliente'])->name('api.cliente');

@@ -64,15 +64,8 @@ class WebhookController
 
         if ($type === 'invoice.payment_failed') {
             // Pago fallido (tarjeta rechazada, fondos insuficientes, etc.)
-            $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
 
-            if ($usuario) {
-                Log::warning("Pago fallido para usuario: {$usuario->id}", [
-                    'invoice_id' => $data['id'],
-                    'attempt_count' => $data['attempt_count'] ?? null,
-                ]);
-                // TODO: Notificar al usuario, mostrar aviso en el panel, etc.
-            }
+
         }
 
         // ─── Suscripciones ──────────────────────────────────────

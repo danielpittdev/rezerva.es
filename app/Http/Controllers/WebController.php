@@ -24,6 +24,14 @@ class WebController extends Controller
         return view('negocio', compact('negocio'));
     }
 
+    public function reserva($id)
+    {
+        $reserva = Reserva::whereUuid($id)->first();
+        session()->forget('cliente');
+        session()->forget('reserva_pendiente');
+        return view('reserva', compact('reserva'));
+    }
+
     public function checkout()
     {
         if (!session()->has('cliente')) {

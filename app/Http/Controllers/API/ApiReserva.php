@@ -172,26 +172,65 @@ class ApiReserva extends Controller
         // Verificar si el servicio requiere pago online
         if ($servicio->pago_online && $servicio->stripe_id) {
 
-            $check = Reserva::where('cliente_id', $cliente->id)->whereDate('fecha', $fecha)->where('servicio_id', $servicio->id)->first();
+            // Buscar si existe una reserva ya pagada del mismo cliente y servicio (sin importar fecha)
+            $reservaPagada = Reserva::where('cliente_id', $cliente->id)
+                ->where('servicio_id', $servicio->id)
+                ->whereIn('estado', ['confirmado', 'completado', 'pendiente'])
+                ->first();
 
-            if (!$check) {
-                // Guardar datos de la reserva en sesión para después del pago
-                session()->put('reserva_pendiente', [
-                    'servicio_id' => $servicio->id,
-                    'negocio_id' => $negocio->id,
-                    'empleado_id' => $empleado->id ?? null,
-                    'fecha' => $fecha,
-                    'cliente' => $cliente->uuid,
-                ]);
+            if ($reservaPagada) {
+                // Ya tiene una reserva pagada, solo actualizar la fecha sin cobrar de nuevo
+                $fecha_antigua = $reservaPagada->fecha;
+                $reservaPagada->update(['fecha' => $fecha]);
+
+                // Enviar email de actualización
+                $datos = [
+                    'usuario' => $cliente,
+                    'reserva' => $reservaPagada,
+                    'negocio' => $negocio,
+                    'fecha_antigua' => $fecha_antigua,
+                    'fecha' => $fecha
+                ];
+
+                Mail::send('components.email.reserva_actualizar', [
+                    'datos' => $datos,
+                ], function ($message) use ($datos) {
+                    $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                        ->subject('Reserva actualizada');
+                });
 
                 return response()->json([
-                    'mensaje' => 'Redirigiendo al pago',
-                    'requiere_pago' => true,
-                    'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
+                    'mensaje' => 'Tu reserva ha sido actualizada a la nueva fecha',
+                    'reserva_actualizada' => true,
+                    'redirect' => '/'
                 ], 200);
-            } else {
-                $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha);
             }
+
+            // No tiene reserva pagada, verificar si tiene una pendiente de pago
+            $checkPendiente = Reserva::where('cliente_id', $cliente->id)
+                ->where('servicio_id', $servicio->id)
+                ->where('estado', 'pago_pendiente')
+                ->first();
+
+            if ($checkPendiente) {
+                // Actualizar la fecha de la reserva pendiente de pago
+                $checkPendiente->update(['fecha' => $fecha]);
+            }
+
+            // Guardar datos de la reserva en sesión para después del pago
+            session()->put('reserva_pendiente', [
+                'servicio_id' => $servicio->id,
+                'negocio_id' => $negocio->id,
+                'empleado_id' => $empleado->id ?? null,
+                'fecha' => $fecha,
+                'cliente' => $cliente->uuid,
+            ]);
+
+            return response()->json([
+                'mensaje' => 'Redirigiendo al pago',
+                'requiere_pago' => true,
+                'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
+            ], 200);
         } else {
             $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha);
         }
@@ -213,20 +252,35 @@ class ApiReserva extends Controller
         ], 201);
     }
 
-    public function update(Request $request, $id): JsonResponse
+    public function destroy(Request $request, $id): JsonResponse
     {
+        $validacion = $request->validate([
+            'email' => 'required|exists:clientes,email',
+        ], [
+            'email.required' => 'Obligatorio',
+            'email.exists' => 'No se ha encontrado el usuario',
+        ]);
+
+        $cliente = Clientes::where('email', $validacion['email'])->first();
         $reserva = Reserva::whereUuid($id)->first();
 
         if (!$reserva) {
             return response()->json(['error' => 'Reserva no encontrada'], 404);
         }
 
-        $validated = $request->validate([
-            'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
-            'fecha' => 'required|date',
-        ]);
+        if ($reserva->cliente->email != $validacion['email']) {
+            return response()->json(['error' => 'Reserva no encontrada'], 401);
+        }
 
+        $validated['estado'] = 'cancelado';
         $reserva->update($validated);
+
+        Mail::send('components.email.reserva_cancelada', [
+            'cliente' => $cliente,
+        ], function ($message) use ($cliente) {
+            $message->to($cliente['email'], $cliente->nombre . ' ' . $cliente->apellido)
+                ->subject('Reserva cancelada');
+        });
 
         return response()->json([
             'mensaje' => 'Actualizado con éxito',

@@ -73,7 +73,7 @@ class StripeController extends Controller
             'metadata' => [
                 'reserva' => $reserva->uuid,
             ],
-            'success_url' => route('inicio') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('reserva', ['reserva' => $reserva->uuid]),
             'cancel_url' => route('inicio'),
         ]);
 
