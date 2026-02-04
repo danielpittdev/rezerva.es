@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reserva;
 use App\Models\Negocios;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
@@ -79,8 +80,7 @@ class WebController extends Controller
             return response()->json(['horas' => [], 'mensaje' => 'Cerrado este día']);
         }
 
-        // Duración del servicio en minutos
-        $duracion = (int) $servicio->duracion ?? 30;
+        $duracion = $servicio->duracion ?? 30;
 
         // Generar slots
         $inicio = \Carbon\Carbon::parse($fecha->format('Y-m-d') . ' ' . $horario->franja_inicio);
@@ -95,7 +95,7 @@ class WebController extends Controller
         }
 
         // Obtener reservas existentes para ese día y servicio
-        $reservas = \App\Models\Reserva::where('servicio_id', $servicio->id)
+        $reservas = Reserva::where('negocio_id', $negocio->id)
             ->whereDate('fecha', $fecha->format('Y-m-d'))
             ->whereIn('estado', ['pendiente', 'confirmada'])
             ->pluck('fecha')

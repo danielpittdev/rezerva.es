@@ -6,12 +6,9 @@
 
 
          <!-- Cuerpo -->
-         <div class="cuerpo min-h-[600px] pt-15 px-5">
-
-
-
+         <div class="cuerpo min-h-[600px] lg:pt-15 pt-5 px-5">
             <form id="crearReservaForm" action="{{ route('reserva.store') }}">
-               <div class="grid lg:grid-cols-[auto_1fr] grid-cols-1 gap-2">
+               <div class="grid lg:grid-cols-[auto_1fr] grid-cols-1 gap-4">
 
                   <!-- Caja -->
                   <div class="caja min-w-[100px]">
@@ -56,7 +53,7 @@
                         </div>
 
                         <!-- Móvil -->
-                        <div class="space-y-4 xl:hidden block mx-auto max-w-sm">
+                        <div class="space-y-4 xl:hidden block">
                            <!-- Controles -->
                            <div class="flex items-center justify-between">
                               <button id="btn-prev" class="p-2 rounded-full hover:bg-base-300">
@@ -84,7 +81,7 @@
                   <!-- Caja de horas disponibles -->
                   @csrf
                   <div class="caja">
-                     <div class="px-4">
+                     <div class="lg:px-4">
                         <h3 class="text-md font-medium text-base-content mb-4">Selecciona una hora</h3>
 
                         <!-- Loader -->
