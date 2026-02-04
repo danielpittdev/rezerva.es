@@ -8,7 +8,7 @@
 
             <div class="lg:my-auto space-y-7 max-w-[500px]">
                <h1 class="font-medium text-6xl">
-                  Gestiona reservas para tu negocio
+                  Aumenta las reservas de tu negocio
                </h1>
 
                <h2 class="font-medium text-2xl">

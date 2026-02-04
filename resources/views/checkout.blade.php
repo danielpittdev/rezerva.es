@@ -2,12 +2,12 @@
 
 @section('contenido')
    <section class="bg-base-100 min-h-[100vh] pt-10 pb-30">
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-2xl rounded-3xl overflow-hidden">
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto xl:max-w-2xl lg:max-w-xl max-w-xs rounded-3xl overflow-hidden">
 
          <!-- Cuerpo -->
          <div class="cuerpo min-h-[600px] lg:pt-5 pt-5 px-5">
             <form id="crearReservaForm" action="{{ route('reserva.store') }}">
-               <div class="grid lg:grid-cols-[auto_1fr] grid-cols-1 gap-4">
+               <div class="grid xl:grid-cols-[auto_1fr] lg:grid-cols-2 grid-cols-1 gap-4">
 
                   <!-- Caja -->
                   <div class="caja min-w-[100px]">
@@ -77,7 +77,7 @@
                      </div>
 
                      <div class="my-4">
-                        <button type="submit" class="w-full rounded-sm bg-green-500 p-2 text-sm font-semibold text-white shadow-xs hover:bg-green-600">
+                        <button type="submit" class="w-full rounded-sm bg-indigo-600 p-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
                            Reservar
                         </button>
                      </div>

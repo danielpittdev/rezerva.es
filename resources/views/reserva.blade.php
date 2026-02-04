@@ -54,26 +54,28 @@
                   <small class="text-base-content/60">Si quieres cambiar tu reserva puedes hacerlo solicitando de nuevo el servicio desde el negocio. Puedes cancelar tu reserva cuando quieras*. Para cancelar pon tu correo electrónico para confirmar que eres tú.</small>
                </div>
 
-               <div class="caja px-5 pb-10">
-                  <form id="cancelarReserva" action="{{ route('reserva.destroy', ['reserva' => $reserva->uuid]) }}" class="space-y-5">
-                     @csrf
-                     @method('DELETE')
+               @if ($reserva->estado != 'cancelado')
+                  <div class="caja px-5 pb-10">
+                     <form id="cancelarReserva" action="{{ route('reserva.destroy', ['reserva' => $reserva->uuid]) }}" class="space-y-5">
+                        @csrf
+                        @method('DELETE')
 
-                     <div class="caja mt-2">
-                        <div>
-                           <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo electrónico</label>
-                           <div class="mt-2">
-                              <input id="email" type="email" name="email" placeholder="tucorreo@electronico.com"
-                                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                        <div class="caja mt-2">
+                           <div>
+                              <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo electrónico</label>
+                              <div class="mt-2">
+                                 <input id="email" type="email" name="email" placeholder="tucorreo@electronico.com"
+                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                              </div>
                            </div>
                         </div>
-                     </div>
 
-                     <button type="submit" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                        Cancelar ahora
-                     </button>
-                  </form>
-               </div>
+                        <button type="submit" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                           Cancelar ahora
+                        </button>
+                     </form>
+                  </div>
+               @endif
 
             </section>
 
@@ -229,7 +231,7 @@
       cancelarReserva.addEventListener('submit', (e) => {
          e.preventDefault();
          peticion(cancelarReserva, {
-            // reload: true,
+            reload: true,
             resetForm: false,
             highlightInputs: true,
             showAlert: true

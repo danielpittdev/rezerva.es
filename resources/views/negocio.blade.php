@@ -1,16 +1,16 @@
 @extends('plantilla.web.blank')
 
 @section('contenido')
-   <section class="bg-base-100 min-h-[100vh] pt-30 pb-30">
+   <section class="bg-base-100 min-h-[100vh] pt-20 pb-30">
 
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-xl rounded-3xl overflow-hidden">
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-lg rounded-3xl overflow-hidden">
          <!-- Imagen -->
          <div class="p-0 shadow overflow-hidden">
             <img class="w-full h-70 object-cover" src="/media/img/banner.png" alt="">
          </div>
 
          <!-- Título -->
-         <div class="p-5 absolute left-25 top-50 rounded-md w-sm space-y-3">
+         <div class="p-5 absolute left-17 top-50 rounded-md w-sm space-y-3">
             <div class="caja">
                <img class="rounded-full size-30 mx-auto border-7 border-base-100" src="/media/logo/brand.png" alt="">
             </div>
