@@ -177,12 +177,30 @@ class ApiReserva extends Controller
                 'negocio' => $negocio->nombre
             ];
 
-            Mail::send('components.email.reserva', [
+            Mail::send('components.email.reserva_actualizar', [
                 'datos' => $datos,
             ], function ($message) use ($datos) {
                 $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
                     ->subject('Reserva solicitada');
             });
+        }
+
+        // Verificar si el servicio requiere pago online
+        if ($servicio->pago_online && $servicio->stripe_id) {
+            // Guardar datos de la reserva en sesión para después del pago
+            session()->put('reserva_pendiente', [
+                'servicio_id' => $servicio->id,
+                'negocio_id' => $negocio->id,
+                'empleado_id' => $empleado->id ?? null,
+                'fecha' => $fecha,
+                'datos_cliente' => $datos_cliente,
+            ]);
+
+            return response()->json([
+                'mensaje' => 'Redirigiendo al pago',
+                'requiere_pago' => true,
+                'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
+            ], 200);
         }
 
         // Crea el registro

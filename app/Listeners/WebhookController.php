@@ -4,8 +4,13 @@ namespace App\Listeners;
 
 use App\Models\Factura;
 use App\Models\Clientes;
+use App\Models\Negocios;
+use App\Models\Reserva;
+use App\Models\Servicios;
 use App\Models\Usuarios;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Cashier\Events\WebhookReceived;
 
 class WebhookController
@@ -14,29 +19,64 @@ class WebhookController
     {
         $type = $event->payload['type'];
         $data = $event->payload['data']['object'];
+        $metadata = $data['metadata'] ?? [];
 
         Log::info("Webhook recibido: {$type}", ['stripe_id' => $data['id'] ?? null]);
 
-        // ─── Checkout ───────────────────────────────────────────
+        // ─── Checkout (pago único de reserva) ────────────────────
         if ($type === 'checkout.session.completed') {
-            // Se completa el checkout de Stripe (primera suscripción o pago único)
-            $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
+            $checkoutSessionId = $data['id'];
 
-            if ($usuario) {
-                Log::info("Checkout completado para usuario: {$usuario->id}");
-                // TODO: Activar funcionalidades del plan, enviar email de bienvenida, etc.
+            // Si tiene datos de reserva en metadata, crear la reserva
+            if (isset($metadata['servicio_id'], $metadata['cliente_id'], $metadata['negocio_id'])) {
+                $cliente = Clientes::find($metadata['cliente_id']);
+                $negocio = Negocios::find($metadata['negocio_id']);
+                $servicio = Servicios::find($metadata['servicio_id']);
+
+                if ($cliente && $negocio && $servicio) {
+                    $reserva = Reserva::create([
+                        'servicio_id' => $metadata['servicio_id'],
+                        'cliente_id' => $metadata['cliente_id'],
+                        'negocio_id' => $metadata['negocio_id'],
+                        'empleado_id' => $metadata['empleado_id'] ?? null,
+                        'fecha' => $metadata['fecha'],
+                        'estado' => 'confirmado',
+                    ]);
+
+                    $datos = [
+                        'usuario' => $cliente,
+                        'reserva' => $reserva,
+                        'negocio' => $negocio->nombre
+                    ];
+
+                    Mail::send('components.email.reserva', [
+                        'datos' => $datos,
+                    ], function ($message) use ($datos) {
+                        $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                            ->subject('Reserva confirmada');
+                    });
+
+                    Log::info("Reserva creada desde checkout", ['reserva_id' => $reserva->id]);
+                }
+            } else {
+                // Checkout de suscripción (sin datos de reserva)
+                $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
+
+                if ($usuario) {
+                    Log::info("Checkout de suscripción completado para usuario: {$usuario->id}");
+                }
             }
         }
 
-        // ─── Pagos ──────────────────────────────────────────────
+        // ─── Pagos de suscripciones ─────────────────────────────
         if ($type === 'invoice.payment_succeeded') {
-            // Pago exitoso (renovación o primer pago)
+            // Pago exitoso de suscripción (renovación o primer pago)
             $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
 
             if ($usuario) {
-
-                // Lógica
-
+                Log::info("Pago de suscripción exitoso para usuario: {$usuario->id}", [
+                    'invoice_id' => $data['id'],
+                ]);
                 // TODO: Enviar factura por email, registrar pago en historial, etc.
             }
         }
