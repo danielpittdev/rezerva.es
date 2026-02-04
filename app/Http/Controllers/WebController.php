@@ -126,7 +126,7 @@ class WebController extends Controller
         // Obtener reservas existentes
         $reservas = Reserva::where('negocio_id', $negocio->id)
             ->whereDate('fecha', $fecha->format('Y-m-d'))
-            ->whereIn('estado', ['pendiente', 'confirmada'])
+            ->whereIn('estado', ['pendiente', 'confirmado'])
             ->with('servicio')
             ->get();
 

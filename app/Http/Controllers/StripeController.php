@@ -7,6 +7,7 @@ use App\Models\Reserva;
 use App\Models\Clientes;
 use App\Models\Registros;
 use App\Models\Servicios;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -39,43 +40,23 @@ class StripeController extends Controller
 
     public function pre_checkout(Request $request)
     {
-        $servicio = Servicios::whereUuid($request->servicio)->first();
+        $datos = session()->get('reserva_pendiente');
 
-        if (!$servicio || !$servicio->pago_online || !$servicio->stripe_id) {
-            return redirect('/')->with('error', 'El servicio no tiene pago online configurado');
-        }
+        // Cliente 
+        $cliente = Clientes::whereUuid($datos['cliente'])->first();
 
-        $reserva_pendiente = session()->get('reserva_pendiente');
+        // Servicio 
+        $servicio = Servicios::whereId($datos['servicio_id'])->first();
 
-        if (!$reserva_pendiente) {
-            return redirect('/')->with('error', 'No hay reserva pendiente');
-        }
-
-        $datos_cliente = $reserva_pendiente['datos_cliente'];
-        $negocio_id = $reserva_pendiente['negocio_id'];
-
-        // Buscar o crear el cliente en la base de datos
-        $cliente = Clientes::where('email', $datos_cliente['email'])
-            ->where('nombre', $datos_cliente['nombre'])
-            ->where('apellido', $datos_cliente['apellido'])
-            ->first();
-
-        if (!$cliente) {
-            $cliente = Clientes::create([
-                'nombre' => $datos_cliente['nombre'],
-                'apellido' => $datos_cliente['apellido'],
-                'email' => $datos_cliente['email'],
-                'negocio_id' => $negocio_id
-            ]);
-        }
-
-        // Crear customer en Stripe si no existe
-        if (!$cliente->stripe_id) {
-            $cliente->createAsStripeCustomer([
-                'name' => $cliente->nombre . ' ' . $cliente->apellido,
-                'email' => $cliente->email,
-            ]);
-        }
+        // Crea la reserva
+        $reserva = Reserva::create([
+            'servicio_id' => $datos['servicio_id'],
+            'cliente_id' => $cliente->id,
+            'negocio_id' => $datos['negocio_id'],
+            'empleado_id' => $empleado->id ?? null,
+            'fecha' => $datos['fecha'],
+            'estado' => 'pago_pendiente',
+        ]);
 
         // Guardar cliente_id en la sesión para usarlo después
         session()->put('reserva_pendiente.cliente_id', $cliente->id);
@@ -90,10 +71,7 @@ class StripeController extends Controller
             'mode' => 'payment',
             'customer' => $cliente->stripe_id,
             'metadata' => [
-                'servicio_id' => $servicio->id,
-                'negocio_id' => $negocio_id,
-                'cliente_id' => $cliente->id,
-                'fecha' => $reserva_pendiente['fecha'],
+                'reserva' => $reserva->uuid,
             ],
             'success_url' => route('inicio') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('inicio'),

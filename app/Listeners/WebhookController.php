@@ -25,47 +25,28 @@ class WebhookController
 
         // ─── Checkout (pago único de reserva) ────────────────────
         if ($type === 'checkout.session.completed') {
-            $checkoutSessionId = $data['id'];
 
-            // Si tiene datos de reserva en metadata, crear la reserva
-            if (isset($metadata['servicio_id'], $metadata['cliente_id'], $metadata['negocio_id'])) {
-                $cliente = Clientes::find($metadata['cliente_id']);
-                $negocio = Negocios::find($metadata['negocio_id']);
-                $servicio = Servicios::find($metadata['servicio_id']);
+            $reserva = Reserva::whereUuid($metadata['reserva'])->first();
 
-                if ($cliente && $negocio && $servicio) {
-                    $reserva = Reserva::create([
-                        'servicio_id' => $metadata['servicio_id'],
-                        'cliente_id' => $metadata['cliente_id'],
-                        'negocio_id' => $metadata['negocio_id'],
-                        'empleado_id' => $metadata['empleado_id'] ?? null,
-                        'fecha' => $metadata['fecha'],
-                        'estado' => 'confirmado',
-                    ]);
+            $reserva->update([
+                'estado' => 'confirmado'
+            ]);
 
-                    $datos = [
-                        'usuario' => $cliente,
-                        'reserva' => $reserva,
-                        'negocio' => $negocio->nombre
-                    ];
+            $reserva->save();
 
-                    Mail::send('components.email.reserva', [
-                        'datos' => $datos,
-                    ], function ($message) use ($datos) {
-                        $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
-                            ->subject('Reserva confirmada');
-                    });
+            $datos = [
+                'negocio' => $reserva->negocio,
+                'servicio' => $reserva->servicio,
+                'fecha' => $reserva->fecha,
+                'usuario' => $reserva->cliente
+            ];
 
-                    Log::info("Reserva creada desde checkout", ['reserva_id' => $reserva->id]);
-                }
-            } else {
-                // Checkout de suscripción (sin datos de reserva)
-                $usuario = Usuarios::where('stripe_id', $data['customer'])->first();
-
-                if ($usuario) {
-                    Log::info("Checkout de suscripción completado para usuario: {$usuario->id}");
-                }
-            }
+            Mail::send('components.email.reserva', [
+                'datos' => $datos,
+            ], function ($message) use ($datos) {
+                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                    ->subject('Reserva confirmada');
+            });
         }
 
         // ─── Pagos de suscripciones ─────────────────────────────

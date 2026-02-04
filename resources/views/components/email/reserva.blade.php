@@ -65,7 +65,7 @@
                               </p>
                               <p
                                  style="font-size:0.875rem;line-height:1.625;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Acabas de reservar en <strong>{{ $datos['negocio'] }}</strong> el día
+                                 Acabas de reservar en <strong>{{ $datos['negocio']['nombre'] }}</strong> el día
                                  <strong>{{ Carbon\Carbon::parse($datos['reserva']['fecha'])->translatedFormat('l d M') }}</strong> a las
                                  <strong>{{ Carbon\Carbon::parse($datos['reserva']['fecha'])->translatedFormat('H:i \h') }}</strong>. Recibirás una notificación en
                                  caso de que se cambie o sea cancelado por el propio

@@ -93,27 +93,23 @@ class ApiReserva extends Controller
     }
 
     # Helper
-    public function comprobarReserva($cliente, $servicio, $fecha)
+    public function reservaCreate($negocio, $cliente, $servicio, $fecha)
     {
         // Busca reserva del mismo cliente, mismo servicio, mismo día
-        $reserva = Reserva::where('cliente_id', $cliente->id)
-            ->where('servicio_id', $servicio->id)
-            ->whereDate('fecha', $fecha)
-            ->first();
-
-        $negocio = $reserva->negocio ?? null;
+        $reserva = Reserva::where('cliente_id', $cliente->id)->where('servicio_id', $servicio->id)->whereDate('fecha', $fecha)->first();
         $fecha_antigua = $reserva->fecha ?? null;
+
+        # Envío de MAIL
+        $datos = [
+            'usuario' => $cliente,
+            'reserva' => $reserva,
+            'negocio' => $negocio,
+            'fecha_antigua' => $fecha_antigua,
+            'fecha' => $fecha
+        ];
 
         if ($reserva) {
             $reserva->update(['fecha' => $fecha]);
-
-            # Envío de MAIL
-            $datos = [
-                'usuario' => $cliente,
-                'reserva' => $reserva,
-                'negocio' => $negocio->nombre,
-                'fecha_antigua' => $fecha_antigua
-            ];
 
             Mail::send('components.email.reserva_actualizar', [
                 'datos' => $datos,
@@ -122,10 +118,28 @@ class ApiReserva extends Controller
                     ->subject('Reserva actualizada');
             });
 
-            return $reserva;
-        }
+            return true;
+        } else {
+            $reserva = Reserva::create([
+                'servicio_id' => $servicio->id,
+                'cliente_id' => $cliente->id,
+                'negocio_id' => $negocio->id,
+                'empleado_id' => $empleado->id ?? null,
+                'fecha' => $fecha,
+                'estado' => 'pendiente',
+            ]);
 
-        return null;
+            $datos['reserva'] = $reserva;
+
+            Mail::send('components.email.reserva', [
+                'datos' => $datos,
+            ], function ($message) use ($datos) {
+                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                    ->subject('Reserva solicitada');
+            });
+
+            return false;
+        }
     }
 
     public function store(Request $request)
@@ -139,10 +153,7 @@ class ApiReserva extends Controller
 
         // Obtener el servicio para obtener el negocio_id
         $servicio = Servicios::whereUuid($datos_cliente['servicio'])->first();
-        if ($request->empleado_id) {
-            $empleado = Empleado::whereUuid($datos_cliente['empleado'])->first();
-        }
-
+        // $empleado = Empleado::whereUuid($datos_cliente['empleado'])->first();
         $negocio = $servicio->negocio;
         $fecha = $validacion['fecha'] . ' ' . $validacion['hora'];
 
@@ -158,49 +169,31 @@ class ApiReserva extends Controller
             ]);
         }
 
-        $yahayreserva = $this->comprobarReserva($cliente, $servicio, $fecha);
-
-        if (!$yahayreserva) {
-            $reserva = Reserva::create([
-                'servicio_id' => $servicio->id,
-                'cliente_id' => $cliente->id,
-                'negocio_id' => $negocio->id,
-                'empleado_id' => $empleado->id ?? null,
-                'fecha' => $validacion['fecha'] . ' ' . $validacion['hora'],
-                'estado' => 'pendiente',
-            ]);
-
-            # Envío de MAIL
-            $datos = [
-                'usuario' => $datos_cliente,
-                'reserva' => $reserva,
-                'negocio' => $negocio->nombre
-            ];
-
-            Mail::send('components.email.reserva_actualizar', [
-                'datos' => $datos,
-            ], function ($message) use ($datos) {
-                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
-                    ->subject('Reserva solicitada');
-            });
-        }
-
         // Verificar si el servicio requiere pago online
         if ($servicio->pago_online && $servicio->stripe_id) {
-            // Guardar datos de la reserva en sesión para después del pago
-            session()->put('reserva_pendiente', [
-                'servicio_id' => $servicio->id,
-                'negocio_id' => $negocio->id,
-                'empleado_id' => $empleado->id ?? null,
-                'fecha' => $fecha,
-                'datos_cliente' => $datos_cliente,
-            ]);
 
-            return response()->json([
-                'mensaje' => 'Redirigiendo al pago',
-                'requiere_pago' => true,
-                'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
-            ], 200);
+            $check = Reserva::where('cliente_id', $cliente->id)->whereDate('fecha', $fecha)->where('servicio_id', $servicio->id)->first();
+
+            if (!$check) {
+                // Guardar datos de la reserva en sesión para después del pago
+                session()->put('reserva_pendiente', [
+                    'servicio_id' => $servicio->id,
+                    'negocio_id' => $negocio->id,
+                    'empleado_id' => $empleado->id ?? null,
+                    'fecha' => $fecha,
+                    'cliente' => $cliente->uuid,
+                ]);
+
+                return response()->json([
+                    'mensaje' => 'Redirigiendo al pago',
+                    'requiere_pago' => true,
+                    'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
+                ], 200);
+            } else {
+                $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha);
+            }
+        } else {
+            $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha);
         }
 
         // Crea el registro
