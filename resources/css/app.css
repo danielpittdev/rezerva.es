@@ -23,7 +23,7 @@ fieldset {
 }
 
 button {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .alerta {

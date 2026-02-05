@@ -44,29 +44,36 @@
                </div>
 
                <div class="caja">
-                  <ul role="list" class="divide-y divide-gray-100">
+                  <ul role="list" class="divide-y divide-base-content/10">
                      @if ($negocio->servicios->count() > 0)
                         @foreach ($negocio->servicios as $servicio)
                            <li class="flex items-center justify-between gap-x-6 py-5 px-5">
-                              <div class="min-w-0">
-                                 <div class="flex items-start gap-x-3">
-                                    <p class="text-sm/6 font-semibold text-base-content/90">{{ $servicio->nombre }}</p>
+                              <div class="caja">
+                                 <div class="flex items-start gap-x-1">
+                                    <div class="caja">
+                                       <h3 class="lg:text-md text-md font-semibold text-base-content/90">{{ $servicio->nombre }}</h3>
+                                       @if ($servicio->descripcion)
+                                          <small class="text-base-content/60">
+                                             {{ $servicio->descripcion }}
+                                          </small>
+                                       @endif
+                                    </div>
+
                                     @if ($servicio->pago_online)
-                                       <p class="mt-0.5 rounded-md bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20">
+                                       <span class="mt-0.5 rounded-md bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20">
                                           Pago online
-                                       </p>
+                                       </span>
                                     @endif
+
                                  </div>
-                                 <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-base-content/50">
-                                    <p class="whitespace-nowrap">{{ number_format($servicio->precio, 2, ',', '.') }}€</p>
-                                    <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
-                                       <circle r="1" cx="1" cy="1" />
-                                    </svg>
-                                    <p class="truncate">{{ $servicio->duracion ?? 'Sin duración' }}</p>
+                                 <div class="mt-1 flex items-center gap-x-2 text-sm text-base-content/50">
+                                    <h4>{{ number_format($servicio->precio, 2, ',', '.') }}€</h4>
+                                    <span>-</span>
+                                    <h4>{{ $servicio->duracion ?? 'Sin duración' }}</h4>
                                  </div>
                               </div>
-                              <div class="flex flex-none items-center gap-x-4">
-                                 <button target="{{ $servicio->uuid }}" class="pet_reservar hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-base-content/90 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block">
+                              <div class="items-center gap-x-4">
+                                 <button target="{{ $servicio->uuid }}" class="pet_reservar rounded-md bg-base-100 lg:px-2.5 px-3 lg:py-1.5 py-2 text-sm font-semibold text-base-content/90 shadow-xs inset-ring inset-ring-base-content/20 shadow hover:bg-base-200">
                                     Reservar
                                  </button>
                               </div>
