@@ -43,7 +43,7 @@ class ApiServicio extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string',
-            'descripcion' => 'required|string',
+            'descripcion' => 'null|string',
             'precio' => 'required|string',
             'duracion' => 'nullable|string',
             'tipo' => 'required|string',
@@ -57,7 +57,7 @@ class ApiServicio extends Controller
         $validated['negocio_id'] = $negocio->id;
 
         $validated['nombre'] = $validated['nombre'];
-        $validated['descripcion'] = $validated['descripcion'];
+        $validated['descripcion'] = $validated['descripcion'] ?? null;
 
         $servicio = Servicios::create($validated);
         return response()->json($servicio, 201);
@@ -82,7 +82,7 @@ class ApiServicio extends Controller
         ]);
 
         $validated['nombre'] = $validated['nombre'];
-        $validated['descripcion'] = $validated['descripcion'];
+        $validated['descripcion'] = $validated['descripcion'] ?? null;
 
         if ($request->pago_online) {
             $validated['pago_online'] = true;
