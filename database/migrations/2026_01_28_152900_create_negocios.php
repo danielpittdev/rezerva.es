@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('slug');
             $table->string('descripcion')->nullable();
-            $table->enum('tipo', ['barbería', 'psicología', 'spa', 'clínica', 'gimnasio', 'consultoría', 'otros'])->default('psicología');
+            $table->enum('tipo', ['barbería', 'psicología', 'spa', 'clínica', 'gimnasio', 'consultoría', 'otros']);
             // Información postal
             $table->string('postal_direccion');
             $table->string('postal_codigo');
