@@ -1,16 +1,16 @@
 @extends('plantilla.web.blank')
 
 @section('contenido')
-   <section class="bg-base-100 min-h-[100vh] pt-30 pb-30">
+   <section class="bg-base-100 min-h-[100vh] lg:pt-30 pb-30">
 
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-xl rounded-3xl overflow-hidden">
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-xl lg:rounded-3xl overflow-hidden">
          <!-- Imagen -->
          <div class="p-0 shadow overflow-hidden">
             <img class="w-full h-70 object-cover" src="@if ($reserva->negocio->banner) {{ Storage::url($reserva->negocio->banner) }} @else /media/img/banner.png @endif" alt="">
          </div>
 
          <!-- Título -->
-         <div class="p-5 absolute left-25 top-50 rounded-md w-sm space-y-3">
+         <div class="w-full p-5 absolute left-0 top-50 rounded-md space-y-3">
             <div class="caja">
                <img class="object-cover rounded-full size-27 aspect-1/1 mx-auto border-3 border-base-200" src="@if ($reserva->negocio->icono) {{ Storage::url($reserva->negocio->icono) }} @else /media/img/banner.png @endif" alt="">
             </div>
