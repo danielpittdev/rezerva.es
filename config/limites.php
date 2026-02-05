@@ -10,20 +10,20 @@
 return [
     'nonsus' => [
         'negocios'  => 1,
-        'clientes'  => 1,
-        'empleados' => 1,
-        'servicios' => 2,
+        'clientes'  => 0,
+        'empleados' => 0,
+        'servicios' => 1,
     ],
-    'plus-pn2' => [
+    'plus-pn1' => [
         'negocios'  => 1,
-        'clientes'  => 3,
-        'empleados' => 2,
+        'clientes'  => 10,
+        'empleados' => 3,
         'servicios' => 5,
     ],
-    'pro-pn2' => [
+    'pro-pn1' => [
         'negocios'  => 5,
-        'clientes'  => 10,
+        'clientes'  => 30,
         'empleados' => 10,
-        'servicios' => 20,
+        'servicios' => 15,
     ],
 ];

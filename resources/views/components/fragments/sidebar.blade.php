@@ -49,7 +49,7 @@
                            @endforeach
                         </ul>
                      </li>
-                     {{-- <li class="hidden">
+                     <li>
                         <div class="text-xs/6 font-medium text-gray-400">Tus negocios</div>
                         <ul role="list" class="-mx-2 mt-2 space-y-1">
 
@@ -65,7 +65,7 @@
 
 
                         </ul>
-                     </li> --}}
+                     </li>
                   </ul>
                </nav>
             </div>

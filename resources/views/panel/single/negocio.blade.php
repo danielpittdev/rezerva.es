@@ -1,13 +1,18 @@
 @extends('components.html.plantilla.center')
 
 @section('contenido')
+   <button command="show-modal" commandfor="drawer_editar_negocio" class="lg:hidden block z-10 rounded-md bg-white p-2 px-3 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
+      Editar negocio
+   </button>
    <section class="relative bg-base-100 @if ($negocio->banner) pb-80 @endif p-5 border border-base-content/10 rounded-md flex justify-between items-start">
-      <div class="flex items-center gap-5 z-10">
+      <div class="flex-1 flex items-center gap-3 z-10">
          <div class="icono">
             @if ($negocio->icono)
-               <img src="{{ asset('storage/' . $negocio->icono) }}" class="rounded-full size-15 object-cover border border-base-content/20" alt="{{ $negocio->nombre }}">
+               <img src="@if ($negocio->nombre) {{ Storage::url($negocio->icono) }}
+               @else
+                  /media/logo/brand.png @endif" class="rounded-full lg:size-15 size-10 object-cover border border-base-content/20" alt="{{ $negocio->nombre }}">
             @else
-               <div class="bg-indigo-500 rounded-full size-15 flex items-center justify-center text-white text-2xl font-bold">
+               <div class="bg-indigo-500 rounded-full lg:size-15 size-10 flex items-center justify-center text-white text-2xl font-bold">
                   {{ strtoupper(substr($negocio->nombre, 0, 1)) }}
                </div>
             @endif
@@ -24,7 +29,7 @@
          </div>
       </div>
 
-      <button command="show-modal" commandfor="drawer_editar_negocio" class="z-10 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
+      <button command="show-modal" commandfor="drawer_editar_negocio" class="lg:block hidden z-10 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
          Editar negocio
       </button>
 
