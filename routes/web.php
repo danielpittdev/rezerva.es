@@ -13,7 +13,9 @@ Route::get('/', [WebController::class, 'inicio'])->name('inicio');
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
 Route::get('/r/{reserva}', [WebController::class, 'reserva'])->name('reserva');
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
-Route::get('/registro', [WebController::class, 'registro'])->name('registro');
+Route::get('/registro', function () {
+  return redirect('https://panel.rezerva.es/registro');
+})->name('registro');
 
 Route::get('/contacto', [WebController::class, 'contacto'])->name('contacto');
 Route::post('/contacto', [ApiController::class, 'contacto'])->name('api_contacto');
