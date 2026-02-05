@@ -45,6 +45,10 @@ class StripeController extends Controller
         // Cliente 
         $cliente = Clientes::whereUuid($datos['cliente'])->first();
 
+        if (!$cliente->stripe_id) {
+            $cliente->createAsStripeCustomer();
+        }
+
         // Servicio 
         $servicio = Servicios::whereId($datos['servicio_id'])->first();
 
@@ -55,6 +59,7 @@ class StripeController extends Controller
             'negocio_id' => $datos['negocio_id'],
             'empleado_id' => $empleado->id ?? null,
             'fecha' => $datos['fecha'],
+            'nota' => $datos['nota'] ?? null,
             'estado' => 'pago_pendiente',
         ]);
 

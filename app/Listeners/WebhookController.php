@@ -38,7 +38,8 @@ class WebhookController
                 'negocio' => $reserva->negocio,
                 'servicio' => $reserva->servicio,
                 'fecha' => $reserva->fecha,
-                'usuario' => $reserva->cliente
+                'usuario' => $reserva->cliente,
+                'nota' => $reserva->nota
             ];
 
             Mail::send('components.email.reserva', [

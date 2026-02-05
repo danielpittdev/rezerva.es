@@ -16,6 +16,7 @@ class Reserva extends Model
         'cliente_id',
         'empleado_id',
         'negocio_id',
+        'nota',
         'fecha',
         'estado',
         'stripe_session_id',

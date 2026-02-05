@@ -2,12 +2,12 @@
 
 @section('contenido')
    <section class="bg-base-100 min-h-[100vh] pt-10 pb-30">
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto xl:max-w-2xl lg:max-w-xl max-w-xs rounded-3xl overflow-hidden">
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto xl:max-w-2xl max-w-md max-w-md rounded-3xl overflow-hidden">
 
          <!-- Cuerpo -->
-         <div class="cuerpo min-h-[600px] lg:pt-5 pt-5 px-5">
+         <div class="cuerpo xl:min-h-[600px] lg:pt-5 pt-5 px-5 pb-5">
             <form id="crearReservaForm" action="{{ route('reserva.store') }}">
-               <div class="grid xl:grid-cols-[auto_1fr] lg:grid-cols-2 grid-cols-1 gap-4">
+               <div class="grid xl:grid-cols-[auto_1fr] xl:grid-cols-2 grid-cols-1 lg:gap-x-6 gap-x-4 gap-y-4">
 
                   <!-- Caja -->
                   <div class="caja min-w-[100px]">
@@ -15,12 +15,12 @@
                      <div class="calendai bg-base-100">
 
                         <!-- Desktop -->
-                        <div class="border border-base-content/10 rounded-md xl:block hidden caja max-w-xs mx-auto overflow-hidden">
+                        <div class="border border-base-content/10 rounded-xl xl:block hidden caja overflow-hidden">
 
                            <!-- Selectores -->
-                           <div class="flex items-center justify-center text-base-content">
-                              <div class="flex w-full items-center justify-between bg-base-100 border-b border-base-content/10">
-                                 <button type="button" id="btn-prev-month" class="hover:bg-base-200 duration-300 border-r border-base-content/10 flex flex-none items-center justify-center p-1.5 text-base-content hover:text-gray-500">
+                           <div class="flex items-center justify-center text-base-content p-1">
+                              <div class="flex w-full items-center justify-between bg-base-100 rounded-lg border border-base-content/10">
+                                 <button type="button" id="btn-prev-month" class="p-2 hover:bg-base-200 duration-300 border-r border-base-content/10 flex flex-none items-center justify-center p-1.5 text-base-content hover:text-gray-500">
                                     <span class="sr-only">Mes anterior</span>
                                     <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
                                        <path d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" fill-rule="evenodd" />
@@ -29,7 +29,7 @@
 
                                  <div class="flex-auto text-sm font-semibold text-center titulo-mes">-</div>
 
-                                 <button type="button" id="btn-next-month" class="hover:bg-base-200 duration-300 border-l border-base-content/10 flex flex-none items-center justify-center p-1.5 text-base-content hover:text-gray-500">
+                                 <button type="button" id="btn-next-month" class="p-2 block sm:hidden hover:bg-base-200 duration-300 border-l border-base-content/10 flex flex-none items-center justify-center p-1.5 text-base-content hover:text-gray-500">
                                     <span class="sr-only">Mes siguiente</span>
                                     <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
                                        <path d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
@@ -77,7 +77,7 @@
                      </div>
 
                      <div class="my-4">
-                        <button type="submit" class="w-full rounded-sm bg-indigo-600 p-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
+                        <button type="submit" class="xl:block hidden w-full rounded-md bg-indigo-600 p-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
                            Reservar
                         </button>
                      </div>
@@ -86,7 +86,22 @@
                   <!-- Caja de horas disponibles -->
                   @csrf
                   <div class="caja">
-                     <div class="lg:px-4 mb-5">
+
+                     @if ($servicio->nota_rapida)
+                        <div class="mb-5">
+                           <div class="sm:col-span-2">
+                              <label for="nota_rapida" class="block text-sm/6 font-semibold text-gray-900">Nota</label>
+                              <small class="text-base-content/70">
+                                 Añade una anotación antes de reservar si necesitas que tengamos en cuenta algo antes de continuar.
+                              </small>
+                              <div class="mt-2.5">
+                                 <textarea id="nota_rapida" name="nota_rapida" rows="4" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"></textarea>
+                              </div>
+                           </div>
+                        </div>
+                     @endif
+
+                     <div class="mb-5">
                         <h3 class="text-md font-medium text-base-content mb-4">Selecciona una hora</h3>
                         <div class="alerta"></div>
                         <!-- Loader -->
@@ -122,6 +137,12 @@
                         <input type="hidden" id="hora-seleccionada" name="hora" value="">
 
                      </div>
+                  </div>
+
+                  <div class="mt-4 xl:hidden block">
+                     <button type="submit" class="w-full rounded-md bg-indigo-600 p-3 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
+                        Reservar
+                     </button>
                   </div>
                </div>
             </form>

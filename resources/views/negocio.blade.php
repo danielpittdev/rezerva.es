@@ -6,13 +6,13 @@
       <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-lg rounded-3xl overflow-hidden">
          <!-- Imagen -->
          <div class="p-0 shadow overflow-hidden">
-            <img class="w-full h-70 object-cover" src="/media/img/banner.png" alt="">
+            <img class="w-full h-70 object-cover" src="@if ($negocio->banner) {{ Storage::url($negocio->banner) }} @else /media/logo/banner.png @endif" alt="">
          </div>
 
          <!-- Título -->
          <div class="p-5 absolute left-17 top-50 rounded-md w-sm space-y-3">
             <div class="caja">
-               <img class="rounded-full size-30 mx-auto border-7 border-base-100" src="/media/logo/brand.png" alt="">
+               <img class="rounded-full size-30 mx-auto border-7 border-base-100" src="@if ($negocio->icono) {{ Storage::url($negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
             </div>
             <h1 class="text-2xl font-medium text-center">
                {{ $negocio->nombre }}
@@ -136,7 +136,7 @@
                   <div class="mt-3 text-center sm:mt-0 sm:text-left">
 
                      <div class="flex items-center gap-3">
-                        <img class="size-8 rounded-md" src="@if ($negocio->icono) {{ Storage::ulr($negocio->icono) }}
+                        <img class="size-8 rounded-md" src="@if ($negocio->icono) {{ Storage::url($negocio->icono) }}
                         @else
                            /media/logo/brand.png @endif
                         " alt="">

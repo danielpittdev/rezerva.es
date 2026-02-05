@@ -93,7 +93,7 @@ class ApiReserva extends Controller
     }
 
     # Helper
-    public function reservaCreate($negocio, $cliente, $servicio, $fecha)
+    public function reservaCreate($negocio, $cliente, $servicio, $fecha, $nota)
     {
         // Busca reserva del mismo cliente, mismo servicio, mismo día
         $reserva = Reserva::where('cliente_id', $cliente->id)->where('servicio_id', $servicio->id)->whereDate('fecha', $fecha)->first();
@@ -102,6 +102,7 @@ class ApiReserva extends Controller
         # Envío de MAIL
         $datos = [
             'usuario' => $cliente,
+            'nota_rapida' => $nota ?? null,
             'reserva' => $reserva,
             'negocio' => $negocio,
             'fecha_antigua' => $fecha_antigua,
@@ -126,6 +127,7 @@ class ApiReserva extends Controller
                 'negocio_id' => $negocio->id,
                 'empleado_id' => $empleado->id ?? null,
                 'fecha' => $fecha,
+                'nota' => $nota,
                 'estado' => 'pendiente',
             ]);
 
@@ -149,6 +151,7 @@ class ApiReserva extends Controller
         $validacion = $request->validate([
             'fecha' => 'required|date_format:Y-m-d',
             'hora' => 'required|date_format:H:i',
+            'nota_rapida' => 'nullable|string|max:200',
         ]);
 
         // Obtener el servicio para obtener el negocio_id
@@ -156,6 +159,7 @@ class ApiReserva extends Controller
         // $empleado = Empleado::whereUuid($datos_cliente['empleado'])->first();
         $negocio = $servicio->negocio;
         $fecha = $validacion['fecha'] . ' ' . $validacion['hora'];
+        $nota = $validacion['nota_rapida'] ?? null;
 
         // Cliente
         $cliente = Clientes::where('email', $datos_cliente['email'])->where('nombre', $datos_cliente['nombre'])->where('apellido', $datos_cliente['apellido'])->first();
@@ -223,6 +227,7 @@ class ApiReserva extends Controller
                 'negocio_id' => $negocio->id,
                 'empleado_id' => $empleado->id ?? null,
                 'fecha' => $fecha,
+                'nota' => $nota,
                 'cliente' => $cliente->uuid,
             ]);
 
@@ -232,7 +237,7 @@ class ApiReserva extends Controller
                 'redirect' => route('stripe.pre_checkout', ['servicio' => $servicio->uuid])
             ], 200);
         } else {
-            $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha);
+            $preReserva = $this->reservaCreate($negocio, $cliente, $servicio, $fecha, $nota);
         }
 
         // Crea el registro
