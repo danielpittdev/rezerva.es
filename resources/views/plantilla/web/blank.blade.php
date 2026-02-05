@@ -4,11 +4,8 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-      <title>Rezerva.es - @if ($negocio)
-            Reservar en {{ $negocio->nombre }}
-         @else
-            @yield('tituloSEO', 'Gestiona reservas y citas para tu negocio')
-         @endif
+      <title>
+         Rezerva.es - {{ isset($negocio) && $negocio?->nombre ? 'Reservar en ' . e($negocio->nombre) : trim($__env->yieldContent('tituloSEO', 'Gestiona reservas y citas para tu negocio')) }}
       </title>
       @vite(['resources/js/app.js', 'resources/js/request-manager.js', 'resources/js/calendario.js', 'resources/css/app.css'])
 
