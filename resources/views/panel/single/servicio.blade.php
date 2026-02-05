@@ -13,12 +13,12 @@
 
    </section>
 
-   <section class="grid lg:grid-cols-[auto_1fr] grid-cols-1 items-start gap-3">
+   <section class="grid lg:grid-cols-[1fr_1fr] grid-cols-1 items-start gap-3">
 
       <!-- Izquierda -->
       <section class="col-span-1 lg:col-span-auto space-y-3">
          <!-- Servicios -->
-         <div class="min-w-[330px] bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
+         <div class="bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
             <div class="p-4 border-b border-base-content/10">
                <div class="flex items-center justify-between min-h-8">
                   <span class="font-medium text-md">
@@ -62,16 +62,23 @@
 
                      <!-- Caja -->
                      <div class="lg:col-span-full col-span-1">
-                        @if ($servicio->pago_online)
-                           <div class="mb-1">
-                              <small class="text-base-content/70">
-                                 El pago online está activo. Todo se procesa en el área de facturación.
-                              </small>
-                           </div>
-                        @endif
                         <label for="pago_online" class="block text-sm/6 font-medium">Pago online</label>
+                        <small class="text-base-content/70">
+                           Tus clientes podrán optar por pagar antes por tu servicio.
+                        </small>
                         <div class="mt-2">
                            <input type="checkbox" name="pago_online" @if ($servicio->pago_online == true) checked @endif class="toggle text-base-content/50 checked:text-green-500" />
+                        </div>
+                     </div>
+
+                     <!-- Caja -->
+                     <div class="lg:col-span-full col-span-1">
+                        <label for="nota_rapida" class="block text-sm/6 font-medium">Habilitar notas rápidas</label>
+                        <small class="text-base-content/70">
+                           Habilita notas rápidas que tus clientes puedan comentarte algo antes de que reserven.
+                        </small>
+                        <div class="mt-2">
+                           <input type="checkbox" name="nota_rapida" @if ($servicio->nota_rapida == true) checked @endif class="toggle text-base-content/50 checked:text-green-500" />
                         </div>
                      </div>
 
@@ -106,9 +113,15 @@
          <div class="min-w-[330px] bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full">
             <div class="p-4 border-b border-base-content/10">
                <div class="flex items-center justify-between min-h-8">
-                  <span class="font-medium text-md">
-                     Configurar preguntas
-                  </span>
+                  <div class="caja">
+                     <h6 class="font-medium text-md">
+                        Configurar preguntas
+                     </h6>
+
+                     <small class="text-ba">
+                        Configurar preguntas
+                     </small>
+                  </div>
 
                   <button command="show-modal" commandfor="drawer_crear_pregunta_servicio" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
                      Crear pregunta

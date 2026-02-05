@@ -10,7 +10,7 @@ use App\Models\Negocios;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Stripe\Stripe;
-use Stripe\Product;
+use Stripe\Price;
 
 class ApiServicio extends Controller
 {
@@ -71,27 +71,33 @@ class ApiServicio extends Controller
             'duracion' => 'nullable|string',
             'tipo' => 'nullable|string',
             'pago_online' => 'nullable',
+            'nota_rapida' => 'nullable',
             'icono' => 'nullable|string',
             'negocio_id' => 'uuid',
         ]);
 
         if ($request->pago_online) {
             $validated['pago_online'] = true;
+            Stripe::setApiKey(config('cashier.secret'));
 
-            // Crear producto en Stripe solo si se activa pago_online por primera vez
-            if (empty($servicio->stripe_id)) {
-                Stripe::setApiKey(config('cashier.secret'));
+            $precioEnCentimos = (int) ($validated['precio'] * 100);
+            $precioCambio = $servicio->precio != $validated['precio'];
 
-                $producto = Product::create([
-                    'name' => $validated['nombre'],
-                    'description' => $validated['descripcion'] ?? null,
-                    'metadata' => [
-                        'servicio_uuid' => $servicio->uuid,
-                        'negocio_id' => $servicio->negocio_id,
+            // Crear precio en Stripe si no existe o si el precio ha cambiado
+            if (empty($servicio->stripe_id) || $precioCambio) {
+                $price = Price::create([
+                    'currency' => 'eur',
+                    'unit_amount' => $precioEnCentimos,
+                    'product_data' => [
+                        'name' => $validated['nombre'],
+                        'metadata' => [
+                            'servicio_uuid' => $servicio->uuid,
+                            'negocio_id' => $servicio->negocio_id,
+                        ],
                     ],
                 ]);
 
-                $validated['stripe_id'] = $producto->id;
+                $validated['stripe_id'] = $price->id;
             }
         } else {
             $validated['pago_online'] = false;

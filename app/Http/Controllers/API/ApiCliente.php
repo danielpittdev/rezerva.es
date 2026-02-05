@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Clientes;
+use Carbon\Carbon;
 use App\Models\Reserva;
+use App\Models\Clientes;
+use App\Models\Negocios;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class ApiCliente extends Controller
 {
@@ -40,8 +41,11 @@ class ApiCliente extends Controller
             'negocio_id' => 'required|string|exists:negocios,uuid',
         ]);
 
+        $validated['nombre'] = ucfirst($validated['nombre']);
+        $validated['apellido'] = ucfirst($validated['apellido']);
+
         // Convertir UUID del negocio a ID
-        $negocio = \App\Models\Negocios::whereUuid($validated['negocio_id'])->first();
+        $negocio = Negocios::whereUuid($validated['negocio_id'])->first();
         $validated['negocio_id'] = $negocio->id;
 
         $cliente = Clientes::create($validated);
@@ -136,8 +140,11 @@ class ApiCliente extends Controller
             'nombre' => 'sometimes|string|max:255',
             'apellido' => 'sometimes|string|max:255',
             'email' => 'nullable|email|max:255',
-            'telefono' => 'required_without:email|string|max:20',
+            'telefono' => 'required_without:email|nullable|string|max:20',
         ]);
+
+        $validated['nombre'] = ucfirst($validated['nombre']);
+        $validated['apellido'] = ucfirst($validated['apellido']);
 
         $cliente->update($validated);
         return response()->json($cliente);

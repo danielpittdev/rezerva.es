@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('duracion', total: 2, places: 0)->nullable();
             $table->decimal('precio', total: 8, places: 2);
             $table->boolean('pago_online')->default(false);
+            $table->boolean('nota_rapida')->default(false);
             $table->string('stripe_id')->nullable();
             // Complementos
             $table->string('icono')->nullable();

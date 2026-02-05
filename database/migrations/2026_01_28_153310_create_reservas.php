@@ -22,7 +22,8 @@ return new class extends Migration
             //
             $table->timestamp('fecha');
             $table->enum('estado', ['pendiente', 'confirmado', 'cancelado', 'completado', 'pago_pendiente'])->default('pendiente');
-            // Stripe
+            $table->string('nota')->nullable();
+            //
             $table->foreignId('stripe_event')->nullable();
             //
             $table->timestamps();

@@ -1,28 +1,20 @@
 @if ($servicios->count() > 0)
    @foreach ($servicios as $servicio)
-      <li class="flex items-center justify-between py-4">
-         <div class="flex flex-col justify-between">
-            <!-- Caja -->
-            <div class="font-medium">
-               {{ $servicio->nombre }}
+      <li class="flex items-center justify-between gap-x-6 py-5">
+         <div class="min-w-0">
+            <div class="flex items-start gap-x-3">
+               <p class="text-sm/6 font-semibold text-gray-900">{{ $servicio->nombre }}</p>
             </div>
-
-            <!-- Caja -->
-            <div class="caja text-sm text-base-content/70">
-               {{ number_format($servicio->precio, 2, ',', '.') }}
+            <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+               <p class="whitespace-nowrap">Creado el: <time datetime="2023-06-10T00:00Z">{{ Carbon\Carbon::parse($servicio->created_at)->translatedFormat('l d M') }}</time></p>
+               <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
+                  <circle r="1" cx="1" cy="1" />
+               </svg>
+               <p class="truncate">{{ number_format($servicio->precio, 2, ',', '.') }}</p>
             </div>
          </div>
-
-         <div class="flex gap-1">
-            <a href="{{ route('servicio', ['id' => $servicio->uuid]) }}">
-               <button class="cursor-pointer flex ml-auto justify-center rounded-md bg-indigo-600 text-white px-3 py-1.5 text-sm font-medium hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                  Ver servicio
-               </button>
-            </a>
-
-            <button type="button" onclick="eliminarServicio('{{ $servicio->uuid }}')" class="rounded-md bg-red-50 px-2.5 py-1.5 text-sm font-semibold text-red-600 shadow-xs inset-ring inset-ring-red-300 hover:bg-red-100">
-               Eliminar
-            </button>
+         <div class="flex flex-none items-center gap-x-4">
+            <a href="{{ route('servicio', ['id' => $servicio->uuid]) }}" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block">Ver servicio<span class="sr-only">, {{ $servicio->nombre }}</span></a>
          </div>
       </li>
    @endforeach

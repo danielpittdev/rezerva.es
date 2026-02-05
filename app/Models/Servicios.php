@@ -16,6 +16,7 @@ class Servicios extends Model
         'descripcion',
         'precio',
         'pago_online',
+        'nota_rapida',
         'duracion',
         'stripe_id',
         'icono',
@@ -27,6 +28,7 @@ class Servicios extends Model
         return [
             'precio' => 'decimal:2',
             'pago_online' => 'boolean',
+            'nota_rapida' => 'boolean',
         ];
     }
 

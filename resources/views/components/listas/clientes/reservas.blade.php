@@ -14,12 +14,14 @@
                    'pendiente' => 'bg-yellow-300/20 text-black/50 ring-yellow-300/30',
                    'cancelado' => 'bg-red-300/20 text-black/50 ring-red-300/30',
                    'confirmado' => 'bg-green-300/20 text-black/50 ring-green-300/30',
+                   'pago_pendiente' => 'bg-orange-300/20 text-black/50 ring-orange-300/30',
                ];
                $estadoTexto = [
                    'completado' => 'Completada',
                    'pendiente' => 'Pendiente',
                    'cancelado' => 'Cancelada',
-                   'Confirmado' => 'Cancelada',
+                   'confirmado' => 'Confirmado',
+                   'pago_pendiente' => 'Pago pendiente',
                ];
             @endphp
             <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 inset-ring {{ $estadoClases[$reserva->estado] }}">
