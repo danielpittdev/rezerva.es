@@ -23,8 +23,8 @@ class StripeController extends Controller
             ->allowPromotionCodes()
             ->checkout([
                 'metadata' => ['usuario' => Auth::user()->id],
-                'success_url' => route('checkout.success'),
-                'cancel_url' => route('checkout.cancel'),
+                'success_url' => route('ajustes'),
+                'cancel_url' => route('ajustes'),
             ]);
 
         return response()->json([

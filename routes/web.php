@@ -47,6 +47,3 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
 
 Route::post('/checkout', [StripeController::class, 'crear_suscripcion'])->name('checkout');
 Route::post('/billing-portal', [StripeController::class, 'billing_portal'])->name('billing.portal')->middleware('auth:web');
-
-Route::view('/checkout/success', 'checkout.success')->name('checkout.success');
-Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout.cancel');
