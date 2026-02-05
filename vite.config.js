@@ -10,7 +10,6 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/js/request-manager.js",
-                "resources/js/form-handler.js",
                 "resources/js/calendario.js",
             ],
             refresh: true,
