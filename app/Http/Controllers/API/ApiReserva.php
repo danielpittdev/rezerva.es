@@ -100,7 +100,7 @@ class ApiReserva extends Controller
             //
             'servicio_id' => 'required|uuid|exists:servicios,uuid',
             'empleado_id' => 'nullable|uuid|exists:empleados,uuid',
-            'negocio_id' => 'nullable|uuid|exists:negocio,uuid',
+            'negocio_id' => 'nullable|uuid|exists:negocios,uuid',
             //
             'fecha' => 'required|date',
             'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
