@@ -28,17 +28,24 @@ class WebhookController
 
             $reserva = Reserva::whereUuid($metadata['reserva'])->first();
 
+            // Evitar procesar webhooks duplicados
+            if (!$reserva || $reserva->estado === 'confirmado') {
+                Log::info("Webhook ignorado: reserva ya confirmada o no encontrada", [
+                    'reserva_uuid' => $metadata['reserva'] ?? null
+                ]);
+                return;
+            }
+
             $reserva->update([
                 'estado' => 'confirmado'
             ]);
-
-            $reserva->save();
 
             $datos = [
                 'negocio' => $reserva->negocio,
                 'servicio' => $reserva->servicio,
                 'fecha' => $reserva->fecha,
                 'usuario' => $reserva->cliente,
+                'reserva' => $reserva,
                 'nota' => $reserva->nota
             ];
 
