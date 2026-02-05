@@ -5,22 +5,31 @@
 @endsection
 
 @section('contenido')
-   <section class="bg-base-100 min-h-[100vh] pt-20 pb-30">
+   <section class="bg-base-100 min-h-[100vh] lg:pt-20 pb-30">
 
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-lg rounded-3xl overflow-hidden">
+      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-lg lg:rounded-3xl overflow-hidden">
          <!-- Imagen -->
          <div class="p-0 shadow overflow-hidden">
             <img class="w-full h-70 object-cover" src="@if ($negocio->banner) {{ Storage::url($negocio->banner) }} @else /media/logo/banner.png @endif" alt="">
          </div>
 
          <!-- Título -->
-         <div class="p-5 absolute left-17 top-50 rounded-md w-sm space-y-3">
+         <div class="p-5 w-full absolute top-50 rounded-md space-y-3">
             <div class="caja">
                <img class="rounded-full size-30 mx-auto border-7 border-base-100" src="@if ($negocio->icono) {{ Storage::url($negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
             </div>
-            <h1 class="text-2xl font-medium text-center">
-               {{ $negocio->nombre }}
-            </h1>
+
+            <div class="info text-center mx-auto flex gap-2 items-center justify-center">
+               <h1 class="text-2xl font-medium text-center">
+                  <span>{{ $negocio->nombre }} </span>
+               </h1>
+               <span>
+                  @if ($negocio->verificado)
+                     <img src="/media/img/seal-check.svg" class="size-6 text-indigo-500" alt="">
+                  @endif
+               </span>
+            </div>
+
          </div>
 
          <!-- Cuerpo -->
@@ -79,7 +88,7 @@
 
          <!-- Información del negocio -->
          <div class="caja py-10 px-5 border-t border-base-content/10 shadow space-y-7">
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
+            <p class="text-base-content text-base-content/50 text-sm text-justify">
                {{ $negocio->nombre }} se encuentra en <strong>{{ $negocio->postal_direccion }}</strong>. Para poder contactar con el establecimiento puede hacerlo con la información que se encuentra acontinuación:
             </p>
 
@@ -91,19 +100,19 @@
 
          <!-- Discalimer -->
          <div class="caja py-10 px-5 border-t border-base-content/10 shadow space-y-7">
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
+            <p class="text-base-content text-base-content/50 text-sm text-justify">
                Rezerva.es es una <strong>plataforma online</strong> para negocios en donde pueden crear su <strong>propio portal de reservas online</strong> y compartirla con todo el mundo de manera rápida y directa. Sube tu audiencia en las <strong>búsquedas de Google</strong>.
             </p>
 
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
+            <p class="text-base-content text-base-content/50 text-sm text-justify">
                Al realizar una reserva en <strong>{{ $negocio->nombre }}</strong>, el usuario contrata directamente con el negocio o profesional responsable del servicio. Rezerva.es actúa exclusivamente como intermediario tecnológico, facilitando la gestión de reservas y pagos online.
             </p>
 
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
+            <p class="text-base-content text-base-content/50 text-sm text-justify">
                El negocio <strong>{{ $negocio->nombre }}</strong>, con dirección en <strong>{{ $negocio->postal_direccion }}</strong>, es el único responsable de la prestación del servicio, de la información publicada y de la correcta ejecución de la cita reservada.
             </p>
 
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
+            <p class="text-base-content text-base-content/50 text-sm text-justify">
                Para más información sobre el funcionamiento de la plataforma, condiciones de uso y derechos del consumidor, puedes consultar las condiciones del servicio .
             </p>
 
@@ -148,7 +157,7 @@
                      </div>
 
                      <div class="mt-5 text-start">
-                        <p class="text-sm text-base-content/70">
+                        <p class="text-sm text-base-content/50">
                            Para continuar con la reserva es necesario que rellene los siguientes campos.
                         </p>
                      </div>

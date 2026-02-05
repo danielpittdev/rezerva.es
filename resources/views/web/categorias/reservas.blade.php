@@ -7,13 +7,8 @@
 
          <!-- Imagen (solo desktop) -->
          <div class="hidden lg:block relative">
-            <img
-               data-aos="fade-right"
-               data-aos-duration="1000"
-               data-aos-delay="300"
-               class="w-full max-w-3xl -ml-40 scale-125"
-               src="/media/img/cap5.png"
-               alt="">
+            <img data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300" class="w-full max-w-3xl -ml-40 scale-125" src="/media/img/imac3.png" alt="">
+            <img class="absolute top-30 right-30 w-80" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="600" class="w-full max-w-xl -ml-40 scale-125" src="/media/img/iphone7.png" alt="">
          </div>
 
          <!-- Texto -->
