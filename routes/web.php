@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Negocios;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\WebController;
@@ -43,3 +46,39 @@ Route::post('/verificar-sesion-cliente', [ApiController::class, 'verificarSesion
 Route::post('/crearcliente', [ApiController::class, 'crearCliente'])->name('api.cliente');
 Route::post('/horas-disponibles', [ApiController::class, 'horasDisponibles'])->name('api.horas.disponibles');
 Route::apiResource('reserva', ApiReserva::class);
+
+Route::get('/sitemap.xml', function () {
+  $sitemap = Sitemap::create();
+
+  // Páginas estáticas clave
+  $sitemap->add(Url::create('/')->setPriority(1.0));
+  $sitemap->add(Url::create('/registro')->setPriority(0.9));
+  $sitemap->add(Url::create('/contacto')->setPriority(0.8));
+
+  // apartados
+  $sitemap->add(Url::create('/franquicias')->setPriority(0.8));
+  $sitemap->add(Url::create('/manager')->setPriority(0.8));
+  $sitemap->add(Url::create('/reservas')->setPriority(0.8));
+  $sitemap->add(Url::create('/empleados')->setPriority(0.8));
+  $sitemap->add(Url::create('/carta-qr')->setPriority(0.8));
+  $sitemap->add(Url::create('/horarios')->setPriority(0.8));
+  $sitemap->add(Url::create('/clientes')->setPriority(0.8));
+
+  // Legales
+  $sitemap->add(Url::create('/cookies'));
+  $sitemap->add(Url::create('/privacidad'));
+  $sitemap->add(Url::create('/contrato'));
+
+  // Negocios activos publicados
+  $negocios = Negocios::get();
+  foreach ($negocios as $negocio) {
+    $sitemap->add(
+      Url::create(route('negocio', ['negocio' => $negocio->slug]))
+        ->setLastModificationDate($negocio->updated_at)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
+        ->setPriority(0.7)
+    );
+  }
+
+  return $sitemap->toResponse(request());
+});
