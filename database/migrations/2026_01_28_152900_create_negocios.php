@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('slug');
             $table->string('descripcion')->nullable();
-            $table->enum('tipo', ['psicologia', 'restaurante', 'barberia', 'consultoria', 'otros'])->default('psicologia');
+            $table->enum('tipo', ['barbería', 'psicología', 'spa', 'clínica', 'gimnasio', 'consultoría', 'otros'])->default('psicología');
             // Información postal
             $table->string('postal_direccion');
             $table->string('postal_codigo');
@@ -29,6 +29,7 @@ return new class extends Migration
             // Complementos
             $table->string('icono')->nullable();
             $table->string('banner')->nullable();
+            $table->enum('moneda', ['EUR', 'COP', 'USD', 'GBP'])->default('EUR');
             // Otros ajustes
             $table->boolean('verificado')->default(false);
             // FK

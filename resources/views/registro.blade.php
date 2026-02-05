@@ -42,14 +42,6 @@
                      </div>
 
                      <div class="xl:col-span-full col-span-1">
-                        <label for="empresa_nombre" class="block text-sm/6 font-medium">Empresa</label>
-                        <div class="mt-2">
-                           <input id="empresa_nombre" type="text" name="empresa_nombre" autocomplete="empresa_nombre"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-                        </div>
-                     </div>
-
-                     <div class="xl:col-span-full col-span-1">
                         <label for="password" class="block text-sm/6 font-medium">Contraseña</label>
                         <div class="mt-2">
                            <input id="password" type="password" name="password" autocomplete="current-password"
@@ -71,28 +63,95 @@
 
                      <!-- Negocio -->
 
+                     <div class="xl:col-span-full col-span-1">
+                        <label for="empresa_nombre" class="block text-sm/6 font-medium">Nombre de tu negocio</label>
+                        <div class="mt-2">
+                           <input id="empresa_nombre" type="text" name="empresa_nombre" autocomplete="empresa_nombre"
+                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        </div>
+                     </div>
+
                      <div class="xl:col-span-2 col-span-1">
                         <label for="descripcion" class="block text-sm/6 font-medium">Descripción</label>
                         <div class="mt-2">
-                           <input id="descripcion" type="text" name="descripcion" placeholder="Descripción corta de tu negocio"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           <textarea name="descripcion" id="descripcion" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" cols="30"
+                              rows="5"></textarea>
                         </div>
                      </div>
 
                      <div class="xl:col-span-2 col-span-1">
                         <label for="tipo" class="block text-sm/6 font-medium">Tipo de negocio</label>
                         <div class="mt-2">
-                           <select id="tipo" name="tipo"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6">
-                              <option value="otros">Otros</option>
-                              <option value="peluqueria">Peluquería</option>
-                              <option value="barberia">Barbería</option>
-                              <option value="estetica">Estética</option>
-                              <option value="spa">Spa</option>
-                              <option value="clinica">Clínica</option>
-                              <option value="gimnasio">Gimnasio</option>
-                              <option value="consultoria">Consultoría</option>
-                           </select>
+
+                           @php
+                              $tipos = ['otros', 'barbería', 'psicología', 'spa', 'clínica', 'gimnasio', 'consultoría'];
+                           @endphp
+
+                           <el-select id="tipo" name="tipo" value="{{ $tipos[0] }}" class="mt-2 block">
+                              <button type="button"
+                                 class="bg-base-100 grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                 <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Elige uno</el-selectedcontent>
+                                 <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                    <path
+                                       d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                                       clip-rule="evenodd" fill-rule="evenodd" />
+                                 </svg>
+                              </button>
+
+                              <el-options anchor="bottom start" popover
+                                 class="max-h-60 w-(--button-width) overflow-auto rounded-md p-1 text-base shadow-lg outline-1 outline-base-content/20 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
+
+                                 @foreach ($tipos as $tipo)
+                                    <el-option value="{{ $tipo }}" class="rounded-md group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
+                                       <span class="block truncate font-normal group-aria-selected/option:font-semibold">{{ ucfirst($tipo) }}</span>
+                                       <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                          </svg>
+                                       </span>
+                                    </el-option>
+                                 @endforeach
+
+                              </el-options>
+                           </el-select>
+                        </div>
+                     </div>
+
+                     <div class="xl:col-span-2 col-span-1">
+                        <label for="tipo" class="block text-sm/6 font-medium">Moneda</label>
+                        <div class="mt-2">
+
+                           @php
+                              $monedas = ['EUR', 'USD', 'COP', 'GBP'];
+                           @endphp
+
+                           <el-select id="tipo" name="tipo" value="{{ $monedas[0] }}" class="mt-2 block">
+                              <button type="button"
+                                 class="bg-base-100 grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                 <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Elige uno</el-selectedcontent>
+                                 <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                    <path
+                                       d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                                       clip-rule="evenodd" fill-rule="evenodd" />
+                                 </svg>
+                              </button>
+
+                              <el-options anchor="bottom start" popover
+                                 class="max-h-60 w-(--button-width) overflow-auto rounded-md p-1 text-base shadow-lg outline-1 outline-base-content/20 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
+
+                                 @foreach ($monedas as $moneda)
+                                    <el-option value="{{ $moneda }}" class="rounded-md group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
+                                       <span class="block truncate font-normal group-aria-selected/option:font-semibold">{{ ucfirst($moneda) }}</span>
+                                       <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                          </svg>
+                                       </span>
+                                    </el-option>
+                                 @endforeach
+
+                              </el-options>
+                           </el-select>
                         </div>
                      </div>
 

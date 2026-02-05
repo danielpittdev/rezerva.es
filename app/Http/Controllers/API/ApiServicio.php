@@ -49,6 +49,7 @@ class ApiServicio extends Controller
             'tipo' => 'required|string',
             'pago_online' => 'nullable|bool',
             'icono' => 'nullable|string',
+            'color' => 'nullable|in:blue,green,yellow,red,purple,coral,indigo,orange,black',
             'negocio_id' => 'uuid',
         ]);
 
@@ -73,6 +74,7 @@ class ApiServicio extends Controller
             'pago_online' => 'nullable',
             'nota_rapida' => 'nullable',
             'icono' => 'nullable|string',
+            'color' => 'nullable|in:blue,green,yellow,red,purple,coral,indigo,orange,black',
             'negocio_id' => 'uuid',
         ]);
 

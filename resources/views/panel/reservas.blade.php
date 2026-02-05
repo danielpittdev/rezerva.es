@@ -160,6 +160,34 @@
       </div>
 
       <div class="relative lg:col-start-2 lg:col-span-2 bg-base-100 rounded-lg relative box border border-base-content/10 overflow-y-auto">
+
+         <!-- Alerta de servicios -->
+         @if (Auth::user()->negocios->pluck('servicios')->flatten()->count() == 0)
+            <div class="p-3">
+               <div class="rounded-md border border-yellow-200 bg-yellow-50 p-4">
+                  <div class="flex">
+                     <div class="shrink-0">
+                        <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
+                           <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"
+                              fill-rule="evenodd" />
+                        </svg>
+                     </div>
+                     <div class="ml-3">
+                        <h3 class="text-sm font-medium text-yellow-800">
+                           No hay servicios registrados
+                        </h3>
+                        <div class="mt-2 text-sm text-yellow-700">
+                           <p>
+                              Para crear reservas y que tus clientes puedan reservarte debes primero crear al menos un servicio. Puedes hacerlo <a class="text-blue-500 hover:underline" href="{{ route('servicios') }}">haciendo clic aquí</a>.
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         @endif
+
+         <!-- Tabla de reservas -->
          <ul id="load_ajax_reservas" role="list" disabled class="relative divide-y divide-base-content/10 h-full">
 
          </ul>

@@ -29,27 +29,6 @@ class ApiNegocio extends Controller
         ]);
     }
 
-    public function store(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'nombre' => 'required|string',
-            'descripcion' => 'required|string',
-            'tipo' => 'required|string',
-            'postal_direccion' => 'required|string',
-            'postal_codigo' => 'required|string',
-            'postal_ciudad' => 'required|string',
-            'postal_pais' => 'required|string',
-            'info_email' => 'nullable|string',
-            'info_telefono' => 'nullable|string',
-        ]);
-
-        $validated['usuario_id'] = Auth::id();
-        $validated['slug'] = Str::slug($validated['nombre']);
-
-        $negocio = Negocios::create($validated);
-        return response()->json($negocio, 201);
-    }
-
     public function show($id)
     {
         $negocio = Negocios::whereUuid($id)->first()->load('servicios');
@@ -105,6 +84,28 @@ class ApiNegocio extends Controller
         ], 201);
     }
 
+    public function store(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string',
+            'descripcion' => 'required|string',
+            'tipo' => 'required|in:otros,barbería,psicología,spa,clínica,gimnasio,consultoría',
+            'moneda' => 'required|in:EUR,USD,COP,GBP',
+            'postal_direccion' => 'required|string',
+            'postal_codigo' => 'required|string',
+            'postal_ciudad' => 'required|string',
+            'postal_pais' => 'required|string',
+            'info_email' => 'nullable|string',
+            'info_telefono' => 'nullable|string',
+        ]);
+
+        $validated['usuario_id'] = Auth::id();
+        $validated['slug'] = Str::slug($validated['nombre']);
+
+        $negocio = Negocios::create($validated);
+        return response()->json($negocio, 201);
+    }
+
     public function update(Request $request, $id): JsonResponse
     {
         $negocio = Negocios::whereUuid($id)->first();
@@ -113,7 +114,8 @@ class ApiNegocio extends Controller
         $validated = $request->validate([
             'nombre' => 'sometimes|string',
             'descripcion' => 'sometimes|string',
-            'tipo' => 'sometimes|string',
+            'tipo' => 'required|in:otros,barbería,psicología,spa,clínica,gimnasio,consultoría',
+            'moneda' => 'required|in:EUR,USD,COP,GBP',
             'postal_direccion' => 'sometimes|string',
             'postal_codigo' => 'sometimes|string',
             'postal_ciudad' => 'sometimes|string',

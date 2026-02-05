@@ -20,6 +20,7 @@ class Servicios extends Model
         'duracion',
         'stripe_id',
         'icono',
+        'color',
         'negocio_id',
     ];
 

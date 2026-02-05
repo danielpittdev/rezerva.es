@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('stripe_id')->nullable();
             // Complementos
             $table->string('icono')->nullable();
+            $table->enum('color', ['blue', 'green', 'yellow', 'red', 'purple', 'coral', 'indigo', 'orange', 'black'])->nullable();
             // Negocio
             $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');
             $table->timestamps();

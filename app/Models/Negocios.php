@@ -22,6 +22,7 @@ class Negocios extends Model
         'postal_pais',
         'info_email',
         'info_telefono',
+        'moneda',
         'icono',
         'banner',
         'verificado',
