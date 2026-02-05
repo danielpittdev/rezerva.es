@@ -1,8 +1,8 @@
 @extends('components.html.plantilla.center')
 
 @section('contenido')
-   <section class="py-4 flex justify-between items-start">
-      <div class="caja space-y-2">
+   <section class="lg:py-4 flex justify-between items-start gap-3">
+      <div class="flex-1 caja space-y-2">
          <h1 class="text-xl font-medium">
             Servicios
          </h1>

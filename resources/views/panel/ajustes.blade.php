@@ -2,7 +2,7 @@
 
 @section('contenido')
    <section class="overflow-hidden">
-      <div class="grid max-w-xl p-7 overflow-y-auto space-y-10">
+      <div class="grid max-w-xl lg:p-7 p-4 overflow-y-auto space-y-10">
          <!-- Información personal -->
          <section>
             <div class="py-3">
@@ -119,7 +119,7 @@
 
             @if ($suscripcionActiva)
                {{-- Usuario con suscripción activa --}}
-               <div class="rounded-lg border border-gray-200 bg-white p-6">
+               <div class="rounded-lg border border-gray-200 bg-white p-3 px-4">
                   <div class="flex items-center justify-between">
                      <div>
                         <p class="text-sm font-medium text-gray-500">Plan actual</p>
@@ -142,7 +142,7 @@
                </div>
             @else
                {{-- Usuario sin suscripción --}}
-               <div class="rounded-lg border border-gray-200 bg-white p-6">
+               <div class="caja">
                   <form id="suscripcionForm" method="POST" action="{{ route('checkout') }}">
                      @csrf
                      <fieldset>

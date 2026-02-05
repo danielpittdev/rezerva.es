@@ -21,12 +21,12 @@ export default defineConfig({
         global: 'globalThis',
     },
     server: {
-        host: "vitalic.local",
+        host: "192.168.1.10",
         port: 5190,
         strictPort: true,
         hmr: {
-            host: "127.0.0.1",
-            protocol: "ws",
+            host: "192.168.1.10",
+            // protocol: "ws",
         },
     },
 })

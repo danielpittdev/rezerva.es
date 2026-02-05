@@ -2,15 +2,15 @@
 
 @section('contenido')
    <section class="bg-base-100 p-5 border border-base-content/10 rounded-md flex justify-between items-start">
-      <div class="flex items-start gap-5">
+      <div class="flex-1 lg:flex flex-col lg:gap-0 gap-5 items-start space-y-3">
          <div class="icono">
-            <div class="bg-indigo-500 rounded-full size-15 flex items-center justify-center text-white text-2xl font-bold">
+            <div class="bg-indigo-500 rounded-full lg:size-15 size-13 flex items-center justify-center text-white text-2xl font-bold">
                {{ strtoupper(substr($cliente->nombre, 0, 1)) }}{{ strtoupper(substr($cliente->apellido, 0, 1)) }}
             </div>
          </div>
 
          <div class="caja">
-            <h1 class="text-md font-light">
+            <h1 class="hidden text-md font-light">
                Información del cliente
             </h1>
 

@@ -1,10 +1,10 @@
 @extends('components.html.plantilla.fullbody')
 
 @section('contenido')
-   <div class="p-4 space-y-6 max-w-7xl mx-auto">
+   <div class="lg:p-4 p-1 space-y-2 max-w-7xl mx-auto">
       <!-- Header -->
-      <section class="flex justify-between items-start">
-         <div class="space-y-1">
+      <section class="flex justify-between items-start mb-5">
+         <div class="space-y-1 flex-1">
             <h1 class="text-xl font-semibold">
                Bienvenido, {{ Auth::user()->nombre }}
             </h1>
@@ -12,13 +12,13 @@
                Resumen de tu actividad y estadísticas
             </p>
          </div>
-         <a href="{{ route('reservas') }}" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+         <a href="{{ route('reservas') }}" class="lg:block hidden rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
             Nueva reserva
          </a>
       </section>
 
       <!-- Estadísticas principales -->
-      <section class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <section class="lg:grid hidden grid-cols-1 lg:grid-cols-3 gap-2">
 
          <!-- Servicios -->
          <div class="bg-base-100 rounded-xl border border-base-content/10 p-4">
@@ -70,7 +70,7 @@
       </section>
 
       <!-- Resumen de reservas (tiempo) -->
-      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-2">
          <div class="bg-base-100 rounded-xl border border-base-content/10 p-4 flex items-center justify-between">
             <div>
                <p class="text-sm text-base-content/60">Reservas hoy</p>
@@ -111,7 +111,7 @@
       </section>
 
       <!-- Gráfico y estado de reservas -->
-      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-2">
          <!-- Gráfico de reservas por día -->
          <div class="lg:col-span-2 bg-base-100 rounded-xl border border-base-content/10 p-4">
             <h3 class="text-sm font-semibold mb-4">Reservas esta semana</h3>
