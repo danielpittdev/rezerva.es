@@ -130,8 +130,9 @@
          <a href="{{ route('franquicias') }}" class="text-sm/6 font-semibold text-gray-900">Franquicias</a>
          <a href="{{ route('manager') }}" class="text-sm/6 font-semibold text-gray-900">Manager</a>
       </el-popover-group>
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-3">
          <a href="{{ route('registro') }}" class="p-2 px-3 hover:bg-indigo-400 bg-indigo-500 rounded-box text-sm/6 font-semibold text-gray-100">Empezar ahora <span aria-hidden="true">&rarr;</span></a>
+         <a href="{{ route('contacto') }}" class="p-2 px-3 hover:bg-base-200 bg-base-100 ring ring-base-content/20 rounded-box text-sm/6 font-semibold text-black">Contactar</a>
       </div>
    </nav>
    <el-dialog>
@@ -172,8 +173,9 @@
                         <a href="{{ route('manager') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">manager</a>
                         <a href="{{ route('manager') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Manager</a>
                      </div>
-                     <div class="py-6">
-                        <a href="{{ route('registro') }}" class="p-2 px-3 hover:bg-indigo-400 bg-indigo-500 rounded-box -mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-100 hover:bg-gray-50">Empezar ahora</a>
+                     <div class="py-6 flex flex-col items-start justify-start gap-3">
+                        <a href="{{ route('registro') }}" class="p-2 px-3 hover:bg-indigo-400 bg-indigo-500 rounded-box text-sm/6 font-semibold text-gray-100">Empezar ahora <span aria-hidden="true">&rarr;</span></a>
+                        <a href="{{ route('contacto') }}" class="p-2 px-3 hover:bg-base-200 bg-base-100 ring ring-base-content/20 rounded-box text-sm/6 font-semibold text-black">Contactar</a>
                      </div>
                   </div>
                </div>

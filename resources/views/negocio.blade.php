@@ -1,5 +1,9 @@
 @extends('plantilla.web.blank')
 
+@section('negocioNombre')
+   Reservar en {{ $negocio->nombre }}
+@endsection
+
 @section('contenido')
    <section class="bg-base-100 min-h-[100vh] pt-20 pb-30">
 

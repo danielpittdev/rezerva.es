@@ -6,7 +6,7 @@
       <section class="bg-base-200 flex gap-5 w-full text-base-content lg:h-[91vh] h-300">
          <div class="w-full max-w-7xl mx-auto gap-8 px-6 grid lg:grid-cols-[auto_1fr] overflow-hidden">
 
-            <div class="lg:my-auto space-y-7 max-w-[500px]">
+            <div class="lg:my-auto space-y-7 max-w-[500px] lg:pt-0 pt-20">
                <h1 class="font-medium text-6xl">
                   Aumenta las reservas de tu negocio
                </h1>
