@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        URL::forceScheme('https');
+        //URL::forceScheme('https');
         Cashier::useCustomerModel(Usuarios::class);
         Cashier::useSubscriptionModel(Suscripcion::class);
         Cashier::useSubscriptionItemModel(SuscripcionItem::class);
