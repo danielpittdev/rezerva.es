@@ -49,12 +49,15 @@ class ApiServicio extends Controller
             'tipo' => 'required|string',
             'pago_online' => 'nullable|bool',
             'icono' => 'nullable|string',
-            'color' => 'nullable|in:blue,green,yellow,red,purple,coral,indigo,orange,black',
+            'color' => 'nullable|in:blue,green,yellow,red,purple,pink,indigo,orange,black',
             'negocio_id' => 'uuid',
         ]);
 
         $negocio =  Negocios::whereUuid($validated['negocio_id'])->first();
         $validated['negocio_id'] = $negocio->id;
+
+        $validated['nombre'] = $validated['nombre'];
+        $validated['descripcion'] = $validated['descripcion'];
 
         $servicio = Servicios::create($validated);
         return response()->json($servicio, 201);
@@ -74,9 +77,12 @@ class ApiServicio extends Controller
             'pago_online' => 'nullable',
             'nota_rapida' => 'nullable',
             'icono' => 'nullable|string',
-            'color' => 'nullable|in:blue,green,yellow,red,purple,coral,indigo,orange,black',
+            'color' => 'nullable|in:blue,green,yellow,red,purple,pink,indigo,orange,black',
             'negocio_id' => 'uuid',
         ]);
+
+        $validated['nombre'] = $validated['nombre'];
+        $validated['descripcion'] = $validated['descripcion'];
 
         if ($request->pago_online) {
             $validated['pago_online'] = true;

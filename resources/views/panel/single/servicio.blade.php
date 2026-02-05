@@ -72,7 +72,7 @@
                                   'yellow' => 'Amarillo',
                                   'red' => 'Rojo',
                                   'purple' => 'Púrpura',
-                                  'coral' => 'Coral',
+                                  'pink' => 'Rosa',
                                   'indigo' => 'Índigo',
                                   'orange' => 'Naranja',
                                   'black' => 'Negro',

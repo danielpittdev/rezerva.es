@@ -17,8 +17,8 @@ return new class extends Migration
             // Personal
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('email');
-            $table->string('telefono');
+            $table->string('email')->nullable();
+            $table->string('telefono')->nullable();
             // Configuracion
             $table->enum('tipo', ['empleado', 'colaborador', 'administrador']);
             $table->enum('estado', ['activo', 'inactivo']);

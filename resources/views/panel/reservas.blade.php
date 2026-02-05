@@ -86,7 +86,7 @@
          </div>
 
          <!--BOTON-->
-         <button command="show-modal" commandfor="drawer_crear_reserva" class="rounded-md bg-base-100 px-3 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 w-full sm:w-auto whitespace-nowrap">
+         <button command="show-modal" commandfor="drawer_crear_reserva" class="lg:block hidden rounded-md bg-base-100 px-3 py-1.5 text-sm font-semibold text-base-content shadow-xs inset-ring inset-ring-base-content/10 hover:bg-base-200 w-full sm:w-auto whitespace-nowrap">
             Añadir reserva
          </button>
       </div>
@@ -160,7 +160,6 @@
       </div>
 
       <div class="relative lg:col-start-2 lg:col-span-2 bg-base-100 rounded-lg relative box border border-base-content/10 overflow-y-auto">
-
          <!-- Alerta de servicios -->
          @if (Auth::user()->negocios->pluck('servicios')->flatten()->count() == 0)
             <div class="p-3">
@@ -191,6 +190,13 @@
          <ul id="load_ajax_reservas" role="list" disabled class="relative divide-y divide-base-content/10 h-full">
 
          </ul>
+      </div>
+
+      <div class="caja">
+         <!--BOTON-->
+         <button command="show-modal" commandfor="drawer_crear_reserva" class="lg:hidden block rounded-md bg-blue-600 p-3 font-semibold text-base-100 shadow-xs inset-ring inset-ring-base-content/10 hover:bg-blue-500 w-full sm:w-auto whitespace-nowrap">
+            Añadir reserva
+         </button>
       </div>
    </section>
 @endsection

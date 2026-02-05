@@ -236,9 +236,7 @@
                      {{ $reserva->cliente->nombre }} {{ substr($reserva->cliente->apellido, 0, 1) }}.
                   </div>
                   <div class="truncate text-[10px] opacity-80 flex items-center gap-1">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                     </svg>
+                     <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color: {{ $reserva->servicio->color ?? '#9ca3af' }}"></span>
                      {{ $reserva->servicio->nombre }}
                   </div>
                </a>

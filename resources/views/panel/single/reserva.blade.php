@@ -16,7 +16,7 @@
       </section>
 
       <!-- secciones -->
-      <section class="col-span-2 grid lg:grid-cols-[auto_1fr] grid-cols-1 items-start gap-2">
+      <section class="col-span-2 grid lg:grid-cols-[.4fr_1fr] grid-cols-1 items-start gap-2">
 
          <!-- Izquierda -->
          <section class="col-span-1 lg:col-span-auto space-y-2">
@@ -36,6 +36,7 @@
                         @csrf
                         @method('PUT')
 
+                        <!-- Estado -->
                         <div class="lg:col-span-full col-span-1">
                            <label for="estado" class="block text-sm/6 font-medium">Estado</label>
                            <div class="mt-2">
@@ -74,11 +75,58 @@
                            </div>
                         </div>
 
+                        <!-- Fecha -->
                         <div class="lg:col-span-full col-span-1">
                            <label for="fecha" class="block text-sm/6 font-medium">Fecha</label>
                            <div class="mt-2">
                               <input id="fecha" type="datetime-local" name="fecha" autocomplete="fecha" value="{{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('Y-m-d H:i') }}"
                                  class="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Empleados -->
+                        <div class="lg:col-span-full col-span-1">
+                           <label for="empleado_id" class="block text-sm/6 font-medium">Empleado</label>
+                           <div class="mt-2">
+                              <el-select id="empleado_id" name="empleado_id" value="{{ $reserva->empleado_id }}" class="mt-2 block">
+                                 <button type="button"
+                                    class="grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/20 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
+                                    <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6"></el-selectedcontent>
+                                    <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4">
+                                       <path
+                                          d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                                          clip-rule="evenodd" fill-rule="evenodd" />
+                                    </svg>
+                                 </button>
+
+                                 <el-options anchor="bottom start" popover
+                                    class="max-h-60 w-(--button-width) overflow-auto rounded-md p-1 text-base shadow-lg outline-1 outline-base-content/20 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
+
+                                    <el-option value="" class="rounded-md group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
+                                       <div class="flex gap-2 items-center">
+                                          <span class="block truncate font-normal group-aria-selected/option:font-semibold">Ninguno</span>
+                                       </div>
+                                       <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                          </svg>
+                                       </span>
+                                    </el-option>
+
+                                    @foreach ($reserva->negocio->empleados as $empleado)
+                                       <el-option value="{{ $empleado->id }}" class="rounded-md group/option relative block cursor-default py-2 pr-9 pl-3 text-base-content select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
+                                          <div class="flex gap-2 items-center">
+                                             <span class="block truncate font-normal group-aria-selected/option:font-semibold">{{ ucfirst($empleado->nombre) }}</span>
+                                          </div>
+                                          <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-not-aria-selected/option:hidden group-focus/option:text-white in-[el-selectedcontent]:hidden">
+                                             <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5">
+                                                <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                             </svg>
+                                          </span>
+                                       </el-option>
+                                    @endforeach
+                                 </el-options>
+                              </el-select>
                            </div>
                         </div>
 
@@ -127,7 +175,7 @@
                                  <p class="text-sm/6 font-semibold text-gray-900">{{ $reserva->cliente->nombre . ' ' . $reserva->cliente->apellido }}</p>
                               </div>
                               <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                                 <p class="whitespace-nowrap">{{ $reserva->cliente->email }}</p>
+                                 <p class="whitespace-nowrap">{{ $reserva->cliente->email ?? 'Sin email' }}</p>
                                  <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
                                     <circle r="1" cx="1" cy="1" />
                                  </svg>
@@ -139,10 +187,7 @@
                                     {{ $reserva->cliente->nombre }}</span></a>
                            </div>
                         </li>
-
                      </ul>
-
-
                   </div>
                </div>
             </div>

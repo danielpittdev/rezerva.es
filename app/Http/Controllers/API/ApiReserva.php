@@ -100,6 +100,7 @@ class ApiReserva extends Controller
             //
             'servicio_id' => 'required|uuid|exists:servicios,uuid',
             'empleado_id' => 'nullable|uuid|exists:empleados,uuid',
+            'negocio_id' => 'nullable|uuid|exists:negocio,uuid',
             //
             'fecha' => 'required|date',
             'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
@@ -119,6 +120,8 @@ class ApiReserva extends Controller
             ->where('negocio_id', $servicio->negocio_id)
             ->first();
 
+        $negocio = Negocios::whereUuid($validated['negocio_id'])->first();
+
         if (!$cliente) {
             $cliente = Clientes::create([
                 'nombre' => $validated['cliente_nombre'],
@@ -133,6 +136,7 @@ class ApiReserva extends Controller
         $reserva = Reserva::create([
             'servicio_id' => $servicio->id,
             'cliente_id' => $cliente->id,
+            'negocio_id' => $negocio->id,
             'empleado_id' => $empleado->id ?? null,
             'fecha' => $validated['fecha'],
             'estado' => $validated['estado'],
@@ -163,10 +167,26 @@ class ApiReserva extends Controller
         $validated = $request->validate([
             'estado' => 'required|in:pendiente,confirmado,cancelado,completado',
             'fecha' => 'required|date',
+            'empleado_id' => 'sometimes'
         ]);
 
+        # empleado - validar que pertenece al negocio de la reserva
+        if (isset($validated['empleado_id']) && $validated['empleado_id']) {
+            $empleado = Empleado::whereId($validated['empleado_id'])
+                ->where('negocio_id', $reserva->negocio_id)
+                ->first();
+
+            if (!$empleado) {
+                return response()->json(['error' => 'El empleado no pertenece a este negocio'], 403);
+            }
+
+            $validated['empleado_id'] = $empleado->id;
+        }
+
+        # ejecuta la reserva
         $reserva->update($validated);
 
+        # mensaje final
         return response()->json([
             'mensaje' => 'Actualizado con éxito',
             'reserva' => $reserva
