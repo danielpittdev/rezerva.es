@@ -118,14 +118,14 @@
                      </div>
 
                      <div class="xl:col-span-2 col-span-1">
-                        <label for="tipo" class="block text-sm/6 font-medium">Moneda</label>
+                        <label for="moneda" class="block text-sm/6 font-medium">Moneda</label>
                         <div class="mt-2">
 
                            @php
                               $monedas = ['EUR', 'USD', 'COP', 'GBP'];
                            @endphp
 
-                           <el-select id="tipo" name="tipo" value="{{ $monedas[0] }}" class="mt-2 block">
+                           <el-select id="moneda" name="moneda" value="{{ $monedas[0] }}" class="mt-2 block">
                               <button type="button"
                                  class="bg-base-100 grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left text-base-content outline-1 -outline-offset-1 outline-base-content/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
                                  <el-selectedcontent class="col-start-1 row-start-1 truncate pr-6">Elige uno</el-selectedcontent>
