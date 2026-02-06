@@ -37,6 +37,7 @@ Route::get('/privacidad', [WebController::class, 'privacidad'])->name('privacida
 # Categorias 
 Route::get('/reservas', [WebController::class, 'reservas'])->name('cat_reservas');
 Route::get('/empleados', [WebController::class, 'empleados'])->name('cat_empleados');
+Route::get('/psicologia', [WebController::class, 'psicologia'])->name('cat_psicologia');
 Route::get('/carta-qr', [WebController::class, 'carta_qr'])->name('cat_carta_qr');
 Route::get('/clientes', [WebController::class, 'clientes'])->name('cat_clientes');
 Route::get('/horarios', [WebController::class, 'horarios'])->name('cat_horarios');
@@ -60,6 +61,7 @@ Route::get('/sitemap.xml', function () {
   // apartados
   $sitemap->add(Url::create('/franquicias')->setPriority(0.8));
   $sitemap->add(Url::create('/manager')->setPriority(0.8));
+  $sitemap->add(Url::create('/psicologia')->setPriority(0.8));
   $sitemap->add(Url::create('/reservas')->setPriority(0.8));
   $sitemap->add(Url::create('/empleados')->setPriority(0.8));
   $sitemap->add(Url::create('/carta-qr')->setPriority(0.8));

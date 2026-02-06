@@ -1,5 +1,9 @@
 @extends('plantilla.web.full')
 
+@section('tituloSEO')
+   Software de gestión de negocio
+@endsection
+
 @section('contenido')
    <section class="space-y-20">
       <!-- SEC -->
