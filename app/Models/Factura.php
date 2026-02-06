@@ -11,26 +11,31 @@ class Factura extends Model
 {
     use HasFactory, HasUuid;
 
+    protected $table = 'facturas';
+
     protected $fillable = [
         'uuid',
-        'monto',
+        'negocio_id',
+        'negocio_data',
+        'servicio_data',
+        'stripe',
+        'entrante',
         'comision',
         'total',
-        'datos',
-        'reserva_id',
     ];
 
     protected function casts(): array
     {
         return [
-            'monto' => 'decimal:2',
+            'entrante' => 'decimal:2',
             'comision' => 'decimal:2',
             'total' => 'decimal:2',
+            'stripe' => 'json'
         ];
     }
 
-    public function reserva(): BelongsTo
+    public function negocio(): BelongsTo
     {
-        return $this->belongsTo(Reserva::class, 'id');
+        return $this->belongsTo(Negocios::class, 'id');
     }
 }

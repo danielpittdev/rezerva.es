@@ -40,6 +40,19 @@ class WebhookController
                 'estado' => 'confirmado'
             ]);
 
+            $precio = $reserva->servicio->precio;
+            $comision = 1 + $reserva->servicio->precio * 0.05;
+
+            $factura = Factura::create([
+                'negocio_id' => $reserva->negocio->id,
+                'negocio_data' => $reserva->negocio,
+                'servicio_data' => $reserva->servicio,
+                'stripe' => $data,
+                'entrante' => $reserva->servicio->precio,
+                'comision' => $comision,
+                'total' => $precio - $comision
+            ]);
+
             $datos = [
                 'negocio' => $reserva->negocio,
                 'servicio' => $reserva->servicio,

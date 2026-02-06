@@ -166,8 +166,8 @@ class ApiReserva extends Controller
 
         if (!$cliente) {
             $cliente = Clientes::create([
-                'nombre' => $datos_cliente['nombre'],
-                'apellido' => $datos_cliente['apellido'],
+                'nombre' => ucfirst($datos_cliente['nombre']),
+                'apellido' => ucfirst($datos_cliente['apellido']),
                 'email' => $datos_cliente['email'],
                 'negocio_id' => $negocio->id
             ]);
@@ -206,7 +206,7 @@ class ApiReserva extends Controller
                 return response()->json([
                     'mensaje' => 'Tu reserva ha sido actualizada a la nueva fecha',
                     'reserva_actualizada' => true,
-                    'redirect' => '/'
+                    'redirect' => route('reserva', ['reserva' => $reservaPagada->uuid])
                 ], 200);
             }
 

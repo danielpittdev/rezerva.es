@@ -243,6 +243,8 @@
          btn.addEventListener('click', async () => {
             const servicioId = btn.getAttribute('target');
 
+            btn.classList.add('cursor-not-allowed', 'opacity-50');
+
             // Setear el servicio en el formulario
             $('input[name=servicio]').val(servicioId);
 
@@ -263,16 +265,13 @@
 
                const data = await response.json();
                if (data.redirect) {
-                  // Continuar con el proceso de reserva
-                  console.log('Sesión válida, continuar con reserva');
-                  // window.location.href = response.redirect;
-                  console.log(data.redirect)
-
                   window.location.href = data.redirect
                }
 
             } catch (error) {
                console.error('Error:', error);
+            } finally {
+               btn.classList.remove('cursor-not-allowed', 'opacity-50');
             }
          });
       });

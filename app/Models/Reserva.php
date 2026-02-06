@@ -19,7 +19,6 @@ class Reserva extends Model
         'nota',
         'fecha',
         'estado',
-        'stripe_session_id',
     ];
 
     protected function casts(): array
