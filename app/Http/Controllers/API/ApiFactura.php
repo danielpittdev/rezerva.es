@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Factura;
 use App\Models\Negocios;
+use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -19,16 +20,21 @@ class ApiFactura extends Controller
   public function index(Request $request)
   {
     $facturas = Auth::user()->negocios->pluck('facturas')->flatten();
+    $reservasCompletadas = Auth::user()->negocios->pluck('reservas')->flatten()
+      ->where('estado', 'completado')
+      ->sortByDesc('fecha');
     $html = [];
     $resumen = $this->resumen();
 
     if ($request->lista) {
       $html['lista'] = view('components.listas.facturas.lista', compact('facturas'))->render();
+      $html['reservas_completadas'] = view('components.listas.facturas.reservas_completadas', compact('reservasCompletadas'))->render();
     }
 
     return response()->json([
       'mensaje' => 'Recibido con éxito',
       'factura' => $facturas,
+      'reservas_completadas' => $reservasCompletadas->values(),
       'html' => $html,
       'resumen' => $resumen->original
     ], 201);

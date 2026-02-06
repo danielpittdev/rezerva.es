@@ -62,7 +62,7 @@
             <ul class="divide-y divide-base-content/10">
                @foreach ($franja['reservas'] as $reserva)
                   <li class="flex items-center justify-between gap-x-4 px-4 py-3 hover:bg-base-200/50">
-                     <div class="flex items-center gap-3 min-w-0 pl-4 border-l-9 rounded-md min-h-15" style="border-color: {{ $reserva->servicio->color ?? 'transparent' }}">
+                     <div class="flex items-center gap-3 min-w-0 pl-4 border-l-9 rounded-md min-h-15" style="border-color: {{ $reserva->servicio->color ?? 'gray' }}">
 
                         <a href="{{ route('reserva', ['id' => $reserva->uuid]) }}" class="hover:underline">
                            <span class="inline-flex items-center rounded-md bg-base-300 px-2 py-1 text-xs font-medium text-base-content">

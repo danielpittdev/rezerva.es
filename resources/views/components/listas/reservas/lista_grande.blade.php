@@ -2,7 +2,7 @@
    @foreach ($reservas as $reserva)
       <li class="flex items-center bg-base-100 hover:bg-base-200/50 justify-between gap-x-4 p-4">
 
-         <div class="flex items-center gap-3 min-w-0 pl-4 border-l-4" style="border-color: {{ $reserva->servicio->color ?? 'transparent' }}">
+         <div class="flex items-center gap-3 min-w-0 pl-4 border-l-4" style="border-color: {{ $reserva->servicio->color ?? 'gray' }}">
             <span class="inline-flex items-center rounded-md bg-base-300 px-2 py-1 text-xs font-medium text-base-content">
                {{ Carbon\Carbon::parse($reserva->fecha)->translatedFormat('H:i') }}
             </span>

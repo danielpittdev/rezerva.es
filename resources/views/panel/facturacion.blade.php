@@ -46,7 +46,22 @@
    </section>
 
    <section class="sec">
+      <div class="mb-3">
+         <h2 class="text-lg font-medium">Facturas</h2>
+      </div>
       <ul id="load_lista_facturas" role="list" class="divide-y divide-base-content/10 border border-base-content/10 rounded-lg bg-base-100">
+         <li class="flex py-8">
+            <span class="mx-auto loading loading-spinner loading-md"></span>
+         </li>
+      </ul>
+   </section>
+
+   <section class="sec">
+      <div class="mb-3">
+         <h2 class="text-lg font-medium">Reservas completadas</h2>
+         <p class="text-xs text-base-content/70">Historial de reservas que han sido finalizadas</p>
+      </div>
+      <ul id="load_reservas_completadas" role="list" class="divide-y divide-base-content/10 border border-base-content/10 rounded-lg bg-base-100">
          <li class="flex py-8">
             <span class="mx-auto loading loading-spinner loading-md"></span>
          </li>
@@ -73,9 +88,15 @@
                      <span class="mx-auto loading loading-spinner loading-md"></span>
                   </li>
                `)
+               $('#load_reservas_completadas').empty().append(`
+                  <li class="flex py-8">
+                     <span class="mx-auto loading loading-spinner loading-md"></span>
+                  </li>
+               `)
             },
             success: function(r) {
                $('#load_lista_facturas').empty().append(r.html.lista);
+               $('#load_reservas_completadas').empty().append(r.html.reservas_completadas);
                $('#sld_diario').text(r.resumen.diario)
                $('#sld_semanal').text(r.resumen.semanal)
                $('#sld_mensual').text(r.resumen.mensual)
