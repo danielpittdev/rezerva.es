@@ -18,12 +18,15 @@ class Reserva extends Model
         'nota',
         'fecha',
         'estado',
+        'pagado',
+        'stripe_payment_id',
     ];
 
     protected function casts(): array
     {
         return [
             'fecha' => 'datetime',
+            'pagado' => 'boolean',
         ];
     }
 

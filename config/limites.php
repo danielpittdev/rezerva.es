@@ -8,6 +8,9 @@
  */
 
 return [
+    // Comisión de la plataforma (porcentaje sobre pagos online)
+    'platform_fee' => 5, // 5% de comisión
+
     'nonsus' => [
         'negocios'  => 1,
         'clientes'  => 0,
