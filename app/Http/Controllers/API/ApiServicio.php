@@ -83,6 +83,9 @@ class ApiServicio extends Controller
         $validated['nombre'] = $validated['nombre'];
         $validated['descripcion'] = $validated['descripcion'] ?? null;
 
+        // Por defecto, pago_online es false
+        $validated['pago_online'] = false;
+
         if ($request->pago_online) {
             // Verificar si el usuario tiene una suscripción activa con pago online
             $suscripcion = Suscripcion::where('user_id', Auth::id())
@@ -92,7 +95,6 @@ class ApiServicio extends Controller
             $planActivo = $suscripcion && config("limites.{$suscripcion->type}.pago_online", false);
 
             if ($planActivo) {
-                $validated['pago_online'] = true;
                 Stripe::setApiKey(config('cashier.secret'));
 
                 $precioEnCentimos = (int) ($validated['precio'] * 100);
@@ -113,10 +115,12 @@ class ApiServicio extends Controller
                     ]);
 
                     $validated['stripe_id'] = $price->id;
+                    $validated['pago_online'] = true;
+                } else {
+                    // Ya tiene stripe_id y el precio no cambió, mantener activo
+                    $validated['pago_online'] = true;
                 }
             }
-        } else {
-            $validated['pago_online'] = false;
         }
 
         // Hashear la contraseña si se está actualizando

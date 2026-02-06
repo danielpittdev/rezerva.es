@@ -111,15 +111,27 @@
 
 
                      <!-- Caja -->
-                     <div class="lg:col-span-full col-span-1">
-                        <label for="pago_online" class="block text-sm/6 font-medium">Pago online</label>
-                        <small class="text-base-content/70">
-                           Tus clientes podrán optar por pagar antes por tu servicio.
-                        </small>
-                        <div class="mt-2">
-                           <input type="checkbox" name="pago_online" @if ($servicio->pago_online == true) checked @endif class="toggle text-base-content/50 checked:text-green-500" />
+                     @php
+                        $sub = App\Models\Suscripcion::where('user_id', Auth::id())->where('stripe_status', 'active')->first();
+                     @endphp
+
+                     @if ($sub)
+                        <div class="lg:col-span-full col-span-1">
+                           <label for="pago_online" class="block text-sm/6 font-medium">Pago online</label>
+                           <small class="text-base-content/70">
+                              Tus clientes podrán optar por pagar antes por tu servicio.
+                           </small>
+                           <div class="mt-2">
+                              <input type="checkbox" name="pago_online" @if ($servicio->pago_online == true) checked @endif class="toggle text-base-content/50 checked:text-green-500" />
+                           </div>
                         </div>
-                     </div>
+                     @else
+                        <div class="lg:col-span-full col-span-1">
+                           <small>Los pagos online solo están disponibles en el <strong>Plan Plus</strong>
+                              Escala tu plan <a class="text-blue-500 hover:underline" href="{{ route('ajustes') }}">aquí</a>
+                           </small>
+                        </div>
+                     @endif
 
                      <!-- Caja -->
                      <div class="lg:col-span-full col-span-1">

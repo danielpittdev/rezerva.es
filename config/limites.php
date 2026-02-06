@@ -20,7 +20,7 @@ return [
         'clientes'  => 10,
         'empleados' => 3,
         'servicios' => 5,
-        'pago_online' => false,
+        'pago_online' => true,
     ],
     'pro-pn1' => [
         'negocios'  => 5,
