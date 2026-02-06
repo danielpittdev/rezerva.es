@@ -10,6 +10,8 @@ class Facturas extends Model
 {
     use HasFactory, HasUuid;
 
+    protected $table = 'facturas';
+
     protected $fillable = [
         'uuid',
         'negocio_id',

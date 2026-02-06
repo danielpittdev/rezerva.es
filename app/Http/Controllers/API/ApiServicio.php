@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Negocios;
+use Stripe\StripeClient;
 use App\Models\Servicios;
+use App\Models\Suscripcion;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\Negocios;
-use App\Models\Suscripcion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Stripe\StripeClient;
 
 class ApiServicio extends Controller
 {
@@ -169,7 +170,7 @@ class ApiServicio extends Controller
 
                 $validated['pago_online'] = true;
             } catch (\Stripe\Exception\ApiErrorException $e) {
-                \Log::error("Error en Stripe Connect: {$e->getMessage()}");
+                Log::error("Error en Stripe Connect: {$e->getMessage()}");
                 return response()->json([
                     'mensaje' => 'Error al configurar el pago en Stripe: ' . $e->getMessage(),
                 ], 500);
@@ -199,7 +200,7 @@ class ApiServicio extends Controller
                     ['stripe_account' => $servicio->negocio->stripe_account_id]
                 );
             } catch (\Stripe\Exception\ApiErrorException $e) {
-                \Log::warning("Error archivando producto en Stripe: {$e->getMessage()}");
+                Log::warning("Error archivando producto en Stripe: {$e->getMessage()}");
             }
         }
 
