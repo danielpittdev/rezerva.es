@@ -18,7 +18,7 @@
                   <form id="login" action="{{ route('api_login') }}" method="POST" class="space-y-6">
                      @csrf
                      <div>
-                        <label for="email" class="block text-sm/6 font-medium">Email address</label>
+                        <label for="email" class="block text-sm/6 font-medium">Correo electrónico</label>
                         <div class="mt-2">
                            <input id="email" type="email" name="email" autocomplete="email"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
@@ -26,7 +26,7 @@
                      </div>
 
                      <div>
-                        <label for="password" class="block text-sm/6 font-medium">Password</label>
+                        <label for="password" class="block text-sm/6 font-medium">Contraseña</label>
                         <div class="mt-2">
                            <input id="password" type="password" name="password" autocomplete="current-password"
                               class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />

@@ -2,7 +2,7 @@
 
 @section('contenido')
    <div class="flex min-h-full">
-      <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 overflow-y-auto">
          <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
                <img src="/media/logo/icon.png" alt="Your Company" class="h-10 w-auto" />
@@ -15,7 +15,7 @@
 
             <div class="mt-10">
                <div>
-                  <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2 max-h-[60vh] overflow-y-auto">
+                  <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2">
                      @csrf
                      <div class="xl:col-span-2 col-span-1">
                         <label for="email" class="block text-sm/6 font-medium">Correo electrónico</label>
@@ -199,7 +199,12 @@
                                  </svg>
                               </div>
                            </div>
-                           <label for="terminos_condiciones" class="block text-sm/6">Términos y condiciones</label>
+                           <label for="terminos_condiciones" class="block text-sm/6">
+                              <a class="text-blue-500 hover:underline" href="https://rezerva.es/contrato">
+                                 Términos y condiciones
+                              </a>
+                           </label>
+
                         </div>
                      </div>
 
@@ -214,7 +219,7 @@
             </div>
          </div>
       </div>
-      <div class="relative hidden w-0 flex-1 lg:block">
+      <div class="relative hidden w-0 flex-1 lg:block sticky top-0">
          <img src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" class="absolute inset-0 size-full object-cover" />
       </div>
    </div>

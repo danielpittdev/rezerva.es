@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Negocios;
+use App\Models\Suscripcion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Stripe\Stripe;
@@ -43,14 +44,12 @@ class ApiServicio extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string',
-            'descripcion' => 'null|string',
+            'descripcion' => 'nullable|string',
             'precio' => 'required|string',
             'duracion' => 'nullable|string',
             'tipo' => 'required|string',
             'pago_online' => 'nullable|bool',
-            'icono' => 'nullable|string',
-            'color' => 'nullable|in:blue,green,yellow,red,purple,pink,indigo,orange,black',
-            'negocio_id' => 'uuid',
+            'negocio_id' => 'uuid|exists:negocios,uuid',
         ]);
 
         $negocio =  Negocios::whereUuid($validated['negocio_id'])->first();
@@ -85,27 +84,36 @@ class ApiServicio extends Controller
         $validated['descripcion'] = $validated['descripcion'] ?? null;
 
         if ($request->pago_online) {
-            $validated['pago_online'] = true;
-            Stripe::setApiKey(config('cashier.secret'));
+            // Verificar si el usuario tiene una suscripción activa con pago online
+            $suscripcion = Suscripcion::where('user_id', Auth::id())
+                ->where('stripe_status', 'active')
+                ->first();
 
-            $precioEnCentimos = (int) ($validated['precio'] * 100);
-            $precioCambio = $servicio->precio != $validated['precio'];
+            $planActivo = $suscripcion && config("limites.{$suscripcion->type}.pago_online", false);
 
-            // Crear precio en Stripe si no existe o si el precio ha cambiado
-            if (empty($servicio->stripe_id) || $precioCambio) {
-                $price = Price::create([
-                    'currency' => 'eur',
-                    'unit_amount' => $precioEnCentimos,
-                    'product_data' => [
-                        'name' => $validated['nombre'],
-                        'metadata' => [
-                            'servicio_uuid' => $servicio->uuid,
-                            'negocio_id' => $servicio->negocio_id,
+            if ($planActivo) {
+                $validated['pago_online'] = true;
+                Stripe::setApiKey(config('cashier.secret'));
+
+                $precioEnCentimos = (int) ($validated['precio'] * 100);
+                $precioCambio = $servicio->precio != $validated['precio'];
+
+                // Crear precio en Stripe si no existe o si el precio ha cambiado
+                if (empty($servicio->stripe_id) || $precioCambio) {
+                    $price = Price::create([
+                        'currency' => 'eur',
+                        'unit_amount' => $precioEnCentimos,
+                        'product_data' => [
+                            'name' => $validated['nombre'],
+                            'metadata' => [
+                                'servicio_uuid' => $servicio->uuid,
+                                'negocio_id' => $servicio->negocio_id,
+                            ],
                         ],
-                    ],
-                ]);
+                    ]);
 
-                $validated['stripe_id'] = $price->id;
+                    $validated['stripe_id'] = $price->id;
+                }
             }
         } else {
             $validated['pago_online'] = false;

@@ -13,17 +13,20 @@ return [
         'clientes'  => 0,
         'empleados' => 0,
         'servicios' => 1,
+        'pago_online' => false,
     ],
     'plus-pn1' => [
         'negocios'  => 1,
         'clientes'  => 10,
         'empleados' => 3,
         'servicios' => 5,
+        'pago_online' => false,
     ],
     'pro-pn1' => [
         'negocios'  => 5,
         'clientes'  => 30,
         'empleados' => 10,
         'servicios' => 15,
+        'pago_online' => true,
     ],
 ];
