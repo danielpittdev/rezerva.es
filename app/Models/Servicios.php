@@ -18,6 +18,7 @@ class Servicios extends Model
         'pago_online',
         'duracion',
         'stripe_id',
+        'stripe_product_id',
         'icono',
         'negocio_id',
     ];

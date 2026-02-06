@@ -24,6 +24,7 @@ class Negocios extends Model
         'info_telefono',
         'icono',
         'banner',
+        'stripe_account_id',
         'verificado',
         'usuario_id'
     ];
