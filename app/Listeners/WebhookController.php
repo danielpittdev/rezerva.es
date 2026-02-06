@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Models\Factura;
 use App\Models\Clientes;
 use App\Models\Usuarios;
+use App\Models\Negocios;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Events\WebhookReceived;
 
@@ -183,6 +184,68 @@ class WebhookController
                 'usuario_id' => $usuario?->id,
             ]);
             // TODO: Registrar reembolso, ajustar acceso si corresponde, etc.
+        }
+
+        // ─── Stripe Connect ────────────────────────────────────────
+        if ($type === 'account.updated') {
+            // Cuenta Connect actualizada (onboarding completado, verificación, etc.)
+            $accountId = $data['id'];
+            $negocio = Negocios::where('stripe_account_id', $accountId)->first();
+
+            if ($negocio) {
+                $chargesEnabled = $data['charges_enabled'] ?? false;
+                $payoutsEnabled = $data['payouts_enabled'] ?? false;
+
+                Log::info("Cuenta Connect actualizada para negocio: {$negocio->id}", [
+                    'stripe_account_id' => $accountId,
+                    'charges_enabled' => $chargesEnabled,
+                    'payouts_enabled' => $payoutsEnabled,
+                ]);
+
+                // TODO: Notificar al negocio cuando su cuenta esté lista para recibir pagos
+                if ($chargesEnabled && $payoutsEnabled) {
+                    // La cuenta está completamente activa
+                }
+            }
+        }
+
+        if ($type === 'account.application.deauthorized') {
+            // El negocio ha desconectado tu plataforma desde su dashboard de Stripe
+            $accountId = $event->payload['account'] ?? null;
+            $negocio = Negocios::where('stripe_account_id', $accountId)->first();
+
+            if ($negocio) {
+                Log::warning("Negocio desconectó Stripe Connect: {$negocio->id}");
+                $negocio->update(['stripe_account_id' => null]);
+                // TODO: Notificar al negocio, deshabilitar pagos online
+            }
+        }
+
+        if ($type === 'payout.paid') {
+            // Pago enviado al negocio
+            $accountId = $event->payload['account'] ?? null;
+            $negocio = Negocios::where('stripe_account_id', $accountId)->first();
+
+            if ($negocio) {
+                Log::info("Payout enviado a negocio: {$negocio->id}", [
+                    'amount' => $data['amount'] ?? null,
+                    'currency' => $data['currency'] ?? null,
+                ]);
+            }
+        }
+
+        if ($type === 'payout.failed') {
+            // Pago fallido al negocio
+            $accountId = $event->payload['account'] ?? null;
+            $negocio = Negocios::where('stripe_account_id', $accountId)->first();
+
+            if ($negocio) {
+                Log::warning("Payout fallido para negocio: {$negocio->id}", [
+                    'failure_code' => $data['failure_code'] ?? null,
+                    'failure_message' => $data['failure_message'] ?? null,
+                ]);
+                // TODO: Notificar al negocio del problema con su cuenta bancaria
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ class Servicios extends Model
         'nota_rapida',
         'duracion',
         'stripe_id',
+        'stripe_product_id',
         'icono',
         'color',
         'negocio_id',

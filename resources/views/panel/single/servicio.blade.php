@@ -33,6 +33,8 @@
                      @csrf
                      @method('PUT')
 
+                     <div class="alerta col-span-full p-3 rounded-md"></div>
+
                      <!-- Caja -->
                      <div class="lg:col-span-full col-span-1">
                         <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>

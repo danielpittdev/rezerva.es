@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PanelController;
 use App\Http\Controllers\SingleController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\StripeConnectController;
 
 Route::get('/', function () {
     return redirect('login');
@@ -47,3 +48,13 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
 
 Route::post('/checkout', [StripeController::class, 'crear_suscripcion'])->name('checkout');
 Route::post('/billing-portal', [StripeController::class, 'billing_portal'])->name('billing.portal')->middleware('auth:web');
+
+// Stripe Connect
+Route::middleware('auth:web')->prefix('stripe/connect')->name('stripe.connect.')->group(function () {
+    Route::post('/onboarding/{negocio}', [StripeConnectController::class, 'onboarding'])->name('onboarding');
+    Route::get('/callback/{negocio}', [StripeConnectController::class, 'callback'])->name('callback');
+    Route::get('/refresh/{negocio}', [StripeConnectController::class, 'refresh'])->name('refresh');
+    Route::get('/status/{negocio}', [StripeConnectController::class, 'status'])->name('status');
+    Route::post('/dashboard/{negocio}', [StripeConnectController::class, 'dashboard'])->name('dashboard');
+    Route::delete('/disconnect/{negocio}', [StripeConnectController::class, 'disconnect'])->name('disconnect');
+});

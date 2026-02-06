@@ -75,6 +75,21 @@
          </div>
       </section>
 
+      <!-- # STRIPE CONNECT # -->
+      <section class="col-span-full">
+         <div id="stripe_connect_section" class="bg-base-100 rounded-md p-4 border border-base-content/10">
+            <div class="flex items-center justify-between">
+               <div>
+                  <h3 class="font-medium text-md">Pagos online</h3>
+                  <p id="stripe_status_text" class="text-sm text-base-content/70">Cargando estado...</p>
+               </div>
+               <div id="stripe_connect_buttons">
+                  <!-- Se carga dinámicamente -->
+               </div>
+            </div>
+         </div>
+      </section>
+
       <!-- Izquierda -->
       <section class="lg:col-span-6 col-span-full space-y-3">
          <!-- Servicios -->
@@ -647,6 +662,124 @@
       window.addEventListener('load', function() {
          // document.getElementById('modal_o').show()
          llamadaHorario()
+      });
+   </script>
+
+   <script>
+      // Stripe Connect
+      const negocioId = {{ $negocio->id }};
+      const stripeStatusUrl = "{{ route('stripe.connect.status', $negocio) }}";
+      const stripeOnboardingUrl = "{{ route('stripe.connect.onboarding', $negocio) }}";
+      const stripeDashboardUrl = "{{ route('stripe.connect.dashboard', $negocio) }}";
+      const stripeDisconnectUrl = "{{ route('stripe.connect.disconnect', $negocio) }}";
+
+      async function checkStripeStatus() {
+         try {
+            const response = await axios.get(stripeStatusUrl, {
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json"
+               }
+            });
+
+            const data = response.data;
+            const statusText = document.getElementById('stripe_status_text');
+            const buttonsDiv = document.getElementById('stripe_connect_buttons');
+
+            if (!data.connected) {
+               statusText.textContent = 'Conecta tu cuenta de Stripe para recibir pagos online';
+               buttonsDiv.innerHTML = `
+                  <button onclick="connectStripe()" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
+                     Conectar Stripe
+                  </button>
+               `;
+            } else if (!data.charges_enabled || !data.payouts_enabled) {
+               statusText.innerHTML = '<span class="text-amber-600">Completa la configuración de tu cuenta</span>';
+               buttonsDiv.innerHTML = `
+                  <button onclick="connectStripe()" class="rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500">
+                     Completar configuración
+                  </button>
+               `;
+            } else {
+               statusText.innerHTML = '<span class="text-green-600">Cuenta conectada y activa</span>';
+               buttonsDiv.innerHTML = `
+                  <div class="flex gap-2">
+                     <button onclick="openStripeDashboard()" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
+                        Ver dashboard
+                     </button>
+                     <button onclick="disconnectStripe()" class="rounded-md bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 shadow-xs hover:bg-red-100">
+                        Desconectar
+                     </button>
+                  </div>
+               `;
+            }
+         } catch (error) {
+            console.error('Error checking Stripe status:', error);
+            document.getElementById('stripe_status_text').textContent = 'Error al verificar estado';
+         }
+      }
+
+      async function connectStripe() {
+         try {
+            const response = await axios.post(stripeOnboardingUrl, {}, {
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json",
+                  "X-CSRF-TOKEN": "{{ csrf_token() }}"
+               }
+            });
+
+            if (response.data.redirect) {
+               window.location.href = response.data.redirect;
+            }
+         } catch (error) {
+            console.error('Error connecting Stripe:', error);
+            alert('Error al conectar con Stripe');
+         }
+      }
+
+      async function openStripeDashboard() {
+         try {
+            const response = await axios.post(stripeDashboardUrl, {}, {
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json",
+                  "X-CSRF-TOKEN": "{{ csrf_token() }}"
+               }
+            });
+
+            if (response.data.redirect) {
+               window.open(response.data.redirect, '_blank');
+            }
+         } catch (error) {
+            console.error('Error opening dashboard:', error);
+            alert('Error al abrir el dashboard');
+         }
+      }
+
+      async function disconnectStripe() {
+         if (!confirm('¿Estás seguro de que quieres desconectar tu cuenta de Stripe? No podrás recibir pagos online.')) {
+            return;
+         }
+
+         try {
+            await axios.delete(stripeDisconnectUrl, {
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json",
+                  "X-CSRF-TOKEN": "{{ csrf_token() }}"
+               }
+            });
+
+            checkStripeStatus();
+         } catch (error) {
+            console.error('Error disconnecting Stripe:', error);
+            alert('Error al desconectar Stripe');
+         }
+      }
+
+      window.addEventListener('load', function() {
+         checkStripeStatus();
       });
    </script>
 @endsection

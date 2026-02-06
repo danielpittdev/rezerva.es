@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('icono')->nullable();
             $table->string('banner')->nullable();
             $table->enum('moneda', ['EUR', 'COP', 'USD', 'GBP'])->default('EUR');
+            // Stripe
+            $table->string('stripe_account_id')->nullable();
             // Otros ajustes
             $table->boolean('verificado')->default(false);
             // FK

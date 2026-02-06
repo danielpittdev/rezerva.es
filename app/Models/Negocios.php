@@ -25,9 +25,20 @@ class Negocios extends Model
         'moneda',
         'icono',
         'banner',
+        'stripe_account_id',
         'verificado',
         'usuario_id'
     ];
+
+    public function stripeAccountActivo(): bool
+    {
+        return !empty($this->stripe_account_id);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     protected function casts(): array
     {
