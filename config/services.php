@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'stripe' => [
+        'platform_fee_percent' => env('STRIPE_PLATFORM_FEE_PERCENT', 5),
+    ],
+
 ];

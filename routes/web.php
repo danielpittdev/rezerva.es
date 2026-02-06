@@ -58,3 +58,8 @@ Route::middleware('auth:web')->prefix('stripe/connect')->name('stripe.connect.')
     Route::post('/dashboard/{negocio}', [StripeConnectController::class, 'dashboard'])->name('dashboard');
     Route::delete('/disconnect/{negocio}', [StripeConnectController::class, 'disconnect'])->name('disconnect');
 });
+
+// Pagos presenciales (QR)
+Route::middleware('auth:web')->post('/pago/reserva/{reserva}/checkout', [StripeConnectController::class, 'createPaymentCheckout'])->name('pago.checkout.create');
+Route::get('/pago/success/{reserva}', [StripeConnectController::class, 'paymentSuccess'])->name('pago.success');
+Route::get('/pago/cancel/{reserva}', [StripeConnectController::class, 'paymentCancel'])->name('pago.cancel');

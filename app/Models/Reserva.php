@@ -30,6 +30,11 @@ class Reserva extends Model
         ];
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     public function servicio()
     {
         return $this->belongsTo(Servicios::class, 'servicio_id');

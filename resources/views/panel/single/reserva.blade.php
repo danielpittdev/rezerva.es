@@ -1,4 +1,4 @@
-@extends('components.html.plantilla.fullbody')
+@extends('components.html.plantilla.center')
 
 @section('contenido')
    <section class="grid gap-2 lg:grid-cols-2 grid-rows-[auto_1fr]">
@@ -150,6 +150,90 @@
                      </script>
                   </div>
                </div>
+            </div>
+
+            <!-- Generar link de pago presencial -->
+            <div class="bg-base-100 border border-base-content/10 rounded-md lg:col-span-6 lg:col-start-7 row-start-2 col-span-full divide-y divide-base-content/10">
+
+               <div class="caja space-y-1 p-4">
+                  <h2 class="font-medium text-md">
+                     Link de pago
+                  </h2>
+                  <small class="text-base-content/70">
+                     Crea un enlace de pago presencial para que tu cliente pueda pagarte.
+                  </small>
+               </div>
+
+               <div class="caja p-4 space-y-4">
+                  @if($reserva->pagado)
+                     <div class="flex items-center gap-2 text-green-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 20 20" fill="currentColor">
+                           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-medium">Pagado</span>
+                     </div>
+                  @else
+                     @if($reserva->servicio->negocio->stripe_account_id)
+                        <button id="btn-generar-qr" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-600">
+                           Generar QR de pago
+                        </button>
+
+                        <!-- Contenedor del QR -->
+                        <div id="qr-container" class="hidden">
+                           <div class="flex flex-col items-center gap-3">
+                              <img id="qr-image" src="" alt="QR de pago" class="w-48 h-48 border rounded-md" />
+                              <p class="text-sm text-base-content/70">Escanea para pagar {{ number_format($reserva->servicio->precio, 2) }} {{ $reserva->servicio->negocio->moneda ?? 'EUR' }}</p>
+                              <a id="qr-link" href="" target="_blank" class="text-indigo-500 hover:text-indigo-600 text-sm underline">
+                                 Abrir enlace de pago
+                              </a>
+                           </div>
+                        </div>
+
+                        <script>
+                           document.getElementById('btn-generar-qr').addEventListener('click', async function() {
+                              const btn = this;
+                              btn.disabled = true;
+                              btn.textContent = 'Generando...';
+
+                              try {
+                                 const response = await fetch('{{ route('pago.checkout.create', ['reserva' => $reserva->uuid]) }}', {
+                                    method: 'POST',
+                                    headers: {
+                                       'Content-Type': 'application/json',
+                                       'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                       'Accept': 'application/json'
+                                    }
+                                 });
+
+                                 const data = await response.json();
+
+                                 if (data.checkout_url) {
+                                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data.checkout_url)}`;
+                                    document.getElementById('qr-image').src = qrUrl;
+                                    document.getElementById('qr-link').href = data.checkout_url;
+                                    document.getElementById('qr-container').classList.remove('hidden');
+                                    btn.textContent = 'Regenerar QR';
+                                 } else {
+                                    alert(data.error || 'Error al generar el enlace de pago');
+                                    btn.textContent = 'Generar QR de pago';
+                                 }
+                              } catch (error) {
+                                 console.error('Error:', error);
+                                 alert('Error al generar el enlace de pago');
+                                 btn.textContent = 'Generar QR de pago';
+                              }
+
+                              btn.disabled = false;
+                           });
+                        </script>
+                     @else
+                        <p class="text-sm text-amber-600">
+                           El negocio no tiene Stripe Connect configurado. Configura los pagos en los ajustes del negocio.
+                        </p>
+                     @endif
+                  @endif
+               </div>
+
             </div>
          </section>
 
