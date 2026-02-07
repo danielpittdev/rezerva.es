@@ -11,8 +11,11 @@ use App\Http\Controllers\StripeController;
 
 Route::get('/', [WebController::class, 'inicio'])->name('inicio');
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
+Route::get('/e/{evento}', [WebController::class, 'evento'])->name('evento');
 Route::get('/r/{reserva}', [WebController::class, 'reserva'])->name('reserva');
+
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
+Route::get('/checkout/evento', [WebController::class, 'checkout_evento'])->name('checkout_evento');
 Route::get('/registro', function () {
   return redirect('https://panel.rezerva.es/registro');
 })->name('registro');
@@ -23,11 +26,13 @@ Route::get('/psicologia', [WebController::class, 'psicologia'])->name('psicologi
 
 // Reservas
 Route::post('/reservar', [ApiReserva::class, 'store'])->name('api.reserva.store');
+Route::post('/evento', [ApiReserva::class, 'store_evento'])->name('api.evento.store');
 
 // Stripe - Checkout de reservas con pago online
 Route::get('/checkout/reserva/pago', [StripeController::class, 'pre_checkout'])->name('stripe.pre_checkout');
 Route::get('/checkout/reserva/success', [StripeController::class, 'reserva_success'])->name('checkout.reserva.success');
 Route::get('/checkout/reserva/cancel', [StripeController::class, 'reserva_cancel'])->name('checkout.reserva.cancel');
+Route::get('/checkout/evento/pago', [StripeController::class, 'pre_checkout_evento'])->name('stripe.pre_checkout_evento');
 
 # Legal 
 Route::get('/contrato', [WebController::class, 'contrato'])->name('contrato');
@@ -45,6 +50,8 @@ Route::get('/franquicias', [WebController::class, 'franquicias'])->name('franqui
 Route::get('/manager', [WebController::class, 'manager'])->name('manager');
 
 # API
+Route::post('/api/check/evento', [ApiController::class, 'check_evento'])->name('api.check.evento');
+
 Route::post('/verificar-sesion-cliente', [ApiController::class, 'verificarSesionCliente'])->name('verificar.sesion.cliente');
 Route::post('/crearcliente', [ApiController::class, 'crearCliente'])->name('api.cliente');
 Route::post('/horas-disponibles', [ApiController::class, 'horasDisponibles'])->name('api.horas.disponibles');

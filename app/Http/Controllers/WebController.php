@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Evento;
 use App\Models\Reserva;
 use App\Models\Horarios;
 use App\Models\Negocios;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
 use App\Models\HorarioExcepcional;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class WebController extends Controller
 {
@@ -22,6 +24,13 @@ class WebController extends Controller
         $negocio = Negocios::where('slug', $id)->first();
         session()->forget('cliente');
         return view('negocio', compact('negocio'));
+    }
+
+    public function evento($id)
+    {
+        $evento = Evento::whereUuid($id)->first();
+        session()->forget('cliente');
+        return view('evento', compact('evento'));
     }
 
     public function reserva($id)
@@ -43,6 +52,18 @@ class WebController extends Controller
         $servicio = Servicios::where('uuid', $cliente['servicio'])->first();
 
         return view('checkout', compact('cliente', 'negocio', 'servicio'));
+    }
+
+    public function checkout_evento()
+    {
+        if (!session()->has('cliente')) {
+            return redirect('/');
+        }
+
+        $cliente = session('cliente');
+        $evento = Evento::where('uuid', $cliente['evento'])->first();
+
+        return view('checkout_evento', compact('cliente', 'evento'));
     }
 
     public function contacto()

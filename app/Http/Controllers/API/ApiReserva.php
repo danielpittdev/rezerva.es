@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Evento;
+use App\Models\ReservaEvento;
 use Illuminate\Support\Facades\Mail;
 
 class ApiReserva extends Controller
@@ -290,6 +292,89 @@ class ApiReserva extends Controller
         return response()->json([
             'mensaje' => 'Actualizado con éxito',
             'reserva' => $reserva
+        ], 200);
+    }
+
+    public function store_evento(Request $request)
+    {
+        $val = $request->validate([
+            'metodo_pago' => 'in:efectivo,tarjeta|required',
+            'cantidad' => 'integer|required|min:1',
+            'evento' => 'required|uuid'
+        ], [
+            'metodo_pago.required' => 'Selecciona uno',
+            'cantidad.required' => 'Obligatorio',
+            'cantidad.integer' => 'Debe ser numérico',
+        ]);
+
+        $evento = Evento::whereUuid($val['evento'])->first();
+        $cantidad = $val['cantidad'];
+        $stock = $evento->stock;
+        $max_compra = $evento->max_compra;
+
+        if ($cantidad > $max_compra) {
+            return response()->json([
+                'errors' => ['cantidad' => ['La cantidad máxima es: ' . $max_compra]],
+                'message' => 'No se puede pedir esta cantidad'
+            ], 500);
+        }
+
+        if ($cantidad > $stock) {
+            return response()->json([
+                'errors' => ['cantidad' => ['No quedan suficientes entradas']],
+            ], 500);
+        }
+
+        $datos_cliente = session()->get('cliente');
+        $negocio = $evento->negocio;
+
+        // Buscar o crear cliente
+        $cliente = Clientes::where('email', $datos_cliente['email'])
+            ->where('nombre', $datos_cliente['nombre'])
+            ->where('apellido', $datos_cliente['apellido'])
+            ->first();
+
+        if (!$cliente) {
+            $cliente = Clientes::create([
+                'nombre' => ucfirst($datos_cliente['nombre']),
+                'apellido' => ucfirst($datos_cliente['apellido']),
+                'email' => $datos_cliente['email'],
+                'negocio_id' => $negocio->id,
+            ]);
+        }
+
+        $total = $evento->precio * $cantidad;
+
+        // Pago en efectivo: crear ReservaEvento directamente
+        if ($val['metodo_pago'] === 'efectivo') {
+            ReservaEvento::create([
+                'metodo_pago' => 'efectivo',
+                'pagado' => false,
+                'confirmacion' => false,
+                'cantidad' => $cantidad,
+                'total' => $total,
+                'evento_id' => $evento->id,
+                'cliente_id' => $cliente->id,
+            ]);
+
+            $evento->decrement('stock', $cantidad);
+
+            return response()->json([
+                'mensaje' => 'Entrada reservada con éxito. Paga en efectivo al llegar.',
+            ], 201);
+        }
+
+        // Pago con tarjeta: guardar en sesión y redirigir a Stripe
+        session()->put('evento_pendiente', [
+            'evento_id' => $evento->id,
+            'cliente_id' => $cliente->id,
+            'cantidad' => $cantidad,
+            'total' => $total,
+        ]);
+
+        return response()->json([
+            'mensaje' => 'Redirigiendo al pago',
+            'redirect' => route('stripe.pre_checkout_evento'),
         ], 200);
     }
 }
