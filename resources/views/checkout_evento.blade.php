@@ -36,12 +36,12 @@
                   </div>
 
                   <!-- Caja de horas disponibles -->
-                  <div class="caja space-y-4">
+                  <div class="caja space-y-8">
 
                      <div class="caja">
                         <fieldset>
                            <legend class="text-sm/6 font-semibold text-gray-900">Selecciona un método de pago</legend>
-                           <div class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                           <div class="mt-2 grid grid-cols-1 grid-cols-2 gap-3">
 
                               @if (!$evento->pago_efectivo && !$evento->pago_online)
                                  <label aria-label="Pago efectivo" aria-description="Paga en efectivo al llegar"
