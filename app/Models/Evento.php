@@ -24,6 +24,8 @@ class Evento extends Model
         'precio',
         'negocio_id',
         'stripe_price',
+        'pago_online',
+        'pago_efectivo',
     ];
 
     public function negocio(): BelongsTo

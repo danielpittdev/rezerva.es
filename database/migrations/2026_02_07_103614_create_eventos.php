@@ -22,6 +22,9 @@ return new class extends Migration
             $table->bigInteger('max_compra')->default(5); #
             $table->decimal('precio', places: 2, total: 9)->default(0);
             //
+            $table->boolean('pago_efectivo')->default(false);
+            $table->boolean('pago_online')->default(false);
+            //
             $table->foreignId('negocio_id')->constrained('negocios')->onDelete('cascade');
             // Stripe
             $table->string('stripe_price')->nullable(); #

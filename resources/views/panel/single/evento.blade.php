@@ -90,6 +90,22 @@
                   </div>
                </div>
 
+               <!-- Pago en efectivo -->
+               <div class="lg:col-span-2 col-span-full">
+                  <label for="pago_efectivo" class="block text-sm/6 font-medium">Pago en efectivo</label>
+                  <div class="mt-2">
+                     <input name="pago_efectivo" type="checkbox" class="toggle checked:text-green-500" {{ $evento->pago_efectivo ? 'checked' : '' }} />
+                  </div>
+               </div>
+
+               <!-- Pago online -->
+               <div class="lg:col-span-2 col-span-full">
+                  <label for="pago_online" class="block text-sm/6 font-medium">Pago con tarjeta</label>
+                  <div class="mt-2">
+                     <input name="pago_online" type="checkbox" class="toggle checked:text-green-500" {{ $evento->pago_online ? 'checked' : '' }} />
+                  </div>
+               </div>
+
                <!-- Negocio -->
                <div class="lg:col-span-full col-span-full">
                   <label for="negocio_id" class="block text-sm/6 font-medium">Negocio</label>
