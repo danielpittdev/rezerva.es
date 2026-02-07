@@ -12,7 +12,7 @@
          <!-- Título -->
          <div class="w-full p-5 absolute left-0 top-50 rounded-md space-y-3">
             <div class="caja">
-               <img class="object-cover rounded-full size-27 aspect-1/1 mx-auto border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
+               <img class="bg-base-100 object-cover rounded-full size-27 aspect-1/1 mx-auto border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
             </div>
             <h1 class="text-2xl font-medium text-center">
                {{ $evento->evento->negocio->nombre }}
