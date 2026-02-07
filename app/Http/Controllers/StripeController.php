@@ -138,8 +138,18 @@ class StripeController extends Controller
         $cantidad = $datos['cantidad'];
         $total = $datos['total'];
 
+        // Validar que el negocio tenga Stripe Connect
         if (empty($negocio->stripe_account_id)) {
-            return redirect()->back()->with('error', 'El negocio no tiene cuenta de Stripe conectada');
+            session()->forget('evento_pendiente');
+            return redirect()->route('evento', ['evento' => $evento->uuid])
+                ->with('error', 'El negocio no tiene cuenta de Stripe conectada. No se puede procesar el pago con tarjeta.');
+        }
+
+        // Validar que el evento tenga precio en Stripe
+        if (empty($evento->stripe_price)) {
+            session()->forget('evento_pendiente');
+            return redirect()->route('evento', ['evento' => $evento->uuid])
+                ->with('error', 'El evento no tiene configurado el pago con tarjeta.');
         }
 
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
@@ -193,22 +203,35 @@ class StripeController extends Controller
             'metadata' => [
                 'reserva_evento' => $reservaEvento->uuid,
             ],
-            'success_url' => route('inicio'),
-            'cancel_url' => route('inicio'),
+            'success_url' => route('reserva_evento', ['reserva' => $reservaEvento->uuid]),
+            'cancel_url' => route('evento', ['evento' => $evento->uuid]),
         ];
 
         if ($cliente->stripe_id) {
             $checkoutData['customer'] = $cliente->stripe_id;
         }
 
-        $checkout = $stripe->checkout->sessions->create(
-            $checkoutData,
-            ['stripe_account' => $negocio->stripe_account_id]
-        );
+        try {
+            $checkout = $stripe->checkout->sessions->create(
+                $checkoutData,
+                ['stripe_account' => $negocio->stripe_account_id]
+            );
 
-        session()->forget('evento_pendiente');
+            session()->forget('evento_pendiente');
 
-        return redirect($checkout->url);
+            return redirect($checkout->url);
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            Log::error("Error creando checkout de evento: {$e->getMessage()}");
+
+            // Revertir la reserva y el stock
+            $reservaEvento->delete();
+            $evento->increment('stock', $cantidad);
+
+            session()->forget('evento_pendiente');
+
+            return redirect()->route('evento', ['evento' => $evento->uuid])
+                ->with('error', 'Error al procesar el pago: ' . $e->getMessage());
+        }
     }
 
     public function billing_portal(Request $request)

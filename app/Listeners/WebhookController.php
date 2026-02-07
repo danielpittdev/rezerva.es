@@ -8,6 +8,7 @@ use App\Models\Negocios;
 use App\Models\Reserva;
 use App\Models\Servicios;
 use App\Models\Usuarios;
+use App\Models\ReservaEvento;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +25,7 @@ class WebhookController
         Log::info("Webhook recibido: {$type}", ['stripe_id' => $data['id'] ?? null]);
 
         // ─── Checkout (pago único de reserva) ────────────────────
-        if ($type === 'checkout.session.completed') {
+        if ($type === 'checkout.session.completed' && isset($metadata['reserva'])) {
 
             $reserva = Reserva::whereUuid($metadata['reserva'])->first();
 
@@ -68,6 +69,36 @@ class WebhookController
                 $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
                     ->subject('Reserva confirmada');
             });
+        }
+
+        // ─── Checkout de eventos ─────────────────────────────────
+        if ($type === 'checkout.session.completed' && isset($metadata['reserva_evento'])) {
+
+            $reservaEvento = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
+
+            // Evitar procesar webhooks duplicados
+            if (!$reservaEvento || $reservaEvento->pagado) {
+                Log::info("Webhook ignorado: reserva de evento ya pagada o no encontrada", [
+                    'reserva_evento_uuid' => $metadata['reserva_evento'] ?? null
+                ]);
+                return;
+            }
+
+            $reservaEvento->update([
+                'pagado' => true,
+                'confirmacion' => true,
+            ]);
+
+            $evento = $reservaEvento->evento;
+            $cliente = $reservaEvento->cliente;
+
+            Log::info("Pago de evento confirmado", [
+                'reserva_evento_uuid' => $reservaEvento->uuid,
+                'evento' => $evento->nombre,
+                'cliente' => $cliente->email,
+            ]);
+
+            // TODO: Enviar email de confirmación al cliente
         }
 
         // ─── Pagos de suscripciones ─────────────────────────────
