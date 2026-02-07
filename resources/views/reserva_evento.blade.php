@@ -37,7 +37,7 @@
                      </li>
 
                      <li>
-                        Precio: <strong>{{ number_format($evento->precio, 2, ',', '.') }}€</strong>
+                        Precio: <strong>{{ number_format($evento->evento->precio, 2, ',', '.') }}€</strong>
                      </li>
 
                      <li>
