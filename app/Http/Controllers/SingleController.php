@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evento;
 use App\Models\Reserva;
-use App\Models\Negocios;
-use App\Models\Servicios;
 use App\Models\Clientes;
 use App\Models\Empleado;
+use App\Models\Negocios;
+use App\Models\Servicios;
 use Illuminate\Http\Request;
 
 class SingleController extends Controller
@@ -21,6 +22,12 @@ class SingleController extends Controller
     {
         $empleado = Empleado::whereUuid($id)->with('negocio')->first();
         return view('panel.single.empleado', compact('empleado'));
+    }
+
+    public function evento($id)
+    {
+        $evento = Evento::whereUuid($id)->with('negocio')->first();
+        return view('panel.single.evento', compact('evento'));
     }
 
     public function servicio($id)

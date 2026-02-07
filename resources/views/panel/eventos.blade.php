@@ -56,19 +56,10 @@
                         <div class="alerta col-span-full p-3 rounded-md"></div>
 
                         <!-- Nombre -->
-                        <div class="lg:col-span-2 col-span-full">
+                        <div class="lg:col-span-full col-span-full">
                            <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
                            <div class="mt-2">
                               <input id="nombre" type="text" name="nombre" autocomplete="given-name"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-                           </div>
-                        </div>
-
-                        <!-- Lugar -->
-                        <div class="lg:col-span-2 col-span-full">
-                           <label for="lugar" class="block text-sm/6 font-medium">Lugar</label>
-                           <div class="mt-2">
-                              <input id="lugar" type="text" name="lugar" autocomplete="family-name"
                                  class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
@@ -79,6 +70,24 @@
                            <div class="mt-2">
                               <textarea class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" name="descripcion" id="" cols="30"
                                  rows="5"></textarea>
+                           </div>
+                        </div>
+
+                        <!-- Lugar -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="lugar" class="block text-sm/6 font-medium">Lugar</label>
+                           <div class="mt-2">
+                              <input id="lugar" type="text" name="lugar"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Fecha -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="fecha" class="block text-sm/6 font-medium">Fecha</label>
+                           <div class="mt-2">
+                              <input id="fecha" type="datetime-local" name="fecha"
+                                 class="appearance-none block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
 
@@ -188,7 +197,7 @@
             success: function(r) {
                console.log(r)
                document.getElementById('modal_eventos_1').hide()
-               $('#load_lista_eventos').empty().append(r.lista)
+               $('#load_lista_eventos').empty().append(r.listas.lista)
             }
          });
       }

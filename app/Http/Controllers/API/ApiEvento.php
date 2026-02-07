@@ -8,6 +8,7 @@ use App\Models\Servicios;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Reserva;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,20 +19,31 @@ class ApiEvento extends Controller
   public function show($id)
   {
     $evento = Evento::whereUuid($id)->first();
+    $reservas = $evento->reservas;
+
+    $listas = [
+      'reservas' => view('components.listas.eventos.reservas', compact('reservas'))->render(),
+    ];
 
     return response()->json([
-      'mensaje' => 'Recibido con éxito'
+      'mensaje' => 'Recibido con éxito',
+      'listas' => $listas
     ], 201);
   }
 
   # Vista potenciada
-  public function index()
+  public function index(Request $request)
   {
     $eventos = Auth::user()->negocios->pluck('eventos')->flatten();
+
+    $listas = [
+      'lista' => view('components.listas.eventos.lista', compact('eventos'))->render()
+    ];
 
     return response()->json([
       'mensaje' => 'Recibido con éxito',
       'eventos' => $eventos,
+      'listas' => $listas
     ], 201);
   }
 
@@ -42,8 +54,9 @@ class ApiEvento extends Controller
       'nombre' => 'required|string|max:50',
       'descripcion' => 'required|string|max:300',
       'lugar' => 'required|string|max:200',
+      'fecha' => 'required|date_format:Y-m-d\TH:i',
       'stock' => 'nullable|integer',
-      'precio' => 'required|integer|min:0',
+      'precio' => 'sometimes|numeric|min:0|decimal:0,2',
       'negocio_id' => 'required|uuid|exists:negocios,uuid',
     ]);
 
@@ -72,9 +85,9 @@ class ApiEvento extends Controller
       'nombre' => 'sometimes|string|max:50',
       'descripcion' => 'sometimes|string|max:300',
       'lugar' => 'sometimes|string|max:200',
+      'fecha' => 'required|date_format:Y-m-d\TH:i',
       'stock' => 'sometimes|integer',
-      'precio' => 'sometimes|integer|min:0',
-      'negocio_id' => 'sometimes|uuid|exists:negocios,uuid',
+      'precio' => 'sometimes|numeric|min:0|decimal:0,2',
     ]);
 
     # Configuración adicional
