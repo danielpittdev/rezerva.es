@@ -127,6 +127,7 @@
             </el-popover>
          </div>
 
+         <a href="{{ route('psicologia') }}" class="text-sm/6 font-semibold text-gray-900">Psicología</a>
          <a href="{{ route('franquicias') }}" class="text-sm/6 font-semibold text-gray-900">Franquicias</a>
          <a href="{{ route('manager') }}" class="text-sm/6 font-semibold text-gray-900">Manager</a>
       </el-popover-group>
