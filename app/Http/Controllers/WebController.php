@@ -10,6 +10,7 @@ use App\Models\Negocios;
 use App\Models\Servicios;
 use Illuminate\Http\Request;
 use App\Models\HorarioExcepcional;
+use App\Models\ReservaEvento;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class WebController extends Controller
@@ -39,6 +40,14 @@ class WebController extends Controller
         session()->forget('cliente');
         session()->forget('reserva_pendiente');
         return view('reserva', compact('reserva'));
+    }
+
+    public function reserva_evento($id)
+    {
+        $evento = ReservaEvento::whereUuid($id)->first();
+        session()->forget('cliente');
+        session()->forget('reserva_pendiente');
+        return view('reserva_evento', compact('evento'));
     }
 
     public function checkout()
