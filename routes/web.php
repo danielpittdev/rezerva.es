@@ -29,6 +29,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/', [PanelController::class, 'inicio'])->name('panel');
     // Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
     Route::get('/empleados', [PanelController::class, 'empleados'])->name('empleados');
+    Route::get('/eventos', [PanelController::class, 'eventos'])->name('eventos');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
     Route::get('/facturacion', [PanelController::class, 'facturacion'])->name('facturacion');
     Route::get('/clientes', [PanelController::class, 'clientes'])->name('clientes');

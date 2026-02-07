@@ -3,6 +3,7 @@
        'inicio' => ['ruta' => 'panel', 'icono' => 'house'],
        //  'negocios' => ['ruta' => 'negocios', 'icono' => 'briefcase'],
        'empleados' => ['ruta' => 'empleados', 'icono' => 'briefcase'],
+       'eventos' => ['ruta' => 'eventos', 'icono' => 'briefcase'],
        'servicios' => ['ruta' => 'servicios', 'icono' => 'wrench'],
        'clientes' => ['ruta' => 'clientes', 'icono' => 'person'],
        'facturacion' => ['ruta' => 'facturacion', 'icono' => 'file'],

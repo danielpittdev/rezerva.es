@@ -15,6 +15,7 @@ return [
         'negocios'  => 1,
         'clientes'  => 0,
         'empleados' => 0,
+        'eventos' => 100,
         'servicios' => 1,
         'pago_online' => false,
     ],
