@@ -158,4 +158,24 @@ class ApiController extends Controller
             'redirect' => route('contacto'),
         ], 200);
     }
+
+
+
+
+
+    public function check_evento(Request $request)
+    {
+        $datos = $request->validate([
+            'evento' => 'required|uuid|exists:eventos,uuid',
+            'nombre' => 'required|string',
+            'apellido' => 'required|string',
+            'email' => 'required|email',
+        ]);
+
+        // Limpiar sesión anterior y guardar nueva
+        session()->forget('cliente');
+        session(['cliente' => $datos]);
+
+        return response()->json(['redirect' => route('checkout_evento')]);
+    }
 }
