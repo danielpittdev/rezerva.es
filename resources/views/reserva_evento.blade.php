@@ -1,7 +1,7 @@
 @extends('plantilla.web.blank')
 
 @section('contenido')
-   <section class="bg-base-100 min-h-[100vh] lg:pt-30 pb-30">
+   <section class="bg-base-100 min-h-[100vh] lg:pt-20 pb-30">
 
       <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-xl lg:rounded-3xl overflow-hidden">
          <!-- Imagen -->
@@ -14,8 +14,11 @@
             <div class="caja">
                <img class="bg-base-100 object-cover rounded-full size-27 aspect-1/1 mx-auto border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
             </div>
-            <h1 class="text-2xl font-medium text-center">
-               {{ $evento->evento->negocio->nombre }}
+            <h1 class="text-2xl font-medium text-center flex items-center justify-center mx-auto gap-2">
+               <span>{{ $evento->evento->negocio->nombre }}</span>
+               @if ($evento->evento->negocio->verificado)
+                  @svg('gravityui-seal-check', 'size-6 items-center text-blue-500')
+               @endif
             </h1>
          </div>
 

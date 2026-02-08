@@ -20,19 +20,19 @@
          </div>
       @endif
 
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-3xl lg:rounded-3xl overflow-hidden">
+      <div class="relative lg:border border-base-content/10 shadow bg-base-100 mx-auto max-w-2xl lg:rounded-3xl overflow-hidden">
          <!-- Imagen -->
          <div class="p-0 shadow overflow-hidden">
-            <img class="w-full h-70 object-cover" src="@if ($evento->negocio->banner) {{ Storage::url($evento->negocio->banner) }} @else /media/logo/banner.png @endif" alt="">
+            <img class="bg-base-100 w-full h-70 object-cover" src="@if ($evento->negocio->banner) {{ Storage::url($evento->negocio->banner) }} @else /media/logo/banner.png @endif" alt="">
          </div>
 
          <!-- Título -->
-         <div class="p-5 w-full absolute top-50 rounded-md space-y-3">
-            <div class="caja flex gap-3 items-end">
-               <img class="rounded-full size-30 border-7 border-base-100" src="@if ($evento->negocio->icono) {{ Storage::url($evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
+         <div class="p-5 w-full absolute lg:top-50 top-54 rounded-md space-y-3">
+            <div class="caja flex flex-col lg:flex-row lg:items-end gap-5">
+               <img class="bg-base-100 rounded-full lg:size-28 size-25 border-6 border-base-content/5 object-cover lg:mx-0 mx-auto" src="@if ($evento->negocio->icono) {{ Storage::url($evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
 
-               <div class="mb-3">
-                  <h2 class="text-2xl font-semibold text-center">
+               <div class="mb-3 flex items-center gap-2 lg:mx-0 mx-auto">
+                  <h2 class="text-2xl font-semibold lg:text-left text-center">
                      <span>{{ $evento->negocio->nombre }} </span>
                   </h2>
                   <span>
@@ -46,27 +46,41 @@
          </div>
 
          <!-- Cuerpo -->
-         <div class="cuerpo pt-20 px-5 pb-10">
+         <div class="cuerpo lg:pt-20 pt-35 lg:px-5 px-2 pb-10">
 
             <!-- Servicios -->
             <section class="caja">
-               <div class="p-3 px-5 space-y-4">
-                  <h1 class="font-medium text-3xl">
-                     {{ $evento->nombre }}
-                  </h1>
+               <div class="p-3 px-5 space-y-7">
+                  <div class="space-y-2">
+                     <h1 class="font-medium text-3xl">
+                        {{ $evento->nombre }}
+                     </h1>
 
-                  <p class="text-base-content/70">
-                     {{ $evento->descripcion }}
-                  </p>
+                     <p class="text-base-content/70">
+                        {{ $evento->descripcion }}
+                     </p>
+                  </div>
 
-                  <p class="text-base-content">
-                     Entrada por {{ number_format($evento->precio, 2, ',', '.') }}€
-                  </p>
+                  <div class="space-y-3">
+                     <p class="text-base-content/70 flex items-center gap-2">
+                        @svg('gravityui-map-pin', 'size-5 items-center text-base-content') {{ $evento->lugar }}
+                     </p>
+
+                     <p class="text-base-content/70 flex items-center gap-2">
+                        @svg('gravityui-clock-fill', 'size-5 items-center text-base-content') {{ Carbon\Carbon::parse($evento->fecha)->translatedFormat('d l F, H:i') }}
+                     </p>
+
+                     @if ($evento->precio > 0)
+                        <p class="text-base-content">
+                           Precio de entrada {{ number_format($evento->precio, 2, ',', '.') }}€
+                        </p>
+                     @endif
+                  </div>
                </div>
 
-               <div class="caja px-5 pt-20">
-                  <button type="button" class="pet_reservar rounded-full bg-indigo-600 px-3.5 py-2 text-lg font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                     Comprar entrada
+               <div class="caja px-5 pt-10">
+                  <button type="button" class="pet_reservar rounded-full bg-indigo-600 px-5 py-2 lg:text-md text-lg font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                     Reserva tu entrada
                   </button>
                </div>
             </section>
@@ -136,11 +150,13 @@
                   <div class="mt-3 text-center sm:mt-0 sm:text-left">
 
                      <div class="flex items-center gap-3">
-                        <img class="size-8 rounded-md" src="@if ($evento->icono) {{ Storage::url($evento->icono) }}
+                        <img class="size-9 rounded-md border border-base-content/20 bg-base-200 object-cover"
+                           src="@if ($evento->negocio->icono) {{ Storage::url($evento->negocio->icono) }}
                         @else
                            /media/logo/brand.png @endif
-                        " alt="">
-                        <h3 id="dialog-title" class="text-base font-semibold text-base-content/90">{{ $evento->nombre }}</h3>
+                        "
+                           alt="">
+                        <h3 id="dialog-title" class="text-base font-semibold text-base-content/90">{{ $evento->negocio->nombre }}</h3>
                      </div>
 
                      <div class="mt-5 text-start">

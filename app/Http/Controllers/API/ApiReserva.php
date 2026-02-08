@@ -347,7 +347,7 @@ class ApiReserva extends Controller
 
         // Pago en efectivo: crear ReservaEvento directamente
         if ($val['metodo_pago'] === 'efectivo') {
-            ReservaEvento::create([
+            $reserva = ReservaEvento::create([
                 'metodo_pago' => 'efectivo',
                 'pagado' => false,
                 'confirmacion' => false,
@@ -361,6 +361,7 @@ class ApiReserva extends Controller
 
             return response()->json([
                 'mensaje' => 'Entrada reservada con éxito. Paga en efectivo al llegar.',
+                //'redirect' => route('reserva_evento', ['reserva' => $reserva->uuid]),
             ], 201);
         }
 
