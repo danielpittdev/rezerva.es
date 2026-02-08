@@ -359,6 +359,14 @@ class ApiReserva extends Controller
 
             $evento->decrement('stock', $cantidad);
 
+            # Mail
+            Mail::send('components.email.evento.confirmar', [
+                'reserva' => $reserva,
+            ], function ($message) use ($cliente) {
+                $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
+                    ->subject('Evento reservado');
+            });
+
             return response()->json([
                 'mensaje' => 'Entrada reservada con éxito. Paga en efectivo al llegar.',
                 //'redirect' => route('reserva_evento', ['reserva' => $reserva->uuid]),
