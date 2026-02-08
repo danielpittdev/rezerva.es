@@ -130,10 +130,10 @@ class ApiNegocio extends Controller
         if ($request->hasFile('icono')) {
             // Eliminar icono anterior si existe
             if ($negocio->icono) {
-                Storage::disk('public')->delete($negocio->icono);
+                Storage::delete($negocio->icono);
             }
 
-            $iconoPath = $request->file('icono')->store('negocios/iconos', 'public');
+            $iconoPath = $request->file('icono')->store('negocios/iconos');
             $validated['icono'] = $iconoPath;
         }
 
@@ -141,10 +141,10 @@ class ApiNegocio extends Controller
         if ($request->hasFile('banner')) {
             // Eliminar banner anterior si existe
             if ($negocio->banner) {
-                Storage::disk('public')->delete($negocio->banner);
+                Storage::delete($negocio->banner);
             }
 
-            $bannerPath = $request->file('banner')->store('negocios/banners', 'public');
+            $bannerPath = $request->file('banner')->store('negocios/banners');
             $validated['banner'] = $bannerPath;
         }
 

@@ -6,6 +6,7 @@ use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,7 +33,13 @@ class ApiUsuario extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         if ($request->hasFile('avatar')) {
-            $validated['avatar'] = $request->file('avatar')->store('usuarios/avatars', 'public');
+            // Eliminar avatar anterior si existe
+            if (Auth::user()->avatar) {
+                Storage::delete(Auth::user()->avatar);
+            }
+
+            $avatarPath = $request->file('avatar')->store('avatars');
+            $validated['avatar'] = $avatarPath;
         }
 
         $user = Usuarios::create($validated);
@@ -83,11 +90,13 @@ class ApiUsuario extends Controller
 
         // Manejar subida de avatar
         if ($request->hasFile('avatar')) {
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+            // Eliminar avatar anterior si existe
+            if (Auth::user()->avatar) {
+                Storage::delete(Auth::user()->avatar);
             }
 
-            $validated['avatar'] = $request->file('avatar')->store('usuarios/avatars', 'public');
+            $avatarPath = $request->file('avatar')->store('avatars');
+            $validated['avatar'] = $avatarPath;
         }
 
         $user->update($validated);

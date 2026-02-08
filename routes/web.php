@@ -29,6 +29,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
     Route::get('/', [PanelController::class, 'inicio'])->name('panel');
     // Route::get('/negocios', [PanelController::class, 'negocios'])->name('negocios');
     Route::get('/empleados', [PanelController::class, 'empleados'])->name('empleados');
+    Route::get('/eventos', [PanelController::class, 'eventos'])->name('eventos');
     Route::get('/servicios', [PanelController::class, 'servicios'])->name('servicios');
     Route::get('/facturacion', [PanelController::class, 'facturacion'])->name('facturacion');
     Route::get('/clientes', [PanelController::class, 'clientes'])->name('clientes');
@@ -40,6 +41,7 @@ Route::prefix('/panel')->middleware('auth:web')->group(function () {
         Route::get('/', [PanelController::class, 'inicio'])->name('single');
         Route::get('/negocio/{id}', [SingleController::class, 'negocio'])->name('negocio');
         Route::get('/empleado/{id}', [SingleController::class, 'empleado'])->name('empleado');
+        Route::get('/evento/{id}', [SingleController::class, 'evento'])->name('evento');
         Route::get('/reserva/{id}', [SingleController::class, 'reserva'])->name('reserva');
         Route::get('/servicio/{id}', [SingleController::class, 'servicio'])->name('servicio');
         Route::get('/cliente/{id}', [SingleController::class, 'cliente'])->name('cliente');

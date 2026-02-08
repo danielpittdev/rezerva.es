@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class Negocios extends Model
 {
@@ -75,6 +76,11 @@ class Negocios extends Model
     public function empleados()
     {
         return $this->hasMany(Empleado::class, 'negocio_id');
+    }
+
+    public function eventos()
+    {
+        return $this->hasMany(Evento::class, 'negocio_id');
     }
 
     public function colaboradores()
