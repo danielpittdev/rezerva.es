@@ -27,10 +27,16 @@
 
             <!-- Servicios -->
             <section class="caja space-y-5">
-               <div class="p-3 px-5 pt-7">
+               <div class="p-3 px-5 pt-7 text-center">
                   <h2 class="font-medium text-lg">
                      Datos de la reserva
                   </h2>
+               </div>
+
+               <div class="caja flex">
+                  <div class="mx-auto">
+                     {!! QrCode::size(150)->generate($evento->uuid) !!}
+                  </div>
                </div>
 
                <div class="caja px-5 border-t border-base-content/10 pt-7">
