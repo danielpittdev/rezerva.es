@@ -25,80 +25,84 @@ class WebhookController
         Log::info("Webhook recibido: {$type}", ['stripe_id' => $data['id'] ?? null]);
 
         // ─── Checkout (pago único de reserva) ────────────────────
-        if ($type === 'checkout.session.completed' && isset($metadata['reserva'])) {
+        if ($type === 'checkout.session.completed') {
 
-            $reserva = Reserva::whereUuid($metadata['reserva'])->first();
+            if (($metadata['fn'] ?? null) == 1) {
+                $reserva = Reserva::whereUuid($metadata['reserva'])->first();
 
-            // Evitar procesar webhooks duplicados
-            if (!$reserva || $reserva->estado === 'confirmado') {
-                Log::info("Webhook ignorado: reserva ya confirmada o no encontrada", [
-                    'reserva_uuid' => $metadata['reserva'] ?? null
+                // Evitar procesar webhooks duplicados
+                if (!$reserva || $reserva->estado === 'confirmado') {
+                    Log::info("Webhook ignorado: reserva ya confirmada o no encontrada", [
+                        'reserva_uuid' => $metadata['reserva'] ?? null
+                    ]);
+                    return;
+                }
+
+                $reserva->update([
+                    'estado' => 'confirmado'
                 ]);
-                return;
+
+                $precio = $reserva->servicio->precio;
+                $comision = 1 + $reserva->servicio->precio * 0.05;
+
+                $factura = Factura::create([
+                    'negocio_id' => $reserva->negocio->id,
+                    'negocio_data' => $reserva->negocio,
+                    'servicio_data' => $reserva->servicio,
+                    'stripe' => $data,
+                    'entrante' => $reserva->servicio->precio,
+                    'comision' => $comision,
+                    'total' => $precio - $comision
+                ]);
+
+                $datos = [
+                    'negocio' => $reserva->negocio,
+                    'servicio' => $reserva->servicio,
+                    'fecha' => $reserva->fecha,
+                    'usuario' => $reserva->cliente,
+                    'reserva' => $reserva,
+                    'nota' => $reserva->nota
+                ];
+
+                Mail::send('components.email.reserva', [
+                    'datos' => $datos,
+                ], function ($message) use ($datos) {
+                    $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
+                        ->subject('Reserva confirmada');
+                });
             }
 
-            $reserva->update([
-                'estado' => 'confirmado'
-            ]);
+            if (($metadata['fn'] ?? null) == 2) {
+                $reservaEvento = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
 
-            $precio = $reserva->servicio->precio;
-            $comision = 1 + $reserva->servicio->precio * 0.05;
+                // Evitar procesar webhooks duplicados
+                if (!$reservaEvento || $reservaEvento->pagado) {
+                    Log::info("Webhook ignorado: reserva evento ya confirmada o no encontrada", [
+                        'reserva_evento_uuid' => $metadata['reserva_evento'] ?? null
+                    ]);
+                    return;
+                }
 
-            $factura = Factura::create([
-                'negocio_id' => $reserva->negocio->id,
-                'negocio_data' => $reserva->negocio,
-                'servicio_data' => $reserva->servicio,
-                'stripe' => $data,
-                'entrante' => $reserva->servicio->precio,
-                'comision' => $comision,
-                'total' => $precio - $comision
-            ]);
-
-            $datos = [
-                'negocio' => $reserva->negocio,
-                'servicio' => $reserva->servicio,
-                'fecha' => $reserva->fecha,
-                'usuario' => $reserva->cliente,
-                'reserva' => $reserva,
-                'nota' => $reserva->nota
-            ];
-
-            Mail::send('components.email.reserva', [
-                'datos' => $datos,
-            ], function ($message) use ($datos) {
-                $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
-                    ->subject('Reserva confirmada');
-            });
-        }
-
-        // ─── Checkout de eventos ─────────────────────────────────
-        if ($type === 'checkout.session.completed' && isset($metadata['reserva_evento'])) {
-
-            $reservaEvento = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
-
-            // Evitar procesar webhooks duplicados
-            if (!$reservaEvento || $reservaEvento->pagado) {
-                Log::info("Webhook ignorado: reserva de evento ya pagada o no encontrada", [
-                    'reserva_evento_uuid' => $metadata['reserva_evento'] ?? null
+                $reservaEvento->update([
+                    'pagado' => true,
+                    'confirmacion' => true,
                 ]);
-                return;
+
+                $cliente = $reservaEvento->cliente;
+
+                Log::info("Pago de evento confirmado", [
+                    'reserva_evento_uuid' => $reservaEvento->uuid,
+                    'evento' => $reservaEvento->evento->nombre,
+                    'cliente' => $cliente->email,
+                ]);
+
+                Mail::send('components.email.evento.confirmar', [
+                    'reserva' => $reservaEvento,
+                ], function ($message) use ($cliente) {
+                    $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
+                        ->subject('¡Aquí tienes tu entrada!');
+                });
             }
-
-            $reservaEvento->update([
-                'pagado' => true,
-                'confirmacion' => true,
-            ]);
-
-            $evento = $reservaEvento->evento;
-            $cliente = $reservaEvento->cliente;
-
-            Log::info("Pago de evento confirmado", [
-                'reserva_evento_uuid' => $reservaEvento->uuid,
-                'evento' => $evento->nombre,
-                'cliente' => $cliente->email,
-            ]);
-
-            // TODO: Enviar email de confirmación al cliente
         }
 
         // ─── Pagos de suscripciones ─────────────────────────────

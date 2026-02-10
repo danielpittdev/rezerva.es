@@ -10,11 +10,11 @@
          </div>
 
          <!-- Título -->
-         <div class="w-full p-5 absolute left-0 top-50 rounded-md space-y-3">
+         <div class="w-full flex gap-4 items-end p-5 absolute left-0 top-53 rounded-md space-y-3">
             <div class="caja">
-               <img class="bg-base-100 object-cover rounded-full size-27 aspect-1/1 mx-auto border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
+               <img class="bg-base-100 object-cover rounded-full lg:size-25 size-25 aspect-1/1 border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
             </div>
-            <h1 class="text-2xl font-medium text-center flex items-center justify-center mx-auto gap-2">
+            <h1 class="mb-5 text-2xl font-medium flex items-center justify-center gap-2">
                <span>{{ $evento->evento->negocio->nombre }}</span>
                @if ($evento->evento->negocio->verificado)
                   @svg('gravityui-seal-check', 'size-6 items-center text-blue-500')
@@ -23,24 +23,35 @@
          </div>
 
          <!-- Cuerpo -->
-         <div class="cuerpo pt-30 pb-10">
+         <div class="cuerpo pt-10 pb-10">
 
             <!-- Servicios -->
             <section class="caja space-y-5">
-               <div class="p-3 px-5 pt-7">
+
+               <div class="caja flex pt-14">
+                  <div class="mx-auto">
+                     {!! QrCode::size(150)->generate($evento->uuid) !!}
+                  </div>
+               </div>
+
+               <div class="p-3 px-5 pt-7 text-start">
                   <h2 class="font-medium text-lg">
                      Datos de la reserva
                   </h2>
                </div>
 
                <div class="caja px-5 border-t border-base-content/10 pt-7">
-                  <ul class="space-y-3 grid lg:grid-cols-2 grid-cols-1 gap-2 text-start">
+                  <ul class="space-y-3 grid lg:grid-cols-1 grid-cols-1 gap-2 text-start">
                      <li>
                         Evento: <strong>{{ $evento->evento->nombre }}</strong>
                      </li>
 
                      <li>
-                        Precio: <strong>{{ number_format($evento->evento->precio, 2, ',', '.') }}€</strong>
+                        Precio: <strong>{{ number_format($evento->evento->precio * $evento->cantidad, 2, ',', '.') }}€</strong>
+                     </li>
+
+                     <li>
+                        Unidades: <strong>{{ $evento->cantidad }}</strong>
                      </li>
 
                      <li>
@@ -49,9 +60,10 @@
                   </ul>
                </div>
 
-               <div class="caja px-5 border-t border-base-content/10 pt-7">
+               <div class="caja px-5 border-t border-base-content/10 pt-9">
                   <small class="text-base-content/60">
-                     No se pueden cancelar este tipo de reservas, al ser un evento no son reembolsables ni cancelables.
+                     No se pueden cancelar este tipo de reservas, al ser un evento no son reembolsables ni cancelables. Podrás recibir notificaciones de este evento próximamente. En caso de cancelación podrás solicitar tu devolución en <a
+                        class="text-blue-500 hover:underline" href="mailto:devoluciones@rezerva.es">devoluciones@rezerva.es</a>
                   </small>
                </div>
 
@@ -61,14 +73,17 @@
          <!-- Discalimer -->
          <div class="caja py-10 px-5 border-t border-base-content/10 shadow space-y-7">
             <p class="text-base-content text-base-content/70 text-sm text-justify">
-               Rezerva.es es una <strong>plataforma online</strong> para negocios en donde pueden crear su <strong>propio portal de eventos online</strong> y compartirla con todo el mundo de manera rápida y directa. Sube tu audiencia en las <strong>búsquedas de Google</strong>.
+               Rezerva.es. Todos los derechos reservados. Es una plataforma online para gestionar <strong>servicios</strong> y <strong>eventos</strong> de manera autónoma para <strong>particulares</strong>, <strong>negocios</strong> y <strong>empresas</strong>. Rápido <strong>posicionamiento en
+                  Google</strong>, aumenta
+               tus reservas de manera <strong>efectiva</strong>, gestiona tus
+               <strong>empleados</strong> y tus <strong>servicios</strong>.
             </p>
 
             <div class="caja">
-               <small>Powered by</small>
+               <small class="text-base-content/50">Evento patrocinado por</small>
                <img src="/media/logo/logo.png" class="size-8 w-auto" alt="">
                <p class="text-base-content/90 text-sm">
-                  ¿Quieres que tu negocio esté online? <a class="hover:underline text-blue-600" href="https://rezerva.es/registro">Regístrate en Rezerva.es</a>
+                  ¿Quieres estar con nosotros? <a class="hover:underline text-blue-600" href="https://rezerva.es/registro">Regístrate en Rezerva.es</a>
                </p>
             </div>
          </div>

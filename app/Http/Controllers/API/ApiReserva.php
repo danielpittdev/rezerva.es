@@ -364,12 +364,12 @@ class ApiReserva extends Controller
                 'reserva' => $reserva,
             ], function ($message) use ($cliente) {
                 $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
-                    ->subject('Evento reservado');
+                    ->subject('Tu reserva está lista');
             });
 
             return response()->json([
                 'mensaje' => 'Entrada reservada con éxito. Paga en efectivo al llegar.',
-                //'redirect' => route('reserva_evento', ['reserva' => $reserva->uuid]),
+                'redirect' => route('reserva_evento', ['reserva' => $reserva->uuid]),
             ], 201);
         }
 

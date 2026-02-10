@@ -14,7 +14,7 @@
                   <!-- Aviso disclaimer -->
                   <div class="caja">
 
-                     <div class="rounded-md bg-yellow-50 p-4">
+                     <div class="rounded-md bg-yellow-50 border border-yellow-300 p-4">
                         <div class="flex">
                            <div class="shrink-0">
                               <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
@@ -103,18 +103,59 @@
                         </p>
                      </div>
 
-                     <div class="caja">
-                        <small>Comprar como:</small>
+                     <div class="caja border border-base-content/20 rounded-box">
+                        <div class="space-y-1">
+                           <div class="p-4">
+                              <div class="caja font-medium">
+                                 {{ ucfirst($cliente['nombre']) }} {{ ucfirst($cliente['apellido']) }}
+                              </div>
 
-                        <div class="caja font-medium">
-                           {{ ucfirst($cliente['nombre']) }} {{ ucfirst($cliente['apellido']) }}
+                              <div class="caja text-sm">
+                                 {{ $cliente['email'] }}
+                              </div>
+                           </div>
+
+                           <div class="icoc border-t border-base-content/20 p-4">
+                              <div class="flex items-center gap-2">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                       d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                                 </svg>
+
+                                 <span class="text-xs text-base-content/70">
+                                    Las entradas se enviarán a ese correo electrónico. Comprueba tus datos.
+                                 </span>
+                              </div>
+
+                           </div>
                         </div>
                      </div>
+
+                     @if ($evento->max_compra > 0)
+                        <div class="rounded-md bg-blue-50 border border-blue-300 p-4">
+                           <div class="flex">
+                              <div class="shrink-0">
+                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-blue-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                 </svg>
+
+                              </div>
+                              <div class="ml-3">
+                                 <h3 class="text-sm font-medium text-blue-800">Plazas limitadas</h3>
+                                 <div class="mt-2 text-sm text-blue-700">
+                                    <p>
+                                       La organización ha limitado a <strong>{{ $evento->max_compra }} entradas</strong> por compra. Para conseguir más tendrás que volver a entrar para reservar más plazas.
+                                    </p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     @endif
 
                      <div class="caja mt-5">
                         <label for="cantidad" class="block text-sm/6 font-medium">Cantidad de entradas</label>
                         <div class="mt-2">
-                           <input id="cantidad" type="number" min="1" name="cantidad" autocomplete="cantidad"
+                           <input id="cantidad" type="number" min="1" max="{{ $evento->max_compra }}" name="cantidad" autocomplete="cantidad"
                               class="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                         </div>
                      </div>
