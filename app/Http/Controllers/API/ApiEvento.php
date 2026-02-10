@@ -24,7 +24,7 @@ class ApiEvento extends Controller
   public function show($id)
   {
     $evento = Evento::whereUuid($id)->first();
-    $reservas = $evento->reservas;
+    $reservas = $evento->reservas->sortByDesc('id');
 
     $listas = [
       'reservas' => view('components.listas.eventos.reservas', compact('reservas'))->render(),

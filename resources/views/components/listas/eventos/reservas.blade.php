@@ -1,26 +1,50 @@
 @if ($reservas->count() > 0)
-   @foreach ($reservas as $evento)
-      <li class="flex items-center justify-between gap-x-6 pb-2">
-         <div class="min-w-full">
-            <div class="gap-1 w-full">
-               @if ($evento->pagado)
-                  <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20">Pagado</span>
+   @foreach ($reservas as $reserva)
+      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center space-x-4 py-4 px-4 hover:bg-base-content/2">
+         <div class="min-w-0 flex-auto">
+            <div class="flex items-center gap-x-3">
+               @if ($reserva->pagado)
+                  <div class="flex-none rounded-full bg-gray-100/10 p-1 text-green-500">
+                     <div class="size-2 rounded-full bg-current"></div>
+                  </div>
+               @else
+                  <div class="flex-none rounded-full bg-gray-100/10 p-1 text-gray-500">
+                     <div class="size-2 rounded-full bg-current"></div>
+                  </div>
                @endif
 
-               <div class="flex items-start justify-between gap-x-3">
-                  <p class="text-sm/6 font-semibold text-base-content/90">{{ $evento->cliente->nombre . ' ' . $evento->cliente->apellido }}</p>
-                  <p class="mt-0.5 rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-700 inset-ring inset-ring-gray-600/20">{{ $evento->cantidad }} unidades</p>
-               </div>
+               <h2 class="min-w-0 text-sm/6 font-semibold text-gray-900">
+                  <a href="#" class="flex gap-x-2">
+                     <span class="truncate">{{ $reserva->cliente->nombre . ' ' . $reserva->cliente->apellido }}</span>
+                     <span class="text-gray-500">/</span>
+                     <span class="whitespace-nowrap">{{ $reserva->cantidad }} entradas</span>
+                     <span class="absolute inset-0"></span>
+                  </a>
+               </h2>
             </div>
-            <div class="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-               <p class="whitespace-nowrap"><time>{{ Carbon\Carbon::parse($evento->created_at)->translatedFormat('l d M') }}</time></p>
+            <div class="mt-1 flex items-center gap-x-2.5 text-xs/5 text-gray-500">
+               <p class="truncate">{{ $reserva->created_at }}</p>
+               <svg viewBox="0 0 2 2" class="size-0.5 flex-none fill-gray-500">
+                  <circle r="1" cx="1" cy="1" />
+               </svg>
+               @if ($reserva->confirmacion)
+                  <p class="whitespace-nowrap text-green-500">Confirmado</p>
+               @else
+                  <p class="whitespace-nowrap text-red-500">No confirmado</p>
+               @endif
             </div>
          </div>
+         <div class="flex-none rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
+            {{ ucfirst($reserva->metodo_pago) }}
+         </div>
+         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 flex-none text-gray-400">
+            <path d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+         </svg>
       </li>
    @endforeach
 @else
-   <li class="flex items-center justify-between gap-x-6 py-5">
-      <div class="min-w-0">
+   <li class="flex items-center justify-between gap-x-6 py-3">
+      <div class="min-w-0 px-3">
          <div class="flex items-start gap-x-3">
             <p class="text-sm/6 font-normal text-base-content/90">No hay reservas</p>
          </div>

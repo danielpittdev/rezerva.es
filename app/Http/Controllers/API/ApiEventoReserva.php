@@ -20,11 +20,16 @@ class ApiEventoReserva extends Controller
   # Vista única
   public function show($id)
   {
-    $reserva = ReservaEvento::whereUuid($id)->first();
+    $reserva = ReservaEvento::whereUuid($id)->with('cliente', 'evento')->first();
+    $relacionados = $reserva->relacionados();
+
+    $modal = view('components.modal.evento.detalles', compact('reserva', 'relacionados'))->render();
 
     return response()->json([
-      'mensaje' => 'Recibido con éxito'
-    ], 201);
+      'mensaje' => 'Recibido con éxito',
+      'reserva' => $reserva,
+      'modal' => $modal,
+    ], 200);
   }
 
   # Crear
@@ -44,7 +49,7 @@ class ApiEventoReserva extends Controller
       'cliente_telefono' => 'required_without:cliente_email',
     ]);
 
-    $cliente = Clientes::whereUuid($request->cliente_mail)->first();
+    $cliente = Clientes::where('email', $request->cliente_email)->first();
     $evento = Evento::whereUuid($request->evento_id)->first();
     $negocio = Auth::user()->negocios[0];
 
@@ -73,6 +78,7 @@ class ApiEventoReserva extends Controller
 
     $validacion['cliente_id'] = $cliente->id;
     $validacion['evento_id'] = $evento->id;
+    $validacion['total'] = $evento->precio * $validacion['cantidad'];
 
     $reserva = ReservaEvento::create($validacion);
 
