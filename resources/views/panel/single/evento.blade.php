@@ -18,7 +18,7 @@
       <!-- Sección -->
       <div class="col-span-full lg:pb-0 overflow-y-auto space-y-3">
 
-         <div class="grid lg:grid-cols-3 grid-cols-1 gap-3">
+         <div class="grid lg:grid-cols-3 grid-cols-1 gap-3 items-start">
             <div class="caja border border-base-content/15 bg-base-100 rounded-box overflow-y-auto">
                <!-- HD -->
                <div class="caja divide-y divide-base-content/20">
@@ -29,7 +29,7 @@
                   </div>
 
                   <!-- SEC -->
-                  <ul role="list" id="evento_compras" class="divide-y divide-gray-100">
+                  <ul role="list" id="evento_compras" class="divide-y divide-gray-100 max-h-[400px]">
 
                   </ul>
                </div>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- KPIs -->
-            <div class="caja border border-base-content/15 bg-base-100 p-3 rounded-box flex flex-col justify-between gap-4">
+            <div class="caja border border-base-content/15 bg-base-100 p-3 rounded-box flex flex-col justify-start gap-4">
                <div>
                   <h2 class="font-medium text-sm text-base-content/60">Entradas vendidas</h2>
                   <p class="text-3xl font-bold mt-1">{{ $totalVendidas }}</p>
