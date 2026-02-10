@@ -40,4 +40,12 @@ class ReservaEvento extends Model
     {
         return $this->belongsTo(Clientes::class, 'cliente_id');
     }
+
+    public function relacionados()
+    {
+        return ReservaEvento::where('cliente_id', $this->cliente_id)
+            ->where('evento_id', $this->evento_id)
+            ->where('id', '!=', $this->id)
+            ->get();
+    }
 }

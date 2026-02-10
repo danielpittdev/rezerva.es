@@ -27,7 +27,33 @@ class SingleController extends Controller
     public function evento($id)
     {
         $evento = Evento::whereUuid($id)->with('negocio')->first();
-        return view('panel.single.evento', compact('evento'));
+        $reservas = $evento->reservas()->with('cliente')->get();
+
+        // Entradas vendidas por día (agrupado por fecha de created_at)
+        $ventasPorDia = $reservas->groupBy(fn($r) => $r->created_at->format('d M'))
+            ->map(fn($grupo) => $grupo->sum('cantidad'));
+
+        $chartLabels = $ventasPorDia->keys()->values()->toArray();
+        $chartData = $ventasPorDia->values()->toArray();
+
+        // KPIs
+        $totalVendidas = $reservas->sum('cantidad');
+        $ingresosTotales = $reservas->sum('total');
+        $stockOriginal = $totalVendidas + ($evento->stock ?? 0);
+        $porcentajeOcupacion = $stockOriginal > 0 ? round(($totalVendidas / $stockOriginal) * 100) : 0;
+
+        // Distribución por método de pago
+        $metodosPago = $reservas->groupBy('metodo_pago')
+            ->map(fn($grupo) => $grupo->sum('cantidad'));
+
+        $metodoLabels = $metodosPago->keys()->map(fn($m) => ucfirst($m))->values()->toArray();
+        $metodoData = $metodosPago->values()->toArray();
+
+        return view('panel.single.evento', compact(
+            'evento', 'chartLabels', 'chartData',
+            'totalVendidas', 'ingresosTotales', 'stockOriginal', 'porcentajeOcupacion',
+            'metodoLabels', 'metodoData'
+        ));
     }
 
     public function servicio($id)

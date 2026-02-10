@@ -35,4 +35,9 @@ class Clientes extends Model
     {
         return $this->hasMany(Reserva::class, 'cliente_id');
     }
+
+    public function eventos()
+    {
+        return $this->hasManyThrough(ReservaEvento::class, Evento::class);
+    }
 }
