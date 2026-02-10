@@ -47,7 +47,11 @@
                      </li>
 
                      <li>
-                        Precio: <strong>{{ number_format($evento->evento->precio, 2, ',', '.') }}€</strong>
+                        Precio: <strong>{{ number_format($evento->evento->precio * $evento->cantidad, 2, ',', '.') }}€</strong>
+                     </li>
+
+                     <li>
+                        Unidades: <strong>{{ $evento->cantidad }}</strong>
                      </li>
 
                      <li>

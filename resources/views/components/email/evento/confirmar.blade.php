@@ -66,16 +66,36 @@
                               </table>
                               <h1
                                  style="margin-right:0rem;margin-left:0rem;margin-bottom:40px;margin-top:40px;padding:0rem;font-weight:500;font-size:15px;color:rgb(0,0,0)">
-                                 Hemos recibido tu reserva
+                                 ¡Tus entradas ya están aquí!
                               </h1>
                               <p
                                  style="font-size:14px;line-height:24px;color:rgb(0,0,0);text-align:justify;margin-top:16px;margin-bottom:16px">
-                                 Gracias por reservar en {{ $reserva['evento']['nombre'] }}. Hemos procesado
-                                 correctamente tu solicitud para el evento
-                                 <strong>{{ $reserva['evento']['nombre'] }}</strong>. Para tranquilidad tuya recibirás
+                                 Has reservado tu entrada en <strong>{{ $reserva['evento']['nombre'] }}</strong>. Tus entradas ya se han generado y puedes verlas
+                                 pulsando el botón de abajo. Para tranquilidad tuya recibirás
                                  tus entradas <strong>72 horas</strong> antes del comienzo
                                  del evento.
                               </p>
+                              <table
+                                 align="center"
+                                 width="100%"
+                                 border="0"
+                                 cellpadding="0"
+                                 cellspacing="0"
+                                 role="presentation"
+                                 style="margin-top:8px;margin-bottom:24px;text-align:center">
+                                 <tbody>
+                                    <tr>
+                                       <td align="center">
+                                          <a
+                                             href="{{ route('reserva_evento', $reserva['uuid']) }}"
+                                             target="_blank"
+                                             style="display:inline-block;background-color:rgb(0,0,0);color:rgb(255,255,255);font-size:14px;font-weight:600;text-decoration:none;text-align:center;padding:12px 32px;border-radius:6px;line-height:100%">
+                                             Ver mis entradas
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
                               <table
                                  align="center"
                                  width="100%"

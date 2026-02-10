@@ -105,6 +105,7 @@ class StripeController extends Controller
                 'application_fee_amount' => $comision,
             ],
             'metadata' => [
+                'fn' => 1,
                 'reserva' => $reserva->uuid,
             ],
             'success_url' => route('reserva', ['reserva' => $reserva->uuid]),
@@ -162,8 +163,8 @@ class StripeController extends Controller
                     'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
                     'phone' => $cliente->telefono,
                     'metadata' => [
-                        'cliente_uuid' => $cliente->uuid,
-                        'negocio_id' => $negocio->id,
+                        'fn' => 2,
+                        'evento' => $evento->uuid,
                     ],
                 ], ['stripe_account' => $negocio->stripe_account_id]);
 
@@ -201,6 +202,7 @@ class StripeController extends Controller
                 'application_fee_amount' => $comision,
             ],
             'metadata' => [
+                'fn' => 2,
                 'reserva_evento' => $reservaEvento->uuid,
             ],
             'success_url' => route('reserva_evento', ['reserva' => $reservaEvento->uuid]),

@@ -8,6 +8,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\API\ApiReserva;
 use App\Http\Controllers\StripeController;
+use App\Models\Reserva;
+use App\Models\ReservaEvento;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 Route::get('/', [WebController::class, 'inicio'])->name('inicio');
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
