@@ -47,6 +47,7 @@ Route::get('/privacidad', [WebController::class, 'privacidad'])->name('privacida
 # Categorias 
 Route::get('/reservas', [WebController::class, 'reservas'])->name('cat_reservas');
 Route::get('/empleados', [WebController::class, 'empleados'])->name('cat_empleados');
+Route::get('/eventos', [WebController::class, 'eventos'])->name('cat_eventos');
 Route::get('/carta-qr', [WebController::class, 'carta_qr'])->name('cat_carta_qr');
 Route::get('/clientes', [WebController::class, 'clientes'])->name('cat_clientes');
 Route::get('/horarios', [WebController::class, 'horarios'])->name('cat_horarios');

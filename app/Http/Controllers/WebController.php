@@ -85,6 +85,10 @@ class WebController extends Controller
     {
         return view('web.categorias.reservas');
     }
+    public function eventos()
+    {
+        return view('web.categorias.eventos');
+    }
     public function psicologia()
     {
         return view('web.categorias.psicologia');
