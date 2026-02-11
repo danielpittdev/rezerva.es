@@ -1,6 +1,6 @@
 @if ($reservas->count() > 0)
    @foreach ($reservas as $reserva)
-      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center space-x-4 p-3 hover:bg-base-content/2">
+      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center p-3 hover:bg-base-content/2">
          <div class="min-w-0 flex-auto">
             <div class="flex items-center gap-x-3">
 
@@ -14,7 +14,7 @@
                <p class="truncate">{{ $reserva->created_at }}</p>
             </div>
          </div>
-         <div class="flex-none rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
+         <div class="flex-none rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10 mr-2">
             {{ ucfirst($reserva->metodo_pago) }}
          </div>
          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 flex-none text-gray-400">

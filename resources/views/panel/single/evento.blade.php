@@ -5,49 +5,38 @@
 </div>
 
 @section('contenido')
-   <section class="h-full w-full rounded-md grid lg:grid-cols-2 grid-cols-1 lg:grid-rows-[auto_1fr] grid-rows-[auto_1fr] gap-2">
+   <section class="h-full w-full grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr] gap-2">
+
       <!-- Barra superior -->
-      <div class="rounded col-span-full lg:relative sticky top-0">
-         <div class="items-start justify-between gap-2">
-            <div class="caja flex gap-2">
-               <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="lg:w-auto w-full rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/10">Editar evento</button>
-
-               <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="lg:w-auto w-full rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
-            </div>
-
-            <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
+      <div class="col-span-full flex flex-wrap items-center justify-between gap-2">
+         <div class="flex items-center gap-2">
+            <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/10">Editar evento</button>
+            <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
          </div>
+         <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
       </div>
 
-      <section class="grid grid-cols-[auto_1fr] col-span-full gap-3">
+      <!-- Panel 1: Reservas (2 cols, fila 1) -->
+      <div class="lg:col-span-2 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
+         <ul id="evento_compras">
 
-         <!-- SEC -->
-         <div class="boder bg-base-100 border border-base-content/15 rounded-box min-w-xs overflow-hidden">
-            <!-- HD -->
-            <div class="caja divide-y divide-base-content/10">
-               <div class="z-10 bg-base-100 sticky top-0 p-3">
-                  <h2 class="font-medium text-md">
-                     Lista de clientes
-                  </h2>
-               </div>
+         </ul>
+      </div>
 
-               <!-- SEC -->
-               <ul role="list" id="evento_compras" class="divide-y divide-gray-100 max-h-[400px]">
+      <!-- Panel 2: (1 col, fila 1) -->
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
 
-               </ul>
-            </div>
-         </div>
+      </div>
 
-         <!-- SEC -->
-         <div class="boder bg-base-100 p-3 border border-base-content/15 rounded-box min-w-xs">
-            ijijij
-         </div>
+      <!-- Panel 3: (1 col, fila 2) -->
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
 
-         <!-- SEC -->
-         <div class="boder bg-base-100 p-3 border border-base-content/15 rounded-box min-w-xs">
-            ijijij
-         </div>
-      </section>
+      </div>
+
+      <!-- Panel 4: (2 cols, fila 2) -->
+      <div class="lg:col-span-2 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
+
+      </div>
 
    </section>
 @endsection
@@ -469,96 +458,6 @@
                class="relative transform overflow-hidden bg-base-100 px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:max-w-md rounded-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                <section id="md_conten_md1" class="caja space-y-5">
 
-                  <div class="caja">
-                     <h6 class="font-medium">
-                        Información del ticket
-                     </h6>
-
-                     <small class="text-base-content/60">
-                        Edite la información de la entrada acontinuación
-                     </small>
-                  </div>
-
-                  <div class="grid grid-cols-[auto_1fr] gap-8">
-                     <!-- aaa -->
-                     <div class="caja space-y-1">
-                        <div class="lista">
-                           <ul class="space-y-3">
-                              <li>
-                                 <div class="caja">
-                                    <div class="info">
-                                       <h6 class="font-medium text-sm">
-                                          Datos cliente
-                                       </h6>
-                                    </div>
-                                    <span class="text-sm text-base-content/70">Daniel Gonzalez</span>
-                                 </div>
-                              </li>
-                              <li>
-                                 <div class="caja">
-                                    <div class="info">
-                                       <h6 class="font-medium text-sm">
-                                          Correo electrónico
-                                       </h6>
-                                    </div>
-                                    <span class="text-sm text-base-content/70">correo@gmail.com</span>
-                                 </div>
-                              </li>
-                              <li>
-                                 <div class="caja">
-                                    <div class="info">
-                                       <h6 class="font-medium text-sm">
-                                          Teléfono
-                                       </h6>
-                                    </div>
-                                    <span class="text-sm text-base-content/70">123123123</span>
-                                 </div>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-
-                     <!-- aaa -->
-                     <div class="caja space-y-1">
-                        <div class="lista">
-                           <ul class="space-y-3">
-                              <li>
-                                 <div class="caja">
-                                    <div class="info">
-                                       <h6 class="font-medium text-sm">
-                                          Precio de entrada
-                                       </h6>
-                                    </div>
-                                    <span class="text-sm text-base-content/70">
-                                       12,00
-                                    </span>
-                                 </div>
-                              </li>
-                              <li>
-                                 <div class="caja">
-                                    <div class="info">
-                                       <h6 class="font-medium text-sm">
-                                          Total gastado
-                                       </h6>
-                                    </div>
-                                    <span class="text-sm text-base-content/70">123,90</span>
-                                 </div>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-
-                  <!-- aaa -->
-                  <div class="caja mt-7">
-                     <button type="button" target="doda93" class="fn_alertar_usuario rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
-                        Enviar aviso
-                     </button>
-
-                     <button type="button" target="doda93" class="fn_emitir_rembolso rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400">
-                        Emitir reembolso
-                     </button>
-                  </div>
 
                </section>
             </el-dialog-panel>
@@ -841,66 +740,4 @@
       //    });
       // });
    </script>
-@endsection
-
-@section('ddddd')
-   <!-- Sección -->
-   <div class="col-span-full lg:pb-0 overflow-y-auto space-y-3">
-
-      <div class="grid lg:grid-cols-2 grid-cols-1 gap-3 items-start">
-         <div class="caja border border-base-content/15 bg-base-100 rounded-box overflow-y-auto">
-            <!-- HD -->
-            <div class="caja divide-y divide-base-content/15">
-               <div class="z-10 bg-base-100 sticky top-0 p-3">
-                  <h2 class="font-medium text-md">
-                     Lista de clientes
-                  </h2>
-               </div>
-
-               <!-- SEC -->
-               <ul role="list" id="evento_compras" class="divide-y divide-gray-100 max-h-[400px]">
-
-               </ul>
-            </div>
-
-         </div>
-
-         <!-- KPIs -->
-         <div class="caja border border-base-content/15 bg-base-100 p-3 rounded-box flex flex-col justify-start gap-4">
-            <div>
-               <h2 class="font-medium text-sm text-base-content/60">Entradas vendidas</h2>
-               <p class="text-3xl font-bold mt-1">{{ $totalVendidas }}</p>
-               <p class="text-xs text-base-content/50 mt-1">de {{ $stockOriginal }} disponibles</p>
-            </div>
-
-            <div>
-               <div class="flex justify-between text-xs text-base-content/60 mb-1">
-                  <span>Ocupación</span>
-                  <span>{{ $porcentajeOcupacion }}%</span>
-               </div>
-               <div class="w-full bg-base-content/10 rounded-full h-2">
-                  <div class="bg-indigo-600 h-2 rounded-full transition-all" style="width: {{ $porcentajeOcupacion }}%"></div>
-               </div>
-            </div>
-
-            <div>
-               <h2 class="font-medium text-sm text-base-content/60">Ingresos brutos</h2>
-               <p class="text-2xl font-bold mt-1">{{ number_format($ingresosTotales, 2, ',', '.') }} €</p>
-            </div>
-         </div>
-
-         <!-- Métodos de pago -->
-         <div class="caja border border-base-content/15 bg-base-100 p-3 rounded-box">
-            <h2 class="font-medium text-sm text-base-content/60">Métodos de pago</h2>
-            <div id="chart-metodos-pago" class="mt-2"></div>
-         </div>
-      </div>
-
-      <!-- Gráfica principal: Ventas por día -->
-      <div class="caja border border-base-content/15 bg-base-100 p-3 rounded-box lg:col-span-3">
-         <h2 class="font-medium text-sm text-base-content/60">Entradas vendidas por día</h2>
-         <div id="chart-ventas-dia" class="mt-2"></div>
-      </div>
-
-   </div>
 @endsection
