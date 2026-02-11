@@ -1,37 +1,17 @@
 @if ($reservas->count() > 0)
    @foreach ($reservas as $reserva)
-      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center space-x-4 py-4 px-4 hover:bg-base-content/2">
+      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center space-x-4 p-3 hover:bg-base-content/2">
          <div class="min-w-0 flex-auto">
             <div class="flex items-center gap-x-3">
-               @if ($reserva->pagado)
-                  <div class="flex-none rounded-full bg-gray-100/10 p-1 text-green-500">
-                     <div class="size-2 rounded-full bg-current"></div>
-                  </div>
-               @else
-                  <div class="flex-none rounded-full bg-gray-100/10 p-1 text-gray-500">
-                     <div class="size-2 rounded-full bg-current"></div>
-                  </div>
-               @endif
 
                <h2 class="min-w-0 text-sm/6 font-semibold text-gray-900">
                   <a href="#" class="flex gap-x-2">
                      <span class="truncate">{{ $reserva->cliente->nombre . ' ' . $reserva->cliente->apellido }}</span>
-                     <span class="text-gray-500">/</span>
-                     <span class="whitespace-nowrap">{{ $reserva->cantidad }} entradas</span>
-                     <span class="absolute inset-0"></span>
                   </a>
                </h2>
             </div>
             <div class="mt-1 flex items-center gap-x-2.5 text-xs/5 text-gray-500">
                <p class="truncate">{{ $reserva->created_at }}</p>
-               <svg viewBox="0 0 2 2" class="size-0.5 flex-none fill-gray-500">
-                  <circle r="1" cx="1" cy="1" />
-               </svg>
-               @if ($reserva->confirmacion)
-                  <p class="whitespace-nowrap text-green-500">Confirmado</p>
-               @else
-                  <p class="whitespace-nowrap text-red-500">No confirmado</p>
-               @endif
             </div>
          </div>
          <div class="flex-none rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
