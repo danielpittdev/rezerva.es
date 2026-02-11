@@ -2,11 +2,11 @@
 
 @section('contenido')
    <div class="flex min-h-full">
-      <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 overflow-y-auto">
+      <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 lg:px-24 overflow-y-auto">
          <div class="mx-auto w-full max-w-sm lg:w-96">
             <div>
                <img src="/media/logo/icon.png" alt="Your Company" class="h-10 w-auto" />
-               <h2 class="mt-8 text-2xl/9 font-bold tracking-tight">Registrarse</h2>
+               <h2 class="mt-8 text-2lg/9 font-bold tracking-tight">Registrarse</h2>
                <p class="mt-2 text-sm/6 text-gray-400">
                   ¿Eres miembro?
                   <a href="{{ route('login') }}" class="font-semibold text-indigo-500 hover:text-indigo-300">Inicia sesión</a>
@@ -17,7 +17,7 @@
                <div>
                   <form id="registro" action="{{ route('api_registro') }}" method="POST" class="space-y-6 grid lg:grid-cols-2 grid-cols-1 gap-2">
                      @csrf
-                     <div class="xl:col-span-2 col-span-1">
+                     <div class="lg:col-span-2 col-span-1">
                         <label for="email" class="block text-sm/6 font-medium">Correo electrónico</label>
                         <div class="mt-2">
                            <input id="email" type="email" name="email" autocomplete="email"
@@ -25,7 +25,7 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-1 col-span-1">
+                     <div class="lg:col-span-1 col-span-1">
                         <label for="nombre" class="block text-sm/6 font-medium">Nombre</label>
                         <div class="mt-2">
                            <input id="nombre" type="text" name="nombre" autocomplete="nombre"
@@ -33,7 +33,7 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-1 col-span-1">
+                     <div class="lg:col-span-1 col-span-1">
                         <label for="apellido" class="block text-sm/6 font-medium">Apellido</label>
                         <div class="mt-2">
                            <input id="apellido" type="text" name="apellido" autocomplete="apellido"
@@ -41,7 +41,7 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-full col-span-1">
+                     <div class="lg:col-span-full col-span-1">
                         <label for="password" class="block text-sm/6 font-medium">Contraseña</label>
                         <div class="mt-2">
                            <input id="password" type="password" name="password" autocomplete="current-password"
@@ -49,7 +49,7 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-full col-span-1">
+                     <div class="lg:col-span-full col-span-1">
                         <label for="password_confirmation" class="block text-sm/6 font-medium">Confirma contraseña</label>
                         <div class="mt-2">
                            <input id="password_confirmation" type="password" name="password_confirmation" autocomplete="current-password"
@@ -61,9 +61,21 @@
                         Datos de tu negocio
                      </div>
 
+                     <!-- Tipo de negocio: Online o Presencial -->
+                     <div class="col-span-full">
+                        <div class="flex items-center gap-3">
+                           <label class="inline-flex items-center cursor-pointer">
+                              <input id="online" type="checkbox" name="online" value="1" class="sr-only peer" />
+                              <div class="relative w-11 h-6 rounded-full bg-base-content/20 peer-checked:bg-indigo-500 peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-indigo-500 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                              <span class="ms-3 text-sm font-medium">Negocio online</span>
+                           </label>
+                           <span class="text-xs text-base-content/50">(sin local fisico)</span>
+                        </div>
+                     </div>
+
                      <!-- Negocio -->
 
-                     <div class="xl:col-span-full col-span-1">
+                     <div class="lg:col-span-full col-span-1">
                         <label for="empresa_nombre" class="block text-sm/6 font-medium">Nombre de tu negocio</label>
                         <div class="mt-2">
                            <input id="empresa_nombre" type="text" name="empresa_nombre" autocomplete="empresa_nombre"
@@ -71,15 +83,15 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-2 col-span-1">
-                        <label for="descripcion" class="block text-sm/6 font-medium">Descripción</label>
+                     <div class="lg:col-span-2 col-span-1">
+                        <label for="descripcion" class="block text-sm/6 font-medium">Descripción <span class="text-base-content/50 text-xs" id="descripcion_opcional">(opcional)</span></label>
                         <div class="mt-2">
                            <textarea name="descripcion" id="descripcion" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" cols="30"
                               rows="5"></textarea>
                         </div>
                      </div>
 
-                     <div class="xl:col-span-2 col-span-1">
+                     <div class="lg:col-span-2 col-span-1">
                         <label for="tipo" class="block text-sm/6 font-medium">Tipo de negocio</label>
                         <div class="mt-2">
 
@@ -117,7 +129,7 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-2 col-span-1">
+                     <div class="lg:col-span-2 col-span-1">
                         <label for="moneda" class="block text-sm/6 font-medium">Moneda</label>
                         <div class="mt-2">
 
@@ -155,35 +167,38 @@
                         </div>
                      </div>
 
-                     <div class="xl:col-span-2 col-span-1">
-                        <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
-                        <div class="mt-2">
-                           <input id="postal_direccion" type="text" name="postal_direccion" placeholder="Calle y número" autocomplete="street-address"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                     <!-- Campos de dirección (solo para negocio presencial) -->
+                     <div id="campos_direccion" class="col-span-full grid lg:grid-cols-2 grid-cols-1 gap-2">
+                        <div class="lg:col-span-2 col-span-1">
+                           <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
+                           <div class="mt-2">
+                              <input id="postal_direccion" type="text" name="postal_direccion" placeholder="Calle y número" autocomplete="street-address"
+                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
                         </div>
-                     </div>
 
-                     <div class="xl:col-span-1 col-span-1">
-                        <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
-                        <div class="mt-2">
-                           <input id="postal_codigo" type="text" name="postal_codigo" placeholder="00000" autocomplete="postal-code"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        <div class="lg:col-span-1 col-span-1">
+                           <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
+                           <div class="mt-2">
+                              <input id="postal_codigo" type="text" name="postal_codigo" placeholder="00000" autocomplete="postal-code"
+                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
                         </div>
-                     </div>
 
-                     <div class="xl:col-span-1 col-span-1">
-                        <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
-                        <div class="mt-2">
-                           <input id="postal_ciudad" type="text" name="postal_ciudad" placeholder="Ciudad" autocomplete="address-level2"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        <div class="lg:col-span-1 col-span-1">
+                           <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
+                           <div class="mt-2">
+                              <input id="postal_ciudad" type="text" name="postal_ciudad" placeholder="Ciudad" autocomplete="address-level2"
+                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
                         </div>
-                     </div>
 
-                     <div class="xl:col-span-2 col-span-1">
-                        <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
-                        <div class="mt-2">
-                           <input id="postal_pais" type="text" name="postal_pais" placeholder="País" autocomplete="country-name"
-                              class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        <div class="lg:col-span-2 col-span-1">
+                           <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
+                           <div class="mt-2">
+                              <input id="postal_pais" type="text" name="postal_pais" placeholder="País" autocomplete="country-name"
+                                 class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-base-content/10 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
                         </div>
                      </div>
 
@@ -220,7 +235,7 @@
          </div>
       </div>
       <div class="relative hidden w-0 flex-1 lg:block sticky top-0">
-         <img src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" class="absolute inset-0 size-full object-cover" />
+         <img src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ilgib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" class="absolute inset-0 size-full object-cover" />
       </div>
    </div>
 @endsection
@@ -228,6 +243,22 @@
 @section('scripts')
    <script>
       const registroForm = document.getElementById('registro');
+      const onlineToggle = document.getElementById('online');
+      const camposDireccion = document.getElementById('campos_direccion');
+      const descripcionOpcional = document.getElementById('descripcion_opcional');
+
+      onlineToggle.addEventListener('change', () => {
+         if (onlineToggle.checked) {
+            camposDireccion.style.display = 'none';
+            descripcionOpcional.style.display = '';
+         } else {
+            camposDireccion.style.display = '';
+            descripcionOpcional.style.display = 'none';
+         }
+      });
+
+      // Estado inicial
+      descripcionOpcional.style.display = 'none';
 
       registroForm.addEventListener('submit', (e) => {
          e.preventDefault();

@@ -21,11 +21,11 @@ export default defineConfig({
         global: 'globalThis',
     },
     server: {
-        host: "192.168.1.14",
+        host: "localhost",
         port: 5190,
         strictPort: true,
         hmr: {
-            host: "192.168.1.14",
+            host: "localhost",
             // protocol: "ws",
         },
     },

@@ -17,6 +17,7 @@ class Negocios extends Model
         'slug',
         'descripcion',
         'tipo',
+        'online',
         'postal_direccion',
         'postal_codigo',
         'postal_ciudad',
@@ -45,6 +46,7 @@ class Negocios extends Model
     {
         return [
             'verificado' => 'boolean',
+            'online' => 'boolean',
         ];
     }
 

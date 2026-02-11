@@ -50,13 +50,15 @@ class AuthController extends Controller
             'email' => 'required|email|max:50|unique:usuarios',
             'terminos_condiciones' => 'required',
             // Negocio
+            'online' => 'nullable',
             'empresa_nombre' => 'required|string|min:3',
-            'descripcion' => 'required|string|max:255',
+            'descripcion' => 'nullable|string|max:255',
             'tipo' => 'required|string|max:50',
-            'postal_direccion' => 'required|string|max:255',
-            'postal_codigo' => 'required|string|max:10',
-            'postal_ciudad' => 'required|string|max:100',
-            'postal_pais' => 'required|string|max:100',
+            'moneda' => 'nullable|in:EUR,USD,COP,GBP',
+            'postal_direccion' => 'required_without:online|nullable|string|max:255',
+            'postal_codigo' => 'required_without:online|nullable|string|max:10',
+            'postal_ciudad' => 'required_without:online|nullable|string|max:100',
+            'postal_pais' => 'required_without:online|nullable|string|max:100',
         ]);
 
         # Mayusculas
@@ -74,14 +76,16 @@ class AuthController extends Controller
         ]);
 
         $negocio = Negocios::create([
-            'nombre' => $validacion['empresa_nombre'] ?? 'Tu negocio',
+            'nombre' => $validacion['empresa_nombre'],
             'slug' => Str::slug($validacion['empresa_nombre']),
-            'descripcion' => $validacion['descripcion'] ?? 'Descripción corta',
+            'descripcion' => $validacion['descripcion'] ?? null,
             'tipo' => $validacion['tipo'] ?? 'otros',
-            'postal_direccion' => $validacion['postal_direccion'] ?? 'Calle',
-            'postal_codigo' => $validacion['postal_codigo'] ?? '00000',
-            'postal_ciudad' => $validacion['postal_ciudad'] ?? 'Ciudad',
-            'postal_pais' => $validacion['postal_pais'] ?? 'País',
+            'online' => !empty($validacion['online']),
+            'moneda' => $validacion['moneda'] ?? 'EUR',
+            'postal_direccion' => $validacion['postal_direccion'] ?? null,
+            'postal_codigo' => $validacion['postal_codigo'] ?? null,
+            'postal_ciudad' => $validacion['postal_ciudad'] ?? null,
+            'postal_pais' => $validacion['postal_pais'] ?? null,
             'usuario_id' => $usuario->id,
         ]);
 
