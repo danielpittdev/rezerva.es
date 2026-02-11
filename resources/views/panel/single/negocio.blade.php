@@ -442,39 +442,50 @@
                            </div>
                         </div>
 
+                        <!-- Toggle online -->
+                        <div class="col-span-full">
+                           <div class="flex items-center gap-3">
+                              <label class="inline-flex items-center cursor-pointer">
+                                 <input id="editar_online" type="checkbox" name="online" value="1" @if($negocio->online) checked @endif class="sr-only peer" />
+                                 <div class="relative w-11 h-6 rounded-full bg-base-content/20 peer-checked:bg-indigo-500 peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-indigo-500 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                                 <span class="ms-3 text-sm font-medium">Negocio online</span>
+                              </label>
+                              <span class="text-xs text-base-content/50">(sin local fisico)</span>
+                           </div>
+                        </div>
+
                         <!-- Dirección postal -->
-                        <div class="lg:col-span-full col-span-full">
-                           <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
-                           <div class="mt-2">
-                              <input id="postal_direccion" type="text" name="postal_direccion" value="{{ $negocio->postal_direccion }}"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                        <div id="editar_campos_direccion" class="col-span-full grid lg:grid-cols-4 grid-cols-1 gap-3" @if($negocio->online) style="display:none" @endif>
+                           <div class="lg:col-span-full col-span-full">
+                              <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
+                              <div class="mt-2">
+                                 <input id="postal_direccion" type="text" name="postal_direccion" value="{{ $negocio->postal_direccion }}"
+                                    class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                              </div>
                            </div>
-                        </div>
 
-                        <!-- Código postal -->
-                        <div class="lg:col-span-2 col-span-full">
-                           <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
-                           <div class="mt-2">
-                              <input id="postal_codigo" type="text" name="postal_codigo" value="{{ $negocio->postal_codigo }}"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           <div class="lg:col-span-2 col-span-full">
+                              <label for="postal_codigo" class="block text-sm/6 font-medium">Código postal</label>
+                              <div class="mt-2">
+                                 <input id="postal_codigo" type="text" name="postal_codigo" value="{{ $negocio->postal_codigo }}"
+                                    class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                              </div>
                            </div>
-                        </div>
 
-                        <!-- Ciudad -->
-                        <div class="lg:col-span-2 col-span-full">
-                           <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
-                           <div class="mt-2">
-                              <input id="postal_ciudad" type="text" name="postal_ciudad" value="{{ $negocio->postal_ciudad }}"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           <div class="lg:col-span-2 col-span-full">
+                              <label for="postal_ciudad" class="block text-sm/6 font-medium">Ciudad</label>
+                              <div class="mt-2">
+                                 <input id="postal_ciudad" type="text" name="postal_ciudad" value="{{ $negocio->postal_ciudad }}"
+                                    class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                              </div>
                            </div>
-                        </div>
 
-                        <!-- País -->
-                        <div class="lg:col-span-full col-span-full">
-                           <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
-                           <div class="mt-2">
-                              <input id="postal_pais" type="text" name="postal_pais" value="{{ $negocio->postal_pais }}"
-                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           <div class="lg:col-span-full col-span-full">
+                              <label for="postal_pais" class="block text-sm/6 font-medium">País</label>
+                              <div class="mt-2">
+                                 <input id="postal_pais" type="text" name="postal_pais" value="{{ $negocio->postal_pais }}"
+                                    class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                              </div>
                            </div>
                         </div>
 
@@ -533,6 +544,12 @@
 
                      <script>
                         const editarNegocioForm = document.getElementById('editarNegocio');
+                        const editarOnlineToggle = document.getElementById('editar_online');
+                        const editarCamposDireccion = document.getElementById('editar_campos_direccion');
+
+                        editarOnlineToggle.addEventListener('change', () => {
+                           editarCamposDireccion.style.display = editarOnlineToggle.checked ? 'none' : '';
+                        });
 
                         editarNegocioForm.addEventListener('submit', (e) => {
                            e.preventDefault();

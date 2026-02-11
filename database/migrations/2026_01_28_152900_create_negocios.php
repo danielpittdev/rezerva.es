@@ -19,10 +19,12 @@ return new class extends Migration
             $table->string('descripcion')->nullable();
             $table->enum('tipo', ['barbería', 'psicología', 'spa', 'clínica', 'gimnasio', 'consultoría', 'otros']);
             // Información postal
-            $table->string('postal_direccion');
-            $table->string('postal_codigo');
-            $table->string('postal_ciudad');
-            $table->string('postal_pais');
+            $table->boolean('online')->default(false);
+            //
+            $table->string('postal_direccion')->nullable();
+            $table->string('postal_codigo')->nullable();
+            $table->string('postal_ciudad')->nullable();
+            $table->string('postal_pais')->nullable();
             // Información contacto
             $table->string('info_email')->nullable();
             $table->string('info_telefono')->nullable();

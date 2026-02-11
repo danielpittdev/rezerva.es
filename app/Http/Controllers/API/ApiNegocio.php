@@ -91,10 +91,11 @@ class ApiNegocio extends Controller
             'descripcion' => 'required|string',
             'tipo' => 'required|in:otros,barbería,psicología,spa,clínica,gimnasio,consultoría',
             'moneda' => 'required|in:EUR,USD,COP,GBP',
-            'postal_direccion' => 'required|string',
-            'postal_codigo' => 'required|string',
-            'postal_ciudad' => 'required|string',
-            'postal_pais' => 'required|string',
+            'online' => 'nullable',
+            'postal_direccion' => 'required_without:online|string',
+            'postal_codigo' => 'required_without:online|string',
+            'postal_ciudad' => 'required_without:online|string',
+            'postal_pais' => 'required_without:online|string',
             'info_email' => 'nullable|string',
             'info_telefono' => 'nullable|string',
         ]);
@@ -113,18 +114,21 @@ class ApiNegocio extends Controller
 
         $validated = $request->validate([
             'nombre' => 'sometimes|string',
-            'descripcion' => 'sometimes|string',
+            'descripcion' => 'sometimes|nullable|string',
             'tipo' => 'required|in:otros,barbería,psicología,spa,clínica,gimnasio,consultoría',
             'moneda' => 'required|in:EUR,USD,COP,GBP',
-            'postal_direccion' => 'sometimes|string',
-            'postal_codigo' => 'sometimes|string',
-            'postal_ciudad' => 'sometimes|string',
-            'postal_pais' => 'sometimes|string',
+            'online' => 'nullable',
+            'postal_direccion' => 'required_without:online|nullable|string',
+            'postal_codigo' => 'required_without:online|nullable|string',
+            'postal_ciudad' => 'required_without:online|nullable|string',
+            'postal_pais' => 'required_without:online|nullable|string',
             'info_email' => 'nullable|string',
             'info_telefono' => 'nullable|string',
             'icono' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
+
+        $validated['online'] = !empty($validated['online']);
 
         // Manejar subida de icono
         if ($request->hasFile('icono')) {
