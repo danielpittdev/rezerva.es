@@ -18,7 +18,7 @@
    </section>
 
    <section class="sec">
-      <ul id="load_lista_servicios" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
+      <ul id="load_lista_servicios" role="list" class="border border-base-content/10 px-3 rounded-lg bg-base-100">
          <li class="flex py-8">
             <span class="mx-auto loading loading-spinner loading-md"></span>
          </li>

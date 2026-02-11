@@ -1,6 +1,6 @@
 @if ($servicios->count() > 0)
    @foreach ($servicios as $servicio)
-      <li class="flex items-center justify-between gap-x-6 py-5">
+      <li class="flex items-center justify-between gap-x-6 py-3">
          <div class="min-w-0">
             <div class="flex items-start gap-x-3">
                <a class="hover:underline" href="{{ route('servicio', ['id' => $servicio->uuid]) }}">
@@ -12,7 +12,7 @@
                <svg viewBox="0 0 2 2" class="size-0.5 fill-current">
                   <circle r="1" cx="1" cy="1" />
                </svg>
-               <p class="truncate">{{ number_format($servicio->precio, 2, ',', '.') }}</p>
+               <p class="truncate">{{ number_format($servicio->precio, 2, ',', '.') }} {{ $servicio->negocio->moneda }} </p>
             </div>
          </div>
       </li>
