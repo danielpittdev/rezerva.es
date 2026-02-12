@@ -73,27 +73,40 @@ class WebhookController
             }
 
             if (($metadata['fn'] ?? null) == 2) {
-                $reservaEvento = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
-
                 // Evitar procesar webhooks duplicados
-                if (!$reservaEvento || $reservaEvento->pagado) {
-                    Log::info("Webhook ignorado: reserva evento ya confirmada o no encontrada", [
-                        'reserva_evento_uuid' => $metadata['reserva_evento'] ?? null
+                $existente = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
+                if ($existente) {
+                    Log::info("Webhook ignorado: reserva evento ya existe", [
+                        'reserva_evento_uuid' => $metadata['reserva_evento']
                     ]);
                     return;
                 }
 
-                $reservaEvento->update([
+                $evento = \App\Models\Evento::find($metadata['evento_id']);
+
+                // Crear la reserva del evento
+                $reservaEvento = ReservaEvento::create([
+                    'uuid' => $metadata['reserva_evento'],
+                    'metodo_pago' => 'tarjeta',
                     'pagado' => true,
                     'confirmacion' => true,
+                    'cantidad' => $metadata['cantidad'],
+                    'total' => $metadata['total'],
+                    'evento_id' => $metadata['evento_id'],
+                    'cliente_id' => $metadata['cliente_id'],
                 ]);
+
+                // Descontar stock del evento
+                if ($evento) {
+                    $evento->decrement('stock', $metadata['cantidad']);
+                }
 
                 $cliente = $reservaEvento->cliente;
 
                 Log::info("Pago de evento confirmado", [
                     'reserva_evento_uuid' => $reservaEvento->uuid,
-                    'evento' => $reservaEvento->evento->nombre,
-                    'cliente' => $cliente->email,
+                    'evento' => $reservaEvento->evento->nombre ?? null,
+                    'cliente' => $cliente->email ?? null,
                 ]);
 
                 Mail::send('components.email.evento.confirmar', [
