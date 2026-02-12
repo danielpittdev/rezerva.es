@@ -571,7 +571,7 @@
                         </div>
 
                         <!-- Icono -->
-                        <div class="lg:col-span-2 col-span-full">
+                        <div class="lg:col-span-full col-span-full">
                            <label for="topping_icono" class="block text-sm/6 font-medium">Foto</label>
                            <div class="mt-2">
                               <input id="topping_icono" type="file" name="icono" accept="image/*"
@@ -580,7 +580,7 @@
                         </div>
 
                         <!-- Precio -->
-                        <div class="lg:col-span-2 col-span-full">
+                        <div class="lg:col-span-full col-span-full">
                            <label for="topping_precio" class="block text-sm/6 font-medium">Precio</label>
                            <div class="mt-2">
                               <input id="topping_precio" type="number" name="precio" min="0" step="0.01" placeholder="0.00"
@@ -772,7 +772,7 @@
                $('#cont_clientes').empty().append(r.datos.cont_clientes)
                $('#cont_localidades').empty().append(r.datos.cont_localidades)
                $('#evento_compras').empty().append(r.listas.reservas)
-               $('#toppings_lista').empty().append(r.listas.toppings)
+               $('#topping_lista').empty().append(r.listas.toppings)
             },
             error: function(e) {
                console.log(e.responseJSON);
@@ -1005,6 +1005,25 @@
             }
          };
          new ApexCharts(document.querySelector("#chart-metodos-pago"), chartMetodosOptions).render();
+      }
+
+      function eliminarTopping(uuid) {
+         if (!confirm('¿Estás seguro de que quieres eliminar este topping?')) return;
+
+         $.ajax({
+            type: "DELETE",
+            url: `/api/v1/eventoToppin/${uuid}`,
+            headers: {
+               "Authorization": "Bearer " + localStorage.getItem('token'),
+               "Accept": "application/json"
+            },
+            success: function(r) {
+               listaEvento();
+            },
+            error: function(e) {
+               console.log(e.responseJSON);
+            }
+         });
       }
 
       // Caption

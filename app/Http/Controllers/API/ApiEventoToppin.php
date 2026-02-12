@@ -41,7 +41,7 @@ class ApiEventoToppin extends Controller
   {
     $validacion = $request->validate([
       'nombre' => 'required|string',
-      'descripcion' => 'nullable|string',
+      'descripcion' => 'required|string',
       'icono' => 'nullable|image',
       'precio' => 'required|numeric|min:0',
       'evento_id' => 'required|uuid',
@@ -67,7 +67,7 @@ class ApiEventoToppin extends Controller
   {
     $validacion = $request->validate([
       'nombre' => 'sometimes|string',
-      'descripcion' => 'nullable|string',
+      'descripcion' => 'required|string',
       'icono' => 'nullable|image',
       'precio' => 'sometimes|numeric|min:0',
     ]);
