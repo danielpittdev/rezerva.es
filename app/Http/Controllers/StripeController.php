@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Planes;
 use App\Models\Evento;
+use App\Models\Planes;
+use GuzzleHttp\Client;
 use App\Models\Reserva;
 use App\Models\Clientes;
 use App\Models\Registros;
 use App\Models\Servicios;
-use App\Models\ReservaEvento;
-use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ReservaEvento;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -155,42 +156,35 @@ class StripeController extends Controller
 
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
 
-        // Crear customer en la cuenta conectada si no existe
+        // Buscar o crear customer en la cuenta conectada
         if (empty($cliente->stripe_id)) {
             try {
-                $customer = $stripe->customers->create([
+                // Buscar si ya existe un customer con ese email en la cuenta conectada
+                $existentes = $stripe->customers->all([
                     'email' => $cliente->email,
-                    'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
-                    'phone' => $cliente->telefono,
-                    'metadata' => [
-                        'fn' => 2,
-                        'evento' => $evento->uuid,
-                    ],
+                    'limit' => 1,
                 ], ['stripe_account' => $negocio->stripe_account_id]);
+
+                if (!empty($existentes->data)) {
+                    $customer = $existentes->data[0];
+                } else {
+                    $customer = $stripe->customers->create([
+                        'email' => $cliente->email,
+                        'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
+                        'phone' => $cliente->telefono,
+                    ], ['stripe_account' => $negocio->stripe_account_id]);
+                }
 
                 $cliente->update(['stripe_id' => $customer->id]);
             } catch (\Stripe\Exception\ApiErrorException $e) {
-                Log::error("Error creando customer en Connect: {$e->getMessage()}");
+                Log::error("Error buscando/creando customer en Connect: {$e->getMessage()}");
             }
         }
 
-        // Crear la reserva del evento
-        $reservaEvento = ReservaEvento::create([
-            'metodo_pago' => 'tarjeta',
-            'pagado' => false,
-            'confirmacion' => false,
-            'cantidad' => $cantidad,
-            'total' => $total,
-            'evento_id' => $evento->id,
-            'cliente_id' => $cliente->id,
-        ]);
+        $reservaEvento = Str::uuid();
 
-        // Descontar stock
-        $evento->decrement('stock', $cantidad);
-
-        // Calcular comisión (5%)
-        $precioEnCentimos = (int) ($total * 100);
-        $comision = (int) ($precioEnCentimos * 0.05);
+        // Comisión fija: 0,35€ por entrada
+        $comision = (int) (35 * $cantidad);
 
         $checkoutData = [
             'line_items' => [[
@@ -203,9 +197,13 @@ class StripeController extends Controller
             ],
             'metadata' => [
                 'fn' => 2,
-                'reserva_evento' => $reservaEvento->uuid,
+                'cantidad' => $cantidad,
+                'total' => $total,
+                'evento_id' => $evento->id,
+                'cliente_id' => $cliente->id,
+                'reserva_evento' => $reservaEvento,
             ],
-            'success_url' => route('reserva_evento', ['reserva' => $reservaEvento->uuid]),
+            'success_url' => route('reserva_evento', ['reserva' => $reservaEvento]),
             'cancel_url' => route('evento', ['evento' => $evento->uuid]),
         ];
 
@@ -224,10 +222,6 @@ class StripeController extends Controller
             return redirect($checkout->url);
         } catch (\Stripe\Exception\ApiErrorException $e) {
             Log::error("Error creando checkout de evento: {$e->getMessage()}");
-
-            // Revertir la reserva y el stock
-            $reservaEvento->delete();
-            $evento->increment('stock', $cantidad);
 
             session()->forget('evento_pendiente');
 
