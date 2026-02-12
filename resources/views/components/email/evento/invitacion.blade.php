@@ -11,7 +11,6 @@
    </head>
 
    <body class="bg-light" style="margin:0">
-      <!--$--><!--html--><!--head--><!--body-->
       <table
          border="0"
          width="100%"
@@ -47,33 +46,21 @@
                                        <td>
                                           <img
                                              alt="Rezerva.es"
-                                             height="50"
+                                             height="40"
                                              src="https://rezerva.es/media/logo/icon.png"
                                              style="display:block;outline:none;border:none;text-decoration:none;margin-bottom:0rem;margin-top:0rem"
-                                             width="50" />
+                                             width="40" />
                                        </td>
                                     </tr>
                                  </tbody>
                               </table>
                               <h1
                                  style="font-size:1.5rem;line-height:1.3333333333333333;color:rgb(0,0,0);font-weight:400;text-align:left;padding:0rem;margin-bottom:2rem;margin-top:2rem;margin-right:0rem;margin-left:0rem">
-                                 Restablecimiento de la cuenta
+                                 ¡Estás invitado!
                               </h1>
                               <p
-                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Hola <strong>{{ $usuario->nombre }}</strong>,
-                              </p>
-                              <p
                                  style="font-size:0.875rem;line-height:1.625;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Tu cuenta se ha establecido correctamente, la contraseña
-                                 se ha podido cambiar correctamente. Desde el siguiente
-                                 botón podrá de nuevo ir al
-                                 <strong>inicio de sesión</strong>.
-                              </p>
-                              <p
-                                 style="font-size:0.875rem;line-height:1.625;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Si no has sido tú, por favor, póngase inmediatamente en
-                                 contacto con nosotros.
+                                 Has recibido una invitación para el evento <strong>{{ $evento->nombre }}</strong>. Pulsa el botón de abajo para confirmar tu asistencia y reservar tu plaza.
                               </p>
                               <table
                                  align="center"
@@ -82,23 +69,27 @@
                                  cellpadding="0"
                                  cellspacing="0"
                                  role="presentation"
-                                 style="text-align:left;margin-top:32px;margin-bottom:32px">
+                                 style="margin-top:24px;margin-bottom:24px;text-align:center">
                                  <tbody>
                                     <tr>
                                        <td>
                                           <a
-                                             href="{{ $url }}"
-                                             style="line-height:1.4285714285714286;text-decoration:none;display:inline-block;max-width:100%;mso-padding-alt:0px;padding-bottom:10px;padding-top:10px;padding-right:20px;padding-left:20px;background-color:rgb(97,95,255);border-radius:0.375rem;color:rgb(255,255,255);font-size:0.875rem;font-weight:600;text-decoration-line:none;text-align:left"
-                                             target="_blank"><span></span><span
-                                                style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:7.5px">Iniciar sesión</span><span></span></a>
+                                             href="https://rezerva.es/re/{{ $evento->uuid }}"
+                                             target="_blank"
+                                             style="display:inline-block;background-color:rgb(0,0,0);color:rgb(255,255,255);font-size:0.875rem;font-weight:600;text-decoration:none;text-align:center;padding:12px 24px;border-radius:6px">
+                                             Reservar mi plaza
+                                          </a>
                                        </td>
                                     </tr>
                                  </tbody>
                               </table>
                               <p
                                  style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Un cordial saludo,<br />el equipo de
-                                 <strong>{{ env('APP_NAME') }}</strong>
+                                 Este mensaje es automático. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
+                              </p>
+                              <p
+                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
+                                 Equipo de Rezerva.es
                               </p>
                            </td>
                         </tr>
@@ -108,7 +99,6 @@
             </tr>
          </tbody>
       </table>
-      <!--/$-->
    </body>
 
 </html>

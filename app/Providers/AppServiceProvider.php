@@ -6,7 +6,9 @@ use App\Listeners\WebhookController;
 use App\Models\Usuarios;
 use App\Models\Suscripcion;
 use App\Models\SuscripcionItem;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
@@ -33,5 +35,9 @@ class AppServiceProvider extends ServiceProvider
         Cashier::useSubscriptionItemModel(SuscripcionItem::class);
 
         Event::listen(WebhookReceived::class, WebhookController::class);
+
+        RateLimiter::for('correos', function ($job) {
+            return Limit::perSecond(1);
+        });
     }
 }

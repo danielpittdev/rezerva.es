@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ApiEventoReserva extends Controller
 {
@@ -20,7 +21,7 @@ class ApiEventoReserva extends Controller
   # Vista única
   public function show($id)
   {
-    $reserva = ReservaEvento::whereUuid($id)->with('cliente', 'evento')->first();
+    $reserva = ReservaEvento::whereUuid($id)->with('cliente', 'evento.negocio')->first();
     $relacionados = $reserva->relacionados();
 
     $modal = view('components.modal.evento.detalles', compact('reserva', 'relacionados'))->render();
@@ -28,6 +29,7 @@ class ApiEventoReserva extends Controller
     return response()->json([
       'mensaje' => 'Recibido con éxito',
       'reserva' => $reserva,
+      'negocio_id' => $reserva->evento->negocio->uuid,
       'modal' => $modal,
     ], 200);
   }
@@ -81,6 +83,15 @@ class ApiEventoReserva extends Controller
     $validacion['total'] = $evento->precio * $validacion['cantidad'];
 
     $reserva = ReservaEvento::create($validacion);
+
+    // Mail
+    Mail::send('components.email.evento.invitacion', [
+      'cliente' => $cliente,
+      'evento' => $evento,
+    ], function ($message) use ($cliente, $evento) {
+      $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
+        ->subject('Invitación a ' . $evento->nombre);
+    });
 
     return response()->json([
       'mensaje' => 'Creado con éxito',
