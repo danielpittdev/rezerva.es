@@ -35,4 +35,5 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('factura', ApiFactura::class);
 
     Route::post('system.evento.aviso', [ApiController::class, 'evento_avisar'])->name('evento.avisar');
+    Route::post('system.evento.aviso-individual', [ApiController::class, 'evento_avisar_individual'])->name('evento.avisar.individual');
 });

@@ -31,7 +31,10 @@
                <p class="text-xs text-base-content/50 mt-0.5">Distribución por tipo</p>
             </div>
             <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
-               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>
+               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+               </svg>
                Donut
             </span>
          </div>
@@ -70,7 +73,9 @@
                <p class="text-xs text-base-content/50 mt-0.5">Evolución de ventas</p>
             </div>
             <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
-               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
+               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+               </svg>
                Tendencia
             </span>
          </div>
@@ -436,6 +441,10 @@
                                  <p>
                                     Estás a punto de enviar un correo masivo a todos tus compradores. Antes de enviar un correo masivo asegurate de todo lo que enviarás porque la acción no se puede deshacer.
                                  </p>
+                                 <br>
+                                 <p>
+                                    Si el evento es masivo algunos correos pueden tardar en llegar mientras se completa el proceso. Cada correo masivo tiene un coste asociado de <strong>0,90€</strong> el envío.
+                                 </p>
                               </div>
                            </div>
                         </div>
@@ -666,13 +675,21 @@
          chart: {
             type: 'area',
             height: '100%',
-            toolbar: { show: false },
+            toolbar: {
+               show: false
+            },
             fontFamily: 'inherit',
-            sparkline: { enabled: false },
-            zoom: { enabled: false },
+            sparkline: {
+               enabled: false
+            },
+            zoom: {
+               enabled: false
+            },
             parentHeightOffset: 0,
          },
-         dataLabels: { enabled: false },
+         dataLabels: {
+            enabled: false
+         },
          stroke: {
             curve: 'smooth',
             width: 2.5,
@@ -680,8 +697,12 @@
          },
          xaxis: {
             categories: @json($chartLabels),
-            axisBorder: { show: false },
-            axisTicks: { show: false },
+            axisBorder: {
+               show: false
+            },
+            axisTicks: {
+               show: false
+            },
             labels: {
                style: {
                   colors: '#9ca3af',
@@ -690,7 +711,11 @@
                }
             },
             crosshairs: {
-               stroke: { color: '#4f46e5', width: 1, dashArray: 3 }
+               stroke: {
+                  color: '#4f46e5',
+                  width: 1,
+                  dashArray: 3
+               }
             }
          },
          yaxis: {
@@ -720,22 +745,44 @@
          grid: {
             borderColor: '#f3f4f6',
             strokeDashArray: 5,
-            xaxis: { lines: { show: false } },
-            yaxis: { lines: { show: true } },
-            padding: { top: -10, bottom: 0, left: 10, right: 10 }
+            xaxis: {
+               lines: {
+                  show: false
+               }
+            },
+            yaxis: {
+               lines: {
+                  show: true
+               }
+            },
+            padding: {
+               top: -10,
+               bottom: 0,
+               left: 10,
+               right: 10
+            }
          },
          tooltip: {
             theme: 'light',
-            style: { fontSize: '12px' },
+            style: {
+               fontSize: '12px'
+            },
             y: {
                formatter: (val) => val + ' entradas'
             },
-            marker: { show: true },
-            x: { show: true }
+            marker: {
+               show: true
+            },
+            x: {
+               show: true
+            }
          },
          markers: {
             size: 0,
-            hover: { size: 5, sizeOffset: 3 },
+            hover: {
+               size: 5,
+               sizeOffset: 3
+            },
             colors: ['#6366f1'],
             strokeColors: '#fff',
             strokeWidth: 2
@@ -762,13 +809,18 @@
                position: 'bottom',
                fontSize: '12px',
                fontWeight: 500,
-               labels: { colors: '#6b7280' },
+               labels: {
+                  colors: '#6b7280'
+               },
                markers: {
                   size: 6,
                   shape: 'circle',
                   offsetX: -3
                },
-               itemMargin: { horizontal: 8, vertical: 4 }
+               itemMargin: {
+                  horizontal: 8,
+                  vertical: 4
+               }
             },
             dataLabels: {
                enabled: false
@@ -813,25 +865,36 @@
             },
             tooltip: {
                enabled: true,
-               style: { fontSize: '12px' },
+               style: {
+                  fontSize: '12px'
+               },
                y: {
                   formatter: (val) => val + ' pagos'
                }
             },
             states: {
-               hover: { filter: { type: 'darken', value: 0.9 } },
-               active: { filter: { type: 'none' } }
+               hover: {
+                  filter: {
+                     type: 'darken',
+                     value: 0.9
+                  }
+               },
+               active: {
+                  filter: {
+                     type: 'none'
+                  }
+               }
             }
          };
          new ApexCharts(document.querySelector("#chart-metodos-pago"), chartMetodosOptions).render();
       }
 
       // Caption
+      let currentNegocioId = null;
+
       document.addEventListener('DOMContentLoaded', function() {
          $(document).on('click', '.caption_reserva', function() {
             let id = $(this).attr('target');
-
-            // PET
 
             $.ajax({
                type: "GET",
@@ -847,10 +910,59 @@
                   console.log(r)
                   $('.loader').addClass('hidden')
 
+                  currentNegocioId = r.negocio_id;
+
                   $('#md_conten_md1').empty().append(r.modal)
                   $('#md_tog_1').attr('open', true)
                },
                error: function(e) {
+                  console.log(e.responseJSON);
+               }
+            });
+         });
+
+         // Toggle formulario de email individual
+         $(document).on('click', '.fn_alertar_usuario', function() {
+            $('.fn_form_email').toggleClass('hidden');
+         });
+
+         // Cancelar formulario de email
+         $(document).on('click', '.fn_cancelar_email', function() {
+            $('.fn_form_email').addClass('hidden');
+         });
+
+         // Enviar email individual
+         $(document).on('submit', '.formEmailIndividual', function(e) {
+            e.preventDefault();
+            peticion(this, {
+               resetForm: true,
+               highlightInputs: true,
+               showAlert: true,
+               reciclar: true,
+            });
+         });
+
+         // Emitir reembolso - Abrir dashboard Stripe Connect
+         $(document).on('click', '.fn_emitir_rembolso', function() {
+            if (!currentNegocioId) return;
+
+            $.ajax({
+               type: "POST",
+               url: `/stripe/connect/dashboard/${currentNegocioId}`,
+               headers: {
+                  "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+               },
+               beforeSend: function() {
+                  $('.loader').removeClass('hidden')
+               },
+               success: function(r) {
+                  $('.loader').addClass('hidden')
+                  if (r.redirect) {
+                     window.open(r.redirect, '_blank');
+                  }
+               },
+               error: function(e) {
+                  $('.loader').addClass('hidden')
                   console.log(e.responseJSON);
                }
             });

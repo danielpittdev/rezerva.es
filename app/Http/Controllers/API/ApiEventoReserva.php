@@ -20,7 +20,7 @@ class ApiEventoReserva extends Controller
   # Vista única
   public function show($id)
   {
-    $reserva = ReservaEvento::whereUuid($id)->with('cliente', 'evento')->first();
+    $reserva = ReservaEvento::whereUuid($id)->with('cliente', 'evento.negocio')->first();
     $relacionados = $reserva->relacionados();
 
     $modal = view('components.modal.evento.detalles', compact('reserva', 'relacionados'))->render();
@@ -28,6 +28,7 @@ class ApiEventoReserva extends Controller
     return response()->json([
       'mensaje' => 'Recibido con éxito',
       'reserva' => $reserva,
+      'negocio_id' => $reserva->evento->negocio->id,
       'modal' => $modal,
     ], 200);
   }
