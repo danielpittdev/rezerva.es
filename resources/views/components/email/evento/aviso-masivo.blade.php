@@ -45,7 +45,7 @@
                                     <tr>
                                        <td>
                                           <img
-                                             alt="Logo Example"
+                                             alt="Rezerva.es"
                                              height="40"
                                              src="https://rezerva.es/media/logo/icon.png"
                                              style="display:block;outline:none;border:none;text-decoration:none;margin-bottom:0rem;margin-top:0rem"

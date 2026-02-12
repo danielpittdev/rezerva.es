@@ -17,6 +17,7 @@ use App\Http\Controllers\API\ApiServicio;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\API\ApiServicioConf;
 use App\Http\Controllers\API\ApiEventoReserva;
+use App\Http\Controllers\API\ApiEventoToppin;
 
 Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::get('/test', [ApiController::class, 'test']);
@@ -25,6 +26,7 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('empleado', ApiEmpleado::class)->middleware('plan.limite:empleados');
     Route::apiResource('evento', ApiEvento::class)->middleware('plan.limite:eventos');
     Route::apiResource('eventoReserva', ApiEventoReserva::class);
+    Route::apiResource('eventoToppin', ApiEventoToppin::class);
     Route::apiResource('servicio', ApiServicio::class)->middleware('plan.limite:servicios');
     Route::apiResource('servicioConf', ApiServicioConf::class);
     Route::apiResource('horario', ApiHorario::class);

@@ -1,4 +1,4 @@
-@extends('components.html.plantilla.fullbody')
+@extends('components.html.plantilla.center')
 
 @section('contenido')
    <section class="grid grid-cols-1 gap-4 grid-rows-[auto_1fr]">

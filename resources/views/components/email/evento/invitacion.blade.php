@@ -46,30 +46,50 @@
                                        <td>
                                           <img
                                              alt="Rezerva.es"
-                                             height="50"
+                                             height="40"
                                              src="https://rezerva.es/media/logo/icon.png"
                                              style="display:block;outline:none;border:none;text-decoration:none;margin-bottom:0rem;margin-top:0rem"
-                                             width="50" />
+                                             width="40" />
                                        </td>
                                     </tr>
                                  </tbody>
                               </table>
                               <h1
                                  style="font-size:1.5rem;line-height:1.3333333333333333;color:rgb(0,0,0);font-weight:400;text-align:left;padding:0rem;margin-bottom:2rem;margin-top:2rem;margin-right:0rem;margin-left:0rem">
-                                 {{ $asunto }}
+                                 ¡Estás invitado!
                               </h1>
                               <p
                                  style="font-size:0.875rem;line-height:1.625;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 {!! nl2br(e($cuerpo)) !!}
+                                 Has recibido una invitación para el evento <strong>{{ $evento->nombre }}</strong>. Pulsa el botón de abajo para confirmar tu asistencia y reservar tu plaza.
+                              </p>
+                              <table
+                                 align="center"
+                                 width="100%"
+                                 border="0"
+                                 cellpadding="0"
+                                 cellspacing="0"
+                                 role="presentation"
+                                 style="margin-top:24px;margin-bottom:24px;text-align:center">
+                                 <tbody>
+                                    <tr>
+                                       <td>
+                                          <a
+                                             href="https://rezerva.es/re/{{ $evento->uuid }}"
+                                             target="_blank"
+                                             style="display:inline-block;background-color:rgb(0,0,0);color:rgb(255,255,255);font-size:0.875rem;font-weight:600;text-decoration:none;text-align:center;padding:12px 24px;border-radius:6px">
+                                             Reservar mi plaza
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <p
+                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
+                                 Este mensaje es automático. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
                               </p>
                               <p
                                  style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Este mensaje es automático, para poder contactar con el organizador del evento puedes hacerlo a través de: {{ $negocio->info_email ?? 'soporte@rezerva.es' }}. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
-                              </p>
-                              <p
-                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Un cordial saludo,<br />el equipo de
-                                 <strong>{{ $negocio->nombre }}</strong>
+                                 Equipo de Rezerva.es
                               </p>
                            </td>
                         </tr>

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ApiEvento extends Controller
 {
@@ -25,13 +26,21 @@ class ApiEvento extends Controller
   {
     $evento = Evento::whereUuid($id)->first();
     $reservas = $evento->reservas->sortByDesc('id');
+    $datos = [
+      'cont_clientes' => $reservas->count(),
+      'cont_localidades' => $reservas->sum('cantidad'),
+      'cont_ingresos_estimados' => $reservas->sum('total')
+    ];
+    $toppings = $evento->toppings;
 
     $listas = [
       'reservas' => view('components.listas.eventos.reservas', compact('reservas'))->render(),
+      'toppings' => view('components.listas.eventos.toppings', compact('toppings'))->render(),
     ];
 
     return response()->json([
       'mensaje' => 'Recibido con éxito',
+      'datos' => $datos,
       'listas' => $listas
     ], 201);
   }
@@ -93,6 +102,7 @@ class ApiEvento extends Controller
       'fecha' => 'required|date_format:Y-m-d\TH:i',
       'stock' => 'sometimes|integer',
       'precio' => 'sometimes|numeric|min:0|decimal:0,2',
+      'max_compra' => 'sometimes|numeric|min:1',
       'pago_online' => 'nullable',
       'pago_efectivo' => 'nullable',
     ]);
@@ -165,7 +175,7 @@ class ApiEvento extends Controller
     $evento->update($validacion);
 
     return response()->json([
-      'mensaje' => 'Actualizado con éxito',
+      'mensaje' => 'Actualizado con éxito iaaii',
       'evento' => $evento
     ], 201);
   }

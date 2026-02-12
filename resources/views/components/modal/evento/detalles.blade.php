@@ -1,4 +1,4 @@
-<div class="caja">
+<div class="caja mb-5">
    <h6 class="font-medium">
       Información del ticket
    </h6>
@@ -72,9 +72,10 @@
                   </div>
                   <span class="text-sm text-base-content/70">
                      @php
-                        $relacionados = $reserva->relacionados()->sum('total');
+                        $todasReservas = collect([$reserva])->merge($relacionados);
+                        $totalGastado = $todasReservas->sum('total');
                      @endphp
-                     {{ number_format($relacionados + $reserva->total * $reserva->cantidad, 2, ',', '.') }}
+                     {{ number_format($totalGastado, 2, ',', '.') }}
                   </span>
                </div>
             </li>
@@ -83,6 +84,33 @@
    </div>
 </div>
 
+<!-- Entradas del cliente -->
+@if ($relacionados->count() > 0)
+   <div class="caja mt-7">
+      <h6 class="font-medium text-sm mb-3">
+         Entradas de este cliente ({{ $relacionados->count() + 1 }})
+      </h6>
+      <ul class="divide-y divide-base-content/10 rounded-md border border-base-content/10">
+         @foreach (collect([$reserva])->merge($relacionados) as $entrada)
+            <li class="flex items-center justify-between px-3 py-2.5">
+               <div class="flex items-center gap-x-3">
+                  <span class="text-sm text-base-content/80">{{ $entrada->cantidad }} {{ $entrada->cantidad == 1 ? 'entrada' : 'entradas' }}</span>
+                  <span class="text-xs text-base-content/50">{{ $entrada->created_at->format('d/m/Y H:i') }}</span>
+               </div>
+               <div class="flex items-center gap-x-2">
+                  <span class="flex-none rounded-full bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
+                     {{ ucfirst($entrada->metodo_pago) }}
+                  </span>
+                  <span class="text-sm font-medium text-base-content/80">
+                     {{ number_format($entrada->total, 2, ',', '.') }}
+                  </span>
+               </div>
+            </li>
+         @endforeach
+      </ul>
+   </div>
+@endif
+
 <!-- Acciones -->
 <div class="caja mt-7">
    <button type="button" class="fn_alertar_usuario rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
@@ -90,7 +118,7 @@
    </button>
 
    <button type="button" data-negocio="{{ $reserva->evento->negocio_id }}" class="fn_emitir_rembolso rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400">
-      Emitir reembolso
+      Consultar en Stripe
    </button>
 </div>
 

@@ -11,14 +11,35 @@
       <div class="col-span-full flex flex-wrap items-center justify-between gap-2">
          <div class="flex items-center gap-2">
             <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/10">Editar evento</button>
-            <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
+            <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Añadir topping</button>
+            <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
          </div>
-         <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
+         <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
+
       </div>
 
       <!-- Panel 1: Reservas (2 cols, fila 1) -->
-      <div class="lg:col-span-2 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto">
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto divide-y divide-base-content/10">
+         <div class="p-3">
+            <h2 class="font-medium">
+               Resumen de entradas
+            </h2>
+         </div>
+
          <ul id="evento_compras">
+
+         </ul>
+      </div>
+
+      <!-- Panel 1: Reservas (2 cols, fila 1) -->
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto divide-y divide-base-content/10">
+         <div class="p-3">
+            <h2 class="font-medium">
+               Toppings
+            </h2>
+         </div>
+
+         <ul id="topping_lista">
 
          </ul>
       </div>
@@ -288,13 +309,13 @@
                         <!-- Límite de compras -->
                         <div class="lg:col-span-full col-span-full">
                            <div class="caja">
-                              <label for="lugar" class="block text-sm/6 font-medium">Limitar transacción</label>
+                              <label for="max_compra" class="block text-sm/6 font-medium">Limitar transacción</label>
                               <small class="text-base-content/70">
                                  Limita cuantas entradas pueden comprar por cada transacción
                               </small>
                            </div>
                            <div class="mt-2">
-                              <input value="{{ $evento->lugar }}" id="lugar" type="text" name="lugar"
+                              <input value="{{ $evento->max_compra }}" id="max_compra" type="number" step="1" name="max_compra"
                                  class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
                            </div>
                         </div>
@@ -499,6 +520,104 @@
       </dialog>
    </el-dialog>
 
+   <el-dialog id="add_topping_modal">
+      <dialog id="drawer_add_topping" aria-labelledby="drawer-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-hidden bg-transparent not-open:hidden backdrop:bg-transparent">
+         <el-dialog-backdrop class="absolute inset-0 bg-base-100/75 transition-opacity duration-500 ease-in-out data-closed:opacity-0"></el-dialog-backdrop>
+
+         <div tabindex="0" class="absolute inset-0 pl-10 focus:outline-none sm:pl-16">
+            <el-dialog-panel class="ml-auto block size-full max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700">
+               <div class="relative flex h-full flex-col overflow-y-auto bg-base-100 border-l border-base-content/20 py-6 shadow-xl">
+                  <div class="px-4 sm:px-6">
+                     <div class="flex items-start justify-between">
+                        <div class="space-y-2">
+                           <h2 id="drawer-title" class="text-base font-semibold text-base-content">Añadir un topping</h2>
+                           <small class="text-base-content/70">
+                              Crea articulos dentro de tu evento a modo de merchandising o extras
+                           </small>
+                        </div>
+                        <div class="ml-3 flex h-7 items-center">
+                           <button type="button" command="close" commandfor="drawer_add_topping" class="relative rounded-md text-gray-400 hover:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                              <span class="absolute -inset-2.5"></span>
+                              <span class="sr-only">Close panel</span>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                                 <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="relative mt-6 flex-1 px-4 sm:px-6 space-y-4">
+
+                     <form id="crearToppigForm" action="{{ route('eventoToppin.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
+                        @csrf
+
+                        <!-- Nombre -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="topping_nombre" class="block text-sm/6 font-medium">Nombre</label>
+                           <div class="mt-2">
+                              <input id="topping_nombre" type="text" name="nombre" placeholder="Ej: Camiseta, Pulsera VIP..."
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Descripcion -->
+                        <div class="lg:col-span-full col-span-full">
+                           <label for="topping_descripcion" class="block text-sm/6 font-medium">Descripcion</label>
+                           <div class="mt-2">
+                              <textarea id="topping_descripcion" name="descripcion" cols="30" rows="3" placeholder="Descripcion opcional del topping"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"></textarea>
+                           </div>
+                        </div>
+
+                        <!-- Icono -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="topping_icono" class="block text-sm/6 font-medium">Foto</label>
+                           <div class="mt-2">
+                              <input id="topping_icono" type="file" name="icono" accept="image/*"
+                                 class="file-input file-input-bordered w-full bg-base-200 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="lg:col-span-2 col-span-full">
+                           <label for="topping_precio" class="block text-sm/6 font-medium">Precio</label>
+                           <div class="mt-2">
+                              <input id="topping_precio" type="number" name="precio" min="0" step="0.01" placeholder="0.00"
+                                 class="block w-full rounded-md px-3 py-1.5 bg-base-200 text-base outline-1 -outline-offset-1 outline-base-content/20 placeholder:text-base-content/70 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+                           </div>
+                        </div>
+
+                        <input type="hidden" name="evento_id" value="{{ $evento->uuid }}">
+
+                        <div class="col-span-full mt-6">
+                           <button type="submit" class="cursor-pointer flex ml-auto justify-center rounded-md bg-indigo-600 text-white px-4 py-1.5 text-sm/6 font-semibold hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                              Crear topping
+                           </button>
+                        </div>
+                     </form>
+
+                     <script>
+                        const crearToppingForm = document.getElementById('crearToppigForm');
+
+                        crearToppingForm.addEventListener('submit', (e) => {
+                           e.preventDefault();
+                           peticion(crearToppingForm, {
+                              resetForm: true,
+                              highlightInputs: true,
+                              showAlert: false,
+                              reciclar: true,
+                           });
+                        });
+                     </script>
+
+                  </div>
+               </div>
+            </el-dialog-panel>
+         </div>
+      </dialog>
+   </el-dialog>
+
    <el-dialog id="md_tog_1">
       <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
          <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
@@ -506,7 +625,7 @@
          <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center focus:outline-none sm:p-4">
             <el-dialog-panel
                class="relative transform overflow-hidden bg-base-100 px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:max-w-md rounded-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-               <section id="md_conten_md1" class="caja space-y-5">
+               <section id="md_conten_md1" class="caja">
 
 
                </section>
@@ -650,17 +769,16 @@
                `)
             },
             success: function(r) {
+               $('#cont_clientes').empty().append(r.datos.cont_clientes)
+               $('#cont_localidades').empty().append(r.datos.cont_localidades)
                $('#evento_compras').empty().append(r.listas.reservas)
+               $('#toppings_lista').empty().append(r.listas.toppings)
             },
             error: function(e) {
                console.log(e.responseJSON);
             }
          });
       }
-
-      setInterval(() => {
-         listaEvento()
-      }, 30000);
 
       window.addEventListener('load', function() {
          listaEvento()

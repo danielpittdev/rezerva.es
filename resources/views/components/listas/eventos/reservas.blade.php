@@ -1,21 +1,31 @@
 @if ($reservas->count() > 0)
-   @foreach ($reservas as $reserva)
-      <li target="{{ $reserva->uuid }}" class="caption_reserva cursor-pointer relative flex items-center p-3 hover:bg-base-content/2">
+   @foreach ($reservas->groupBy('cliente_id') as $clienteId => $reservasCliente)
+      @php
+         $primera = $reservasCliente->first();
+         $totalEntradas = $reservasCliente->sum('cantidad');
+      @endphp
+      <li target="{{ $primera->uuid }}" class="caption_reserva cursor-pointer relative flex items-center p-3 hover:bg-base-content/2">
          <div class="min-w-0 flex-auto">
             <div class="flex items-center gap-x-3">
-
                <h2 class="min-w-0 text-sm/6 font-semibold text-gray-900">
                   <a href="#" class="flex gap-x-2">
-                     <span class="truncate">{{ $reserva->cliente->nombre . ' ' . $reserva->cliente->apellido }}</span>
+                     <span class="truncate">{{ $primera->cliente->nombre . ' ' . $primera->cliente->apellido }}</span>
                   </a>
                </h2>
+               @if ($reservasCliente->count() > 1)
+                  <span class="flex-none rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                     x{{ $reservasCliente->count() }}
+                  </span>
+               @endif
             </div>
             <div class="mt-1 flex items-center gap-x-2.5 text-xs/5 text-gray-500">
-               <p class="truncate">{{ $reserva->created_at }}</p>
+               <p class="truncate">{{ $totalEntradas }} {{ $totalEntradas === 1 ? 'entrada' : 'entradas' }}</p>
+               <svg viewBox="0 0 2 2" class="size-0.5 flex-none fill-gray-300"><circle cx="1" cy="1" r="1" /></svg>
+               <p class="truncate">{{ $primera->created_at }}</p>
             </div>
          </div>
          <div class="flex-none rounded-full bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10 mr-2">
-            {{ ucfirst($reserva->metodo_pago) }}
+            {{ ucfirst($primera->metodo_pago) }}
          </div>
          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 flex-none text-gray-400">
             <path d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
