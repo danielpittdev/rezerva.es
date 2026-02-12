@@ -5,7 +5,7 @@
       <h1 class="text-3xl font-bold mb-6">AVISO LEGAL DE REZERVA</h1>
 
       <p>Desde el equipo de REZERVA, nos gustaría informar al usuario de que, al navegar por esta web o utilizar cualquiera de los servicios ofrecidos a través de esta, adquiere automáticamente la condición de usuario y le son aplicables estas normas. Las presentes normas constituyen un contrato entre
-         REZERVA y el usuario respecto a la web, sus enlaces y cualquier otro recurso descargable, de conformidad con la normativa aplicable en materia de servicios de la sociedad de la información y de comercio electrónico (Ley 34/2002, LSSI-CE).</p>
+         REZERVA y el usuario respecto a la web, sus enlaces y cualquier otro recurso descargable, de conformidad con la normativa europea aplicable en materia de servicios de la sociedad de la información y de comercio electrónico (Directiva 2000/31/CE).</p>
       <p>El acceso y la navegación por esta web implican la aceptación expresa de este “Aviso legal”, “Política de privacidad y Protección de datos”, “Términos y Condiciones Particulares”, y la “Política de Cookies” disponibles en el sitio web.</p>
       <p>En caso de no estar de acuerdo con las citadas condiciones, el usuario deberá abstenerse de utilizar este sitio web. Al continuar navegando, el usuario reconoce y acepta que:</p>
       <ul>
@@ -17,7 +17,7 @@
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">IDENTIDAD Y TITULARIDAD DE LA WEB</h2>
       <p><strong>¿Quiénes somos?</strong><br>
-         REZERVA, es una plataforma web gestionada por DANIEL GONZÁLEZ PITT como titular de la misma con DNI y sede en Calle Bahía de Cádiz 2, 2C, Sevilla 41009, España.</p>
+         REZERVA, es una plataforma web gestionada por ARLINSA UAB con sede en la dirección Architektų G. 56-101 LT-04217 Vilnius LT.</p>
 
       <p><strong>Datos de contacto</strong><br>
          Teléfono: 644147933<br>
@@ -131,13 +131,13 @@
          <li>Interrupciones, caídas de servidores, fallos técnicos, ataques cibernéticos (virus, malware, accesos no autorizados, ataques DDoS u otros similares) o incidencias tecnológicas inevitables que impidan el normal funcionamiento de la Web.</li>
       </ul>
       <p>En todo caso, la responsabilidad de REZERVA quedará limitada a lo legalmente exigido y nunca cubrirá daños indirectos o lucro cesante.</p>
-      <p>En cumplimiento de lo previsto en los artículos 11 y 16 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), REZERVA no asumirá responsabilidad alguna por la información o contenidos almacenados cuando no tenga conocimiento efectivo de que estos
+      <p>En cumplimiento de lo previsto en la Directiva 2000/31/CE sobre comercio electrónico y la legislación lituana que la transpone, REZERVA no asumirá responsabilidad alguna por la información o contenidos almacenados cuando no tenga conocimiento efectivo de que estos
          son ilícitos o lesionan bienes o derechos de un tercero.</p>
       <p>En el momento en que REZERVA tenga conocimiento de la existencia de contenidos ilícitos o que puedan vulnerar derechos de terceros, se comprometen a actuar de forma inmediata para su supresión o para impedir el acceso a los mismos.</p>
       <p>Del mismo modo, REZERVA colaborará, cuando así sea requerido, con las autoridades competentes en la retirada o bloqueo de cualquier contenido que pueda contravenir la legislación aplicable, los derechos de terceros, la moral o el orden público.</p>
       <p>Si cualquier usuario, tercero o autoridad considera que en la plataforma web existen contenidos ilícitos, que vulneran derechos de terceros o que resultan inapropiados, puede comunicarlo directamente a REZERVA a través de los siguientes medios de contacto:<br>
          Correo electrónico: contacto@rezerva.es<br>
-         Dirección postal: Calle Bahía de Cádiz 2, 2C, Sevilla 41009, España.</p>
+         Dirección postal: Architektų G. 56-101, LT-04217 Vilnius, Lituania.</p>
       <p>REZERVA analizará la solicitud y, en su caso, adoptará las medidas oportunas en el menor plazo de tiempo posible, conforme a lo previsto en la normativa aplicable.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">USUARIO REGISTRADO</h2>
@@ -150,14 +150,12 @@
       <p>La cancelación de la cuenta no afectará a las obligaciones derivadas de usos anteriores de la misma.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">POLÍTICA DE PRIVACIDAD Y COOKIES</h2>
-      <p>El tratamiento de los datos personales facilitados por los usuarios a través de esta Web se realiza conforme al Reglamento (UE) 2016/679 (RGPD) y a la Ley Orgánica 3/2018 de Protección de Datos Personales y Garantía de los Derechos Digitales (LOPDGDD).</p>
+      <p>El tratamiento de los datos personales facilitados por los usuarios a través de esta Web se realiza conforme al Reglamento (UE) 2016/679 (RGPD) y a la legislación lituana en materia de protección de datos personales.</p>
       <p>La información completa sobre cómo recopilamos, utilizamos, protegemos y conservamos sus datos personales se encuentra en nuestra “Política de Privacidad”, así como la información relativa al uso de cookies en la “Política de Cookies”.</p>
-      <p>Todo usuario tiene derecho a acceder, rectificar, suprimir, limitar u oponerse al tratamiento de sus datos, así como a solicitar su portabilidad. Para ejercer estos derechos, puede dirigirse al correo electrónico contacto@rezerva.es o a la dirección postal, Calle Bahía de Cádiz 2, 2C, Sevilla
-         41009, España.</p>
+      <p>Todo usuario tiene derecho a acceder, rectificar, suprimir, limitar u oponerse al tratamiento de sus datos, así como a solicitar su portabilidad. Para ejercer estos derechos, puede dirigirse al correo electrónico contacto@rezerva.es o a la dirección postal, Architektų G. 56-101, LT-04217 Vilnius, Lituania.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">LEGISLACIÓN Y JURISDICCIÓN APLICABLE</h2>
-      <p>El presente Aviso Legal se rige por la legislación española. En caso de conflicto sobre la interpretación o aplicación de esta, las partes se someterán a los Juzgados y Tribunales de Sevilla salvo que la jurisdicción competente en base a las normas de competencia reconocidas en nuestro
-         ordenamiento deba ser otra.</p>
+      <p>El presente Aviso Legal se rige por la legislación lituana y de la Unión Europea. En caso de conflicto sobre la interpretación o aplicación de esta, las partes se someterán a los Juzgados y Tribunales de Vilnius (Lituania), salvo que la jurisdicción competente en base a las normas de competencia reconocidas en el ordenamiento aplicable deba ser otra.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">MODIFICACIÓN</h2>
       <p>El titular de la web se reserva el derecho a modificar, actualizar o eliminar en cualquier momento el Aviso legal presente y demás textos legales que resulten aplicables.</p>

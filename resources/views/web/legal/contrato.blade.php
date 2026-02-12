@@ -11,8 +11,8 @@
       <p>Por lo que recomendamos encarecidamente la lectura detenida del presente texto.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">IDENTIDAD Y TITULAR DE LA WEB</h2>
-      <p>IDENTIDAD Y TITULAR DE LA WEB: DANIEL GONZÁLEZ PIT</p>
-      <p><strong>NIF:</strong> </p>
+      <p>IDENTIDAD Y TITULAR DE LA WEB: ARLINSA UAB</p>
+      <p><strong>Dirección:</strong> Architektų G. 56-101, LT-04217 Vilnius, Lituania</p>
       <p>Por un compromiso con la transparencia y nuestros usuarios aportamos los datos de contacto de REZERVA.</p>
 
       <p><strong>Datos de contacto</strong><br>
@@ -47,8 +47,8 @@
          Usuario quien detecte el error, por favor comuníquenoslo al e-mail: contacto@rezerva.es.</p>
       <p>De existir un error tipográfico en alguno de los precios mostrados y algún usuario hubiera tomado una decisión de contratar a rescindir el contrato sin ningún coste por su parte.</p>
       <p>Del mismo modo, es posible que los contenidos de la página web, aplicación o plataforma puedan mostrar, en ocasiones, información provisional. En el caso de que la información no correspondiera a las características del servicio contratado por el usuario, tendrá derecho a rescindir el contrato
-         sin ningún coste por su parte. No obstante, y en cumplimiento de lo dispuesto en el artículo 11 y 16 de la LSSI-CE, REZERVA se pone a disposición de todos los usuarios, autoridades y fuerzas de seguridad, para colaborar de forma activa en la retirada, o en su caso bloqueo, de todos aquellos
-         contenidos que pudieran afectar o contravenir la legislación nacional o internacional, derechos de terceros o la moral o el orden público. De este modo, en caso de que el usuario considere que puede haber algún contenido ilegítimo agradeceremos que nos lo notifique de manera inmediata a través
+         sin ningún coste por su parte. No obstante, y en cumplimiento de lo dispuesto en la Directiva 2000/31/CE sobre comercio electrónico y la legislación lituana que la transpone, REZERVA se pone a disposición de todos los usuarios, autoridades y fuerzas de seguridad, para colaborar de forma activa en la retirada, o en su caso bloqueo, de todos aquellos
+         contenidos que pudieran afectar o contravenir la legislación aplicable, derechos de terceros o la moral o el orden público. De este modo, en caso de que el usuario considere que puede haber algún contenido ilegítimo agradeceremos que nos lo notifique de manera inmediata a través
          del siguiente e-mail: contacto@rezerva.es.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">REGISTRO EN LA PLATAFORMA DE REZERVA</h2>
@@ -136,8 +136,8 @@
       <p>Los usuarios deberán utilizar la plataforma de REZERVA de conformidad con la ley, la moral, orden público y la buena fe, respetando en todo momento a los demás usuarios de esta. El usuario reconoce y acepta que será el único responsable de todas y cada una de las consecuencias que pudieran
          derivarse del incumplimiento de dicho deber.</p>
       <p>El usuario será plenamente responsable de cualquier información que publique en el sitio web, aplicación o plataforma de REZERVA, así como de sus comunicaciones con los demás usuarios.</p>
-      <p>No obstante, y en cumplimiento de lo dispuesto en el artículo 11 y 16 de la LSSI-CE, REZERVA se pone a disposición de todos los usuarios, autoridades y fuerzas de seguridad, para colaborar de forma activa en la retirada, o en su caso bloqueo, de todos aquellos contenidos que pudieran afectar o
-         contravenir la legislación nacional o internacional, derechos de terceros o la moral y el orden público.</p>
+      <p>No obstante, y en cumplimiento de lo dispuesto en la Directiva 2000/31/CE sobre comercio electrónico y la legislación lituana que la transpone, REZERVA se pone a disposición de todos los usuarios, autoridades y fuerzas de seguridad, para colaborar de forma activa en la retirada, o en su caso bloqueo, de todos aquellos contenidos que pudieran afectar o
+         contravenir la legislación aplicable, derechos de terceros o la moral y el orden público.</p>
       <p>De este modo, en caso de que el usuario considere que puede haber algún contenido ilegítimo agradeceremos que nos lo notifique de manera inmediata a través del siguiente e-mail: contacto@rezerva.es.</p>
 
       <p>En particular, sin que esta lista sea exhaustiva, REZERVA no será responsable de, y contra cualesquiera, todas las reclamaciones, daños y perjuicios, obligaciones, pérdidas, responsabilidades, costos o deudas y gastos que surjan de:</p>
@@ -153,8 +153,7 @@
       <p>En caso de un uso inapropiado de REZERVA o posibles infracciones de las leyes vigentes, REZERVA mantiene el derecho de suspender inmediatamente, sin previo aviso, la cuenta del usuario y de eliminar cualquier contenido publicado por el usuario infractor.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">POLÍTICA DE PRIVACIDAD Y COOKIES</h2>
-      <p>REZERVA, en cumplimiento de la normativa española de protección de datos de carácter personal, garantiza el cumplimiento íntegro de las obligaciones en ellas descritas, así como la implementación de las medidas de seguridad contempladas en la ley de protección de datos de carácter personal ,
-         el Reglamento 2016/679 del Parlamento Europeo y del Consejo de 27 de abril de 2016, el cual desarrolla la Ley Orgánica 3/2018 de 5 de diciembre de Protección de Datos Personales y Garantías de Derechos Digitales.</p>
+      <p>REZERVA, en cumplimiento de la normativa europea y lituana de protección de datos de carácter personal, garantiza el cumplimiento íntegro de las obligaciones en ellas descritas, así como la implementación de las medidas de seguridad contempladas en el Reglamento (UE) 2016/679 (RGPD) y la legislación lituana en materia de protección de datos personales.</p>
       <p>Para más información sobre el tratamiento de sus datos es importante que lea y conozca la “Política de Protección de datos y privacidad” y la “Política de Cookies” de esta web. Por ello el equipo de REZERVA recomienda de nuevo su lectura y comprensión y la abstención del uso de la web y
          cualquiera de sus contenidos o servicios en caso de no estar de acuerdo con las mismas. Es necesario que sepa que en REZERVA recabamos datos de carácter personal mediante los formularios de registro de alta y a través de la plataforma. El uso de sus datos personales será únicamente con la
          finalidad de la prestación de los servicios solicitados. En caso de que queramos darles un uso diferente a dichos datos personales, le será solicitado el consentimiento expreso con anterioridad.</p>
@@ -163,8 +162,7 @@
       <p>En la “Política de Cookies” le informamos de que REZERVA cuenta con Cookies en favor de dar más válida en sus servicios. Rogamos consulte el apartado de Privacidad y Cookies.</p>
 
       <h2 class="text-2xl font-semibold mt-10 mb-4">LEGISLACIÓN Y JURISDICCION APLICABLE</h2>
-      <p>Los presentes términos y condiciones se rigen por la legislación española. En caso de conflicto sobre la interpretación o aplicación de esta, las partes se someterán a los Juzgados y Tribunales de Sevilla, salvo que en base a las normas de competencia reconocidas en nuestro ordenamiento la
-         jurisdicción aplicable deba ser otra.</p>
+      <p>Los presentes términos y condiciones se rigen por la legislación lituana y de la Unión Europea. En caso de conflicto sobre la interpretación o aplicación de esta, las partes se someterán a los Juzgados y Tribunales de Vilnius (Lituania), salvo que en base a las normas de competencia reconocidas en el ordenamiento aplicable la jurisdicción competente deba ser otra.</p>
 
       <p class="mt-6"><strong>ÚLTIMA ACTUALIZACIÓN:</strong> 2 de diciembre de 2025</p>
 
