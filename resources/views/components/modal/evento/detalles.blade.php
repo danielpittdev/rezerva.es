@@ -20,7 +20,7 @@
                         Datos cliente
                      </h6>
                   </div>
-                  <span class="text-sm text-base-content/70">Daniel Gonzalez</span>
+                  <span class="text-sm text-base-content/70">{{ ucfirst($reserva->cliente->nombre) . ' ' . ucfirst($reserva->cliente->apellido) }}</span>
                </div>
             </li>
             <li>
@@ -30,7 +30,7 @@
                         Correo electrónico
                      </h6>
                   </div>
-                  <span class="text-sm text-base-content/70">correo@gmail.com</span>
+                  <span class="text-sm text-base-content/70">{{ $reserva->cliente->email }}</span>
                </div>
             </li>
             <li>
@@ -40,7 +40,7 @@
                         Teléfono
                      </h6>
                   </div>
-                  <span class="text-sm text-base-content/70">123123123</span>
+                  <span class="text-sm text-base-content/70">{{ $reserva->cliente->telefono ?? 'Sin teléfono' }}</span>
                </div>
             </li>
          </ul>
@@ -59,7 +59,7 @@
                      </h6>
                   </div>
                   <span class="text-sm text-base-content/70">
-                     12,00
+                     {{ number_format($reserva->evento->precio, 2, ',', '.') }}
                   </span>
                </div>
             </li>
@@ -70,7 +70,12 @@
                         Total gastado
                      </h6>
                   </div>
-                  <span class="text-sm text-base-content/70">123,90</span>
+                  <span class="text-sm text-base-content/70">
+                     @php
+                        $relacionados = $reserva->relacionados()->sum('total');
+                     @endphp
+                     {{ number_format($relacionados + $reserva->total * $reserva->cantidad, 2, ',', '.') }}
+                  </span>
                </div>
             </li>
          </ul>

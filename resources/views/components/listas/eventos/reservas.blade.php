@@ -1,6 +1,6 @@
 @if ($reservas->count() > 0)
    @foreach ($reservas as $reserva)
-      <li target="{{ $reserva->uuid }}" class="caption_reserva relative flex items-center p-3 hover:bg-base-content/2">
+      <li target="{{ $reserva->uuid }}" class="caption_reserva cursor-pointer relative flex items-center p-3 hover:bg-base-content/2">
          <div class="min-w-0 flex-auto">
             <div class="flex items-center gap-x-3">
 

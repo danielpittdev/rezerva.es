@@ -17,25 +17,66 @@
       </div>
 
       <!-- Panel 1: Reservas (2 cols, fila 1) -->
-      <div class="lg:col-span-2 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
+      <div class="lg:col-span-2 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto">
          <ul id="evento_compras">
 
          </ul>
       </div>
 
-      <!-- Panel 2: (1 col, fila 1) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
-
+      <!-- Panel 2: Métodos de pago (1 col, fila 1) -->
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col">
+         <div class="flex items-center justify-between mb-1">
+            <div>
+               <h3 class="text-sm font-semibold text-base-content">Métodos de pago</h3>
+               <p class="text-xs text-base-content/50 mt-0.5">Distribución por tipo</p>
+            </div>
+            <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
+               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" /></svg>
+               Donut
+            </span>
+         </div>
+         <div class="flex-1 flex items-center justify-center min-h-0">
+            <div id="chart-metodos-pago" class="w-full"></div>
+         </div>
       </div>
 
-      <!-- Panel 3: (1 col, fila 2) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
-
+      <!-- Panel 3: Resumen rápido (1 col, fila 2) -->
+      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col gap-3">
+         <div>
+            <h3 class="text-sm font-semibold text-base-content">Resumen del evento</h3>
+            <p class="text-xs text-base-content/50 mt-0.5">Datos generales</p>
+         </div>
+         <div class="flex-1 grid grid-cols-1 gap-2 content-start">
+            <div class="rounded-lg bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 border border-indigo-500/10 p-3">
+               <p class="text-xs text-base-content/60 font-medium">Precio entrada</p>
+               <p class="text-lg font-bold text-indigo-600 mt-0.5">{{ number_format($evento->precio, 2, ',', '.') }} &euro;</p>
+            </div>
+            <div class="rounded-lg bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/10 p-3">
+               <p class="text-xs text-base-content/60 font-medium">Stock disponible</p>
+               <p class="text-lg font-bold text-emerald-600 mt-0.5">{{ $evento->stock }}</p>
+            </div>
+            <div class="rounded-lg bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/10 p-3">
+               <p class="text-xs text-base-content/60 font-medium">Total recaudado</p>
+               <p class="text-lg font-bold text-amber-600 mt-0.5">{{ number_format(array_sum($chartData ?? []) * $evento->precio, 2, ',', '.') }} &euro;</p>
+            </div>
+         </div>
       </div>
 
-      <!-- Panel 4: (2 cols, fila 2) -->
-      <div class="lg:col-span-2 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-3">
-
+      <!-- Panel 4: Ventas por día (2 cols, fila 2) -->
+      <div class="lg:col-span-2 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col">
+         <div class="flex items-center justify-between mb-1">
+            <div>
+               <h3 class="text-sm font-semibold text-base-content">Entradas vendidas por día</h3>
+               <p class="text-xs text-base-content/50 mt-0.5">Evolución de ventas</p>
+            </div>
+            <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
+               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
+               Tendencia
+            </span>
+         </div>
+         <div class="flex-1 min-h-0">
+            <div id="chart-ventas-dia" class="w-full h-full"></div>
+         </div>
       </div>
 
    </section>
@@ -617,127 +658,203 @@
       });
 
       // Gráfica: Entradas vendidas por día
-      // const chartVentasOptions = {
-      //    series: [{
-      //       name: 'Entradas',
-      //       data: @json($chartData)
-      //    }],
-      //    chart: {
-      //       type: 'area',
-      //       height: '90%',
-      //       toolbar: {
-      //          show: false
-      //       },
-      //       fontFamily: 'inherit'
-      //    },
-      //    dataLabels: {
-      //       enabled: false
-      //    },
-      //    stroke: {
-      //       curve: 'smooth',
-      //       width: 2
-      //    },
-      //    xaxis: {
-      //       categories: @json($chartLabels),
-      //       axisBorder: {
-      //          show: false
-      //       },
-      //       axisTicks: {
-      //          show: false
-      //       }
-      //    },
-      //    yaxis: {
-      //       labels: {
-      //          formatter: function(val) {
-      //             return Math.floor(val);
-      //          }
-      //       }
-      //    },
-      //    fill: {
-      //       type: 'gradient',
-      //       gradient: {
-      //          shadeIntensity: 1,
-      //          opacityFrom: 0.4,
-      //          opacityTo: 0.1,
-      //       },
-      //       colors: ['#4f46e5']
-      //    },
-      //    colors: ['#4f46e5'],
-      //    grid: {
-      //       borderColor: '#e5e7eb',
-      //       strokeDashArray: 4
-      //    },
-      //    tooltip: {
-      //       y: {
-      //          formatter: function(val) {
-      //             return val + ' entradas';
-      //          }
-      //       }
-      //    }
-      // };
-      // new ApexCharts(document.querySelector("#chart-ventas-dia"), chartVentasOptions).render();
+      const chartVentasOptions = {
+         series: [{
+            name: 'Entradas',
+            data: @json($chartData)
+         }],
+         chart: {
+            type: 'area',
+            height: '100%',
+            toolbar: { show: false },
+            fontFamily: 'inherit',
+            sparkline: { enabled: false },
+            zoom: { enabled: false },
+            parentHeightOffset: 0,
+         },
+         dataLabels: { enabled: false },
+         stroke: {
+            curve: 'smooth',
+            width: 2.5,
+            lineCap: 'round'
+         },
+         xaxis: {
+            categories: @json($chartLabels),
+            axisBorder: { show: false },
+            axisTicks: { show: false },
+            labels: {
+               style: {
+                  colors: '#9ca3af',
+                  fontSize: '11px',
+                  fontWeight: 500
+               }
+            },
+            crosshairs: {
+               stroke: { color: '#4f46e5', width: 1, dashArray: 3 }
+            }
+         },
+         yaxis: {
+            labels: {
+               formatter: (val) => Math.floor(val),
+               style: {
+                  colors: '#9ca3af',
+                  fontSize: '11px',
+                  fontWeight: 500
+               },
+               offsetX: -5
+            },
+            min: 0
+         },
+         fill: {
+            type: 'gradient',
+            gradient: {
+               shadeIntensity: 1,
+               type: 'vertical',
+               opacityFrom: 0.35,
+               opacityTo: 0.02,
+               stops: [0, 100]
+            },
+            colors: ['#6366f1']
+         },
+         colors: ['#6366f1'],
+         grid: {
+            borderColor: '#f3f4f6',
+            strokeDashArray: 5,
+            xaxis: { lines: { show: false } },
+            yaxis: { lines: { show: true } },
+            padding: { top: -10, bottom: 0, left: 10, right: 10 }
+         },
+         tooltip: {
+            theme: 'light',
+            style: { fontSize: '12px' },
+            y: {
+               formatter: (val) => val + ' entradas'
+            },
+            marker: { show: true },
+            x: { show: true }
+         },
+         markers: {
+            size: 0,
+            hover: { size: 5, sizeOffset: 3 },
+            colors: ['#6366f1'],
+            strokeColors: '#fff',
+            strokeWidth: 2
+         }
+      };
+      new ApexCharts(document.querySelector("#chart-ventas-dia"), chartVentasOptions).render();
 
-      // // Gráfica: Métodos de pago
-      // const metodoLabels = @json($metodoLabels);
-      // const metodoData = @json($metodoData);
+      // Gráfica: Métodos de pago
+      const metodoLabels = @json($metodoLabels);
+      const metodoData = @json($metodoData);
 
-      // if (metodoLabels.length > 0) {
-      //    const chartMetodosOptions = {
-      //       series: metodoData,
-      //       chart: {
-      //          type: 'donut',
-      //          height: 200,
-      //          fontFamily: 'inherit'
-      //       },
-      //       labels: metodoLabels,
-      //       colors: ['#4f46e5', '#06b6d4', '#10b981', '#f59e0b'],
-      //       legend: {
-      //          position: 'bottom',
-      //          fontSize: '12px'
-      //       },
-      //       dataLabels: {
-      //          enabled: false
-      //       },
-      //       plotOptions: {
-      //          pie: {
-      //             donut: {
-      //                size: '60%'
-      //             }
-      //          }
-      //       }
-      //    };
-      //    new ApexCharts(document.querySelector("#chart-metodos-pago"), chartMetodosOptions).render();
-      // }
+      if (metodoLabels.length > 0) {
+         const totalPagos = metodoData.reduce((a, b) => a + b, 0);
+         const chartMetodosOptions = {
+            series: metodoData,
+            chart: {
+               type: 'donut',
+               height: '100%',
+               fontFamily: 'inherit',
+            },
+            labels: metodoLabels,
+            colors: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b'],
+            legend: {
+               position: 'bottom',
+               fontSize: '12px',
+               fontWeight: 500,
+               labels: { colors: '#6b7280' },
+               markers: {
+                  size: 6,
+                  shape: 'circle',
+                  offsetX: -3
+               },
+               itemMargin: { horizontal: 8, vertical: 4 }
+            },
+            dataLabels: {
+               enabled: false
+            },
+            plotOptions: {
+               pie: {
+                  donut: {
+                     size: '70%',
+                     labels: {
+                        show: true,
+                        name: {
+                           show: true,
+                           fontSize: '13px',
+                           fontWeight: 600,
+                           color: '#374151',
+                           offsetY: -5
+                        },
+                        value: {
+                           show: true,
+                           fontSize: '20px',
+                           fontWeight: 700,
+                           color: '#111827',
+                           offsetY: 5,
+                           formatter: (val) => val
+                        },
+                        total: {
+                           show: true,
+                           label: 'Total',
+                           fontSize: '12px',
+                           fontWeight: 500,
+                           color: '#9ca3af',
+                           formatter: () => totalPagos
+                        }
+                     }
+                  },
+                  expandOnClick: false
+               }
+            },
+            stroke: {
+               width: 3,
+               colors: ['#fff']
+            },
+            tooltip: {
+               enabled: true,
+               style: { fontSize: '12px' },
+               y: {
+                  formatter: (val) => val + ' pagos'
+               }
+            },
+            states: {
+               hover: { filter: { type: 'darken', value: 0.9 } },
+               active: { filter: { type: 'none' } }
+            }
+         };
+         new ApexCharts(document.querySelector("#chart-metodos-pago"), chartMetodosOptions).render();
+      }
 
-      // // Caption
-      // document.addEventListener('DOMContentLoaded', function() {
-      //    $(document).on('click', '.caption_reserva', function() {
-      //       let id = $(this).attr('target');
+      // Caption
+      document.addEventListener('DOMContentLoaded', function() {
+         $(document).on('click', '.caption_reserva', function() {
+            let id = $(this).attr('target');
 
-      //       // PET
+            // PET
 
-      //       $.ajax({
-      //          type: "GET",
-      //          url: `/api/v1/eventoReserva/${id}`,
-      //          headers: {
-      //             "Authorization": "Bearer " + localStorage.getItem('token'),
-      //             "Accept": "application/json"
-      //          },
-      //          beforeSend: function() {
-      //             $('.loader').removeClass('hidden')
-      //          },
-      //          success: function(r) {
-      //             console.log(r)
-      //             $('.loader').addClass('hidden')
+            $.ajax({
+               type: "GET",
+               url: `/api/v1/eventoReserva/${id}`,
+               headers: {
+                  "Authorization": "Bearer " + localStorage.getItem('token'),
+                  "Accept": "application/json"
+               },
+               beforeSend: function() {
+                  $('.loader').removeClass('hidden')
+               },
+               success: function(r) {
+                  console.log(r)
+                  $('.loader').addClass('hidden')
 
-      //             $('#md_conten_md1').empty().append(r.modal)
-      //             $('#md_tog_1').attr('open', true)
-      //          },
-      //          error: function(e) {
-      //             console.log(e.responseJSON);
-      //          }
-      //       });
-      //    });
-      // });
+                  $('#md_conten_md1').empty().append(r.modal)
+                  $('#md_tog_1').attr('open', true)
+               },
+               error: function(e) {
+                  console.log(e.responseJSON);
+               }
+            });
+         });
+      });
    </script>
 @endsection
