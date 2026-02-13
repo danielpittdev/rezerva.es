@@ -13,9 +13,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Jobs\RecordatorioEvento;
+use App\Jobs\RecordatorioReserva;
 use App\Models\Evento;
 use App\Models\EventoTopping;
 use App\Models\ReservaEvento;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class ApiReserva extends Controller
@@ -122,6 +125,12 @@ class ApiReserva extends Controller
                     ->subject('Reserva actualizada');
             });
 
+            // Reprogramar recordatorio para la nueva fecha
+            $recordatorioFecha = Carbon::parse($fecha)->subDay();
+            if ($recordatorioFecha->isFuture()) {
+                RecordatorioReserva::dispatch($reserva->id)->delay($recordatorioFecha);
+            }
+
             return true;
         } else {
             $reserva = Reserva::create([
@@ -142,6 +151,12 @@ class ApiReserva extends Controller
                 $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
                     ->subject('Reserva solicitada');
             });
+
+            // Programar recordatorio 24h antes de la reserva
+            $recordatorioFecha = Carbon::parse($fecha)->subDay();
+            if ($recordatorioFecha->isFuture()) {
+                RecordatorioReserva::dispatch($reserva->id)->delay($recordatorioFecha);
+            }
 
             return false;
         }
@@ -205,6 +220,12 @@ class ApiReserva extends Controller
                     $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
                         ->subject('Reserva actualizada');
                 });
+
+                // Reprogramar recordatorio para la nueva fecha
+                $recordatorioFecha = Carbon::parse($fecha)->subDay();
+                if ($recordatorioFecha->isFuture()) {
+                    RecordatorioReserva::dispatch($reservaPagada->id)->delay($recordatorioFecha);
+                }
 
                 return response()->json([
                     'mensaje' => 'Tu reserva ha sido actualizada a la nueva fecha',
@@ -379,6 +400,12 @@ class ApiReserva extends Controller
                 $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
                     ->subject('Tu reserva está lista');
             });
+
+            // Programar recordatorio 24h antes del evento
+            $recordatorioFecha = Carbon::parse($evento->fecha)->subDay();
+            if ($recordatorioFecha->isFuture()) {
+                RecordatorioEvento::dispatch($reserva->id)->delay($recordatorioFecha);
+            }
 
             return response()->json([
                 'mensaje' => 'Entrada reservada con éxito. Paga en efectivo al llegar.',
