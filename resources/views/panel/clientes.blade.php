@@ -1,29 +1,48 @@
 @extends('components.html.plantilla.center')
 
 @section('contenido')
-   <section class="lg:py-4 flex justify-between items-start space-y-2">
-      <div class="caja space-y-2">
-         <h1 class="text-xl font-medium">
-            Clientes
-         </h1>
+   @php
+      $suscripcionActiva = \App\Models\Suscripcion::where('user_id', Auth::id())->where('stripe_status', 'active')->exists();
+   @endphp
 
-         <p class="text-xs text-base-content/70">
-            Gestiona tu base de clientes
-         </p>
-      </div>
+   @if (!$suscripcionActiva)
+      <section class="flex items-center justify-center py-20">
+         <div class="text-center max-w-md space-y-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12 mx-auto text-base-content/30">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            <h2 class="text-lg font-semibold">Funcionalidad exclusiva para suscriptores</h2>
+            <p class="text-sm text-base-content/60">Para gestionar clientes necesitas una suscripcion activa. Elige un plan desde los ajustes de tu cuenta.</p>
+            <a href="{{ route('ajustes') }}" class="inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+               Ver planes
+            </a>
+         </div>
+      </section>
+   @else
+      <section class="lg:py-4 flex justify-between items-start space-y-2">
+         <div class="caja space-y-2">
+            <h1 class="text-xl font-medium">
+               Clientes
+            </h1>
 
-      <button command="show-modal" commandfor="drawer_crear_cliente" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
-         Añadir cliente
-      </button>
-   </section>
+            <p class="text-xs text-base-content/70">
+               Gestiona tu base de clientes
+            </p>
+         </div>
 
-   <section class="sec">
-      <ul id="load_lista_clientes" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
-         <li class="flex py-8">
-            <span class="mx-auto loading loading-spinner loading-md"></span>
-         </li>
-      </ul>
-   </section>
+         <button command="show-modal" commandfor="drawer_crear_cliente" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
+            Añadir cliente
+         </button>
+      </section>
+
+      <section class="sec">
+         <ul id="load_lista_clientes" role="list" class="divide-y divide-base-content/10 border border-base-content/10 px-3 rounded-lg bg-base-100">
+            <li class="flex py-8">
+               <span class="mx-auto loading loading-spinner loading-md"></span>
+            </li>
+         </ul>
+      </section>
+   @endif
 @endsection
 
 @section('drawers')

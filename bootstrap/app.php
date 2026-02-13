@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'plan.limite' => \App\Http\Middleware\CheckPlanLimit::class,
+            'suscripcion' => \App\Http\Middleware\CheckSuscripcion::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

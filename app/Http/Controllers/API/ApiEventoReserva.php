@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Evento;
-use GuzzleHttp\Client;
-use App\Models\Clientes;
-use App\Models\Negocios;
-use App\Models\Servicios;
-use Illuminate\Http\Request;
-use App\Models\ReservaEvento;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Jobs\EnviarInvitacionEvento;
+use App\Jobs\RecordatorioEvento;
+use App\Models\Clientes;
+use App\Models\Evento;
+use App\Models\Negocios;
+use App\Models\ReservaEvento;
+use App\Models\Servicios;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -84,7 +87,6 @@ class ApiEventoReserva extends Controller
 
     $reserva = ReservaEvento::create($validacion);
 
-    // Mail
     Mail::send('components.email.evento.invitacion', [
       'cliente' => $cliente,
       'evento' => $evento,
@@ -93,6 +95,9 @@ class ApiEventoReserva extends Controller
       $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
         ->subject('Invitación a ' . $evento->nombre);
     });
+
+    // dispatch(new RecordatorioEvento($reserva->id))->delay(Carbon::parse($evento->fecha)->subDay());
+    dispatch(new RecordatorioEvento($reserva->id))->delay(now()->addMinute());
 
     return response()->json([
       'mensaje' => 'Creado con éxito',
