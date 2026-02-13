@@ -88,6 +88,7 @@ class ApiEventoReserva extends Controller
     Mail::send('components.email.evento.invitacion', [
       'cliente' => $cliente,
       'evento' => $evento,
+      'reserva' => $reserva,
     ], function ($message) use ($cliente, $evento) {
       $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
         ->subject('Invitación a ' . $evento->nombre);

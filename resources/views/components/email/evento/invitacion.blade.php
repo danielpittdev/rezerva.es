@@ -74,10 +74,10 @@
                                     <tr>
                                        <td>
                                           <a
-                                             href="https://rezerva.es/re/{{ $evento->uuid }}"
+                                             href="https://rezerva.es/re/{{ $reserva->uuid }}"
                                              target="_blank"
                                              style="display:inline-block;background-color:rgb(0,0,0);color:rgb(255,255,255);font-size:0.875rem;font-weight:600;text-decoration:none;text-align:center;padding:12px 24px;border-radius:6px">
-                                             Reservar mi plaza
+                                             Ver mi entrada
                                           </a>
                                        </td>
                                     </tr>
