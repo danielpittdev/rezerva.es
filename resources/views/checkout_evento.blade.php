@@ -150,7 +150,7 @@
                                        <input type="checkbox" hidden name="topping[]" value="{{ $topping->uuid }}"
                                           class="relative mt-0.5 size-4 shrink-0 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden" />
                                        <div class="icono">
-                                          <img class="bg-base-100 rounded-md size-12 object-cover border border-base-content/20" src="{{ Storage::url($topping->icono) }}" alt="">
+                                          <img class="bg-base-100 rounded-md size-12 object-cover border border-base-content/20" src="@if ($topping->icono) Storage::url($topping->icono) @else /media/logo/brand.png @endif" alt="">
                                        </div>
                                        <span class="ml-3 flex flex-col">
                                           <span class="block text-sm font-medium text-gray-900 group-has-checked:text-indigo-900">+{{ number_format($topping->precio, 2, ',', '.') }}€</span>

@@ -24,6 +24,9 @@ class Evento extends Model
     'precio',
     'negocio_id',
     'stripe_price',
+    'max_compra',
+    'pago_online',
+    'pago_efectivo',
   ];
 
   public function negocio(): BelongsTo
@@ -34,5 +37,10 @@ class Evento extends Model
   public function reservas(): HasMany
   {
     return $this->hasMany(ReservaEvento::class, 'evento_id');
+  }
+
+  public function toppings(): HasMany
+  {
+    return $this->hasMany(EventoTopping::class, 'evento_id');
   }
 }
