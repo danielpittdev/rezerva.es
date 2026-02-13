@@ -21,6 +21,7 @@ class ReservaEvento extends Model
         'metodo_pago',
         'cantidad',
         'total',
+        'topings',
         'evento_id',
         'cliente_id',
         'stripe'
@@ -29,6 +30,7 @@ class ReservaEvento extends Model
     protected $casts = [
         'pagado' => 'boolean',
         'confirmacion' => 'boolean',
+        'toppings' => 'json',
     ];
 
     public function evento(): BelongsTo

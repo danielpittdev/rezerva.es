@@ -36,9 +36,10 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->boolean('pagado')->default(false);
             $table->boolean('confirmacion')->default(false);
-            $table->enum('metodo_pago', ['tarjeta', 'bizum', 'efectivo', 'presencial']);                             # Nota al reservar
+            $table->enum('metodo_pago', ['tarjeta', 'bizum', 'efectivo', 'presencial']);
             $table->bigInteger('cantidad')->default(1);
             $table->decimal('total', places: 2, total: 9)->default(0);
+            $table->json('toppings')->nullable();
             //
             $table->foreignId('evento_id')->constrained('eventos')->onDelete('cascade');
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Suscripcion;
+use Illuminate\Http\Request;
 use App\Models\ReservaEvento;
 use App\Jobs\EnviarCorreoEvento;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class ApiController extends Controller
@@ -17,6 +18,18 @@ class ApiController extends Controller
 
     public function evento_avisar(Request $request)
     {
+        $usuario = $request->user();
+
+        $suscripcion = Suscripcion::where('user_id', $usuario->id)
+            ->where('stripe_status', 'active')
+            ->first();
+
+        if (!$suscripcion || config("limites.{$suscripcion->type}.envio_masivo", false)) {
+            return response()->json([
+                'mensaje' => ['No puedes usar esta caracteristica. Actualiza a un plan superior para poder usarla.']
+            ], 401);
+        }
+
         $evento = Evento::whereUuid($request->evento)->with('negocio')->firstOrFail();
 
         $validacion = $request->validate([
@@ -25,13 +38,11 @@ class ApiController extends Controller
         ]);
 
         // Cobrar 0,90€ al usuario autenticado antes de enviar
-        $usuario = $request->user();
-
         $metodo = $usuario->defaultPaymentMethod() ?? $usuario->paymentMethods()->first();
 
         if (!$metodo) {
             return response()->json([
-                'errors' => ['pago' => ['No tienes un método de pago configurado. Añade uno para poder enviar correos masivos.']]
+                'mensaje' => ['No tienes un método de pago configurado. Añade uno para poder enviar correos masivos.']
             ], 422);
         }
 
@@ -43,7 +54,7 @@ class ApiController extends Controller
             ]);
         } catch (\Laravel\Cashier\Exceptions\IncompletePayment $e) {
             return response()->json([
-                'errors' => ['pago' => ['El pago no se ha podido completar. Verifica tu método de pago.']]
+                'mensaje' => ['No tienes un método de pago configurado. Añade uno para poder enviar correos masivos.']
             ], 402);
         }
 

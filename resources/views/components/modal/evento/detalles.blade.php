@@ -82,6 +82,34 @@
          </ul>
       </div>
    </div>
+
+   @if ($reserva->toppings)
+      <div class="col-span-full">
+         <ul class="col-span-full space-y-1">
+            @foreach ($reserva->toppings as $topping)
+               <li>
+                  <div class="box rounded-box p-2 border border-base-content/10 flex gap-3">
+                     <div class="icono">
+                        <img class="size-12 rounded-box" src="@if ($topping['icono']) {{ Storage::url($topping['icono']) }}
+                    @else
+                     /media/logo/brand.png @endif" alt="" class="icono">
+                     </div>
+
+                     <div class="block space-y-1">
+                        <div class="font-medium text-md">
+                           {{ $topping['nombre'] }}
+                        </div>
+
+                        <small>
+                           {{ number_format($topping['precio'], 2, ',', '.') }}
+                        </small>
+                     </div>
+                  </div>
+               </li>
+            @endforeach
+         </ul>
+      </div>
+   @endif
 </div>
 
 <!-- Entradas del cliente -->
