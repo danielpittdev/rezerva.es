@@ -2,6 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Jobs\RecordatorioEvento;
+use App\Jobs\RecordatorioReserva;
 use App\Models\Clientes;
 use App\Models\EventoTopping;
 use App\Models\Factura;
@@ -10,6 +12,7 @@ use App\Models\Reserva;
 use App\Models\ReservaEvento;
 use App\Models\Servicios;
 use App\Models\Usuarios;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -71,6 +74,12 @@ class WebhookController
                     $message->to($datos['usuario']['email'], $datos['usuario']['nombre'] . ' ' . $datos['usuario']['apellido'])
                         ->subject('Reserva confirmada');
                 });
+
+                // Programar recordatorio 24h antes de la reserva
+                $recordatorioFecha = Carbon::parse($reserva->fecha)->subDay();
+                if ($recordatorioFecha->isFuture()) {
+                    RecordatorioReserva::dispatch($reserva->id)->delay($recordatorioFecha);
+                }
             }
 
             if (($metadata['fn'] ?? null) == 2) {
@@ -124,6 +133,14 @@ class WebhookController
                     $message->to($cliente->email, $cliente->nombre . ' ' . $cliente->apellido)
                         ->subject('¡Aquí tienes tu entrada!');
                 });
+
+                // Programar recordatorio 24h antes del evento
+                if ($evento) {
+                    $recordatorioFecha = Carbon::parse($evento->fecha)->subDay();
+                    if ($recordatorioFecha->isFuture()) {
+                        RecordatorioEvento::dispatch($reservaEvento->id)->delay($recordatorioFecha);
+                    }
+                }
             }
         }
 
