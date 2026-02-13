@@ -38,7 +38,7 @@ class ApiController extends Controller
         try {
             $usuario->charge(100, $metodo->id, [
                 'description' => 'Envío masivo - Evento: ' . $evento->nombre,
-                'payment_method_types' => ['card'],
+                'payment_method_types' => ['card', 'link'],
                 'currency' => 'EUR'
             ]);
         } catch (\Laravel\Cashier\Exceptions\IncompletePayment $e) {
