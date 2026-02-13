@@ -110,11 +110,7 @@
                <div class="overflow-x-auto">
                   <table class="table">
                      <tbody id="load_lista_servicios">
-                        <tr>
-                           <td>Brice Swyre</td>
-                           <td>Tax Accountant</td>
-                           <td>Red</td>
-                        </tr>
+
                      </tbody>
                   </table>
                </div>
@@ -446,8 +442,10 @@
                         <div class="col-span-full">
                            <div class="flex items-center gap-3">
                               <label class="inline-flex items-center cursor-pointer">
-                                 <input id="editar_online" type="checkbox" name="online" value="1" @if($negocio->online) checked @endif class="sr-only peer" />
-                                 <div class="relative w-11 h-6 rounded-full bg-base-content/20 peer-checked:bg-indigo-500 peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-indigo-500 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                                 <input id="editar_online" type="checkbox" name="online" value="1" @if ($negocio->online) checked @endif class="sr-only peer" />
+                                 <div
+                                    class="relative w-11 h-6 rounded-full bg-base-content/20 peer-checked:bg-indigo-500 peer-focus:outline-2 peer-focus:outline-offset-2 peer-focus:outline-indigo-500 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                                 </div>
                                  <span class="ms-3 text-sm font-medium">Negocio online</span>
                               </label>
                               <span class="text-xs text-base-content/50">(sin local fisico)</span>
@@ -455,7 +453,7 @@
                         </div>
 
                         <!-- Dirección postal -->
-                        <div id="editar_campos_direccion" class="col-span-full grid lg:grid-cols-4 grid-cols-1 gap-3" @if($negocio->online) style="display:none" @endif>
+                        <div id="editar_campos_direccion" class="col-span-full grid lg:grid-cols-4 grid-cols-1 gap-3" @if ($negocio->online) style="display:none" @endif>
                            <div class="lg:col-span-full col-span-full">
                               <label for="postal_direccion" class="block text-sm/6 font-medium">Dirección</label>
                               <div class="mt-2">

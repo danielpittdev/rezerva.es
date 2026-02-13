@@ -5,6 +5,24 @@
 </div>
 
 @section('contenido')
+   @if (!Auth::user()->negocios[0]->stripe_account_id)
+      <div class="rounded-md bg-yellow-50 border border-yellow-300 p-4 mb-3">
+         <div class="flex">
+            <div class="shrink-0">
+               <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
+                  <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"
+                     fill-rule="evenodd" />
+               </svg>
+            </div>
+            <div class="ml-3">
+               <h3 class="text-sm font-medium text-yellow-800">Pagos online desactivados</h3>
+               <div class="mt-2 text-sm text-yellow-700">
+                  <p>Asegurate que tu negocio está conectado a Stripe para crear eventos y procesar pagos online. Solamente podrás vender las entradas de manera libre o efectivo.</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   @endif
    <section class="h-full w-full grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr] gap-2">
 
       <!-- Barra superior -->
@@ -474,6 +492,8 @@
                      <form id="emitirAviso" action="{{ route('evento.avisar', ['evento' => $evento->uuid]) }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
+                        <div class="alerta col-span-full"></div>
+
                         <!-- Nombre -->
                         <div class="lg:col-span-full col-span-full">
                            <label for="titulo" class="block text-sm/6 font-medium">Título</label>
@@ -552,6 +572,8 @@
                      <form id="crearToppigForm" action="{{ route('eventoToppin.store') }}" method="POST" class="grid lg:grid-cols-4 grid-cols-1 gap-3">
                         @csrf
 
+                        <div class="alerta col-span-full"></div>
+
                         <!-- Nombre -->
                         <div class="lg:col-span-full col-span-full">
                            <label for="topping_nombre" class="block text-sm/6 font-medium">Nombre</label>
@@ -605,8 +627,9 @@
                            peticion(crearToppingForm, {
                               resetForm: true,
                               highlightInputs: true,
-                              showAlert: false,
+                              showAlert: true,
                               reciclar: true,
+                              reload: true
                            });
                         });
                      </script>
@@ -626,7 +649,6 @@
             <el-dialog-panel
                class="relative transform overflow-hidden bg-base-100 px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:max-w-md rounded-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
                <section id="md_conten_md1" class="caja">
-
 
                </section>
             </el-dialog-panel>

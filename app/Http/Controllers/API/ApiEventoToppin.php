@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Evento;
+use App\Models\Suscripcion;
 use Illuminate\Http\Request;
 use App\Models\EventoTopping;
 use Illuminate\Http\JsonResponse;
@@ -39,6 +40,7 @@ class ApiEventoToppin extends Controller
   # Crear
   public function store(Request $request)
   {
+
     $validacion = $request->validate([
       'nombre' => 'required|string',
       'descripcion' => 'required|string',
@@ -49,6 +51,18 @@ class ApiEventoToppin extends Controller
 
     $evento = Evento::whereUuid($validacion['evento_id'])->first();
     $validacion['evento_id'] = $evento->id;
+
+    $usuario = $request->user();
+
+    $suscripcion = Suscripcion::where('user_id', $usuario->id)
+      ->where('stripe_status', 'active')
+      ->first();
+
+    if (!$suscripcion || config("limites.{$suscripcion->type}.evento_toppings" < $evento->toppings->count())) {
+      return response()->json([
+        'mensaje' => ['Has superado el límite de toppings para este evento. Actualiza a un plan superior para añadir más.']
+      ], 401);
+    }
 
     if ($request->hasFile('icono')) {
       $validacion['icono'] = $request->file('icono')->store('eventos/toppings');
