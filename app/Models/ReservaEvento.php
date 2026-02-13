@@ -21,6 +21,7 @@ class ReservaEvento extends Model
     'metodo_pago',
     'cantidad',
     'total',
+    'toppings',
     'evento_id',
     'cliente_id',
     'stripe'

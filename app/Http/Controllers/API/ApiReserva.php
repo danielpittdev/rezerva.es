@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
+use App\Models\EventoTopping;
 use App\Models\ReservaEvento;
 use Illuminate\Support\Facades\Mail;
 
@@ -312,6 +313,8 @@ class ApiReserva extends Controller
         $stock = $evento->stock;
         $max_compra = $evento->max_compra;
 
+        $toppings = $request->topping ?? [];
+
         if ($cantidad > $max_compra) {
             return response()->json([
                 'errors' => ['cantidad' => ['La cantidad máxima es: ' . $max_compra]],
@@ -343,7 +346,16 @@ class ApiReserva extends Controller
             ]);
         }
 
-        $total = $evento->precio * $cantidad;
+        $array_toppings = [];
+        $precio_toppings = 0;
+
+        foreach ($toppings as $topping) {
+            $topping = EventoTopping::whereUuid($topping)->first();
+            $precio_toppings += $topping->precio;
+            array_push($array_toppings, $topping);
+        }
+
+        $total = ($evento->precio + $precio_toppings) * $cantidad;
 
         // Pago en efectivo: crear ReservaEvento directamente
         if ($val['metodo_pago'] === 'efectivo') {
@@ -353,6 +365,7 @@ class ApiReserva extends Controller
                 'confirmacion' => false,
                 'cantidad' => $cantidad,
                 'total' => $total,
+                'toppings' => json_encode($array_toppings),
                 'evento_id' => $evento->id,
                 'cliente_id' => $cliente->id,
             ]);
@@ -378,6 +391,7 @@ class ApiReserva extends Controller
             'evento_id' => $evento->id,
             'cliente_id' => $cliente->id,
             'cantidad' => $cantidad,
+            'toppings' => $array_toppings,
             'total' => $total,
         ]);
 

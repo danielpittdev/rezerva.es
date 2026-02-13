@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Models\Factura;
 use App\Models\Clientes;
+use App\Models\EventoTopping;
+use App\Models\Factura;
 use App\Models\Negocios;
 use App\Models\Reserva;
+use App\Models\ReservaEvento;
 use App\Models\Servicios;
 use App\Models\Usuarios;
-use App\Models\ReservaEvento;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -84,6 +85,13 @@ class WebhookController
 
                 $evento = \App\Models\Evento::find($metadata['evento_id']);
 
+                // Reconstruir toppings completos desde los IDs del metadata
+                $toppingIds = json_decode($metadata['toppings'] ?? '[]', true);
+                $toppingsData = [];
+                if (!empty($toppingIds)) {
+                    $toppingsData = EventoTopping::whereIn('id', $toppingIds)->get()->toArray();
+                }
+
                 // Crear la reserva del evento
                 $reservaEvento = ReservaEvento::create([
                     'uuid' => $metadata['reserva_evento'],
@@ -91,6 +99,7 @@ class WebhookController
                     'pagado' => true,
                     'confirmacion' => true,
                     'cantidad' => $metadata['cantidad'],
+                    'toppings' => json_encode($toppingsData),
                     'total' => $metadata['total'],
                     'evento_id' => $metadata['evento_id'],
                     'cliente_id' => $metadata['cliente_id'],

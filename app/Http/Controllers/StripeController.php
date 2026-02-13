@@ -137,6 +137,7 @@ class StripeController extends Controller
         $cliente = Clientes::findOrFail($datos['cliente_id']);
         $evento = Evento::findOrFail($datos['evento_id']);
         $negocio = $evento->negocio;
+        $toppings = $datos['toppings'] ?? [];
         $cantidad = $datos['cantidad'];
         $total = $datos['total'];
 
@@ -181,16 +182,31 @@ class StripeController extends Controller
             }
         }
 
+        // Toppings
+        $lineItems = [[
+            'price' => $evento->stripe_price,
+            'quantity' => $cantidad,
+        ]];
+
+        if ($toppings) {
+            foreach ($toppings as $topping) {
+                if (empty($topping['stripe_price'])) {
+                    continue;
+                }
+                $lineItems[] = [
+                    'price' => $topping['stripe_price'],
+                    'quantity' => $cantidad,
+                ];
+            }
+        }
+
         $reservaEvento = Str::uuid();
 
         // Comisión fija: 0,35€ por entrada
         $comision = (int) (35 * $cantidad);
 
         $checkoutData = [
-            'line_items' => [[
-                'price' => $evento->stripe_price,
-                'quantity' => $cantidad,
-            ]],
+            'line_items' => $lineItems,
             'mode' => 'payment',
             'payment_intent_data' => [
                 'application_fee_amount' => $comision,
@@ -202,6 +218,7 @@ class StripeController extends Controller
                 'evento_id' => $evento->id,
                 'cliente_id' => $cliente->id,
                 'reserva_evento' => $reservaEvento,
+                'toppings' => json_encode(collect($toppings)->pluck('id')->values())
             ],
             'success_url' => route('reserva_evento', ['reserva' => $reservaEvento]),
             'cancel_url' => route('evento', ['evento' => $evento->uuid]),
