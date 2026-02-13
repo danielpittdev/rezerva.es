@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('nombre');
-            $table->string('descripcion')->nullable;
-            $table->string('icono')->nullable;
+            $table->string('descripcion')->nullable();
+            $table->string('icono')->nullable();
             $table->decimal('precio', total: 9, places: 2)->default(0);
             $table->foreignId('evento_id')->constrained('eventos');
+            $table->string('stripe_price')->nullable();
             $table->timestamps();
         });
     }

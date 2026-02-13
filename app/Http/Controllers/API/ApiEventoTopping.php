@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ApiEventoToppin extends Controller
+class ApiEventoTopping extends Controller
 {
 
   # Vista única
@@ -40,7 +40,6 @@ class ApiEventoToppin extends Controller
   # Crear
   public function store(Request $request)
   {
-
     $validacion = $request->validate([
       'nombre' => 'required|string',
       'descripcion' => 'required|string',
@@ -66,6 +65,22 @@ class ApiEventoToppin extends Controller
 
     if ($request->hasFile('icono')) {
       $validacion['icono'] = $request->file('icono')->store('eventos/toppings');
+    }
+
+    if ($evento->negocio->stripeAccountActivo()) {
+      $stripe = new \Stripe\StripeClient(config('cashier.secret'));
+      $stripeProduct = $stripe->products->create([
+        'name' => $validacion['nombre'],
+        'description' => $validacion['descripcion'],
+      ], ['stripe_account' => $evento->negocio->stripe_account_id]);
+
+      $stripePrice = $stripe->prices->create([
+        'unit_amount' => $validacion['precio'] * 100,
+        'currency' => 'eur',
+        'product' => $stripeProduct->id,
+      ], ['stripe_account' => $evento->negocio->stripe_account_id]);
+
+      $validacion['stripe_price'] = $stripePrice->id;
     }
 
     $crear = EventoTopping::create($validacion);

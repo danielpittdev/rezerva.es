@@ -20,6 +20,7 @@ class EventoTopping extends Model
         'icono',
         'precio',
         'evento_id',
+        'stripe_price',
     ];
 
     protected function casts(): array
