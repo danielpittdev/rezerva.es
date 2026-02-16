@@ -6,7 +6,7 @@
        'eventos' => ['ruta' => 'eventos', 'icono' => 'triangle-up'],
        'servicios' => ['ruta' => 'servicios', 'icono' => 'wrench'],
        'clientes' => ['ruta' => 'clientes', 'icono' => 'person'],
-       'facturacion' => ['ruta' => 'facturacion', 'icono' => 'file'],
+       //  'facturacion' => ['ruta' => 'facturacion', 'icono' => 'file'],
        'reservas' => ['ruta' => 'reservas', 'icono' => 'calendar'],
        'horarios' => ['ruta' => 'horarios', 'icono' => 'clock'],
    ];

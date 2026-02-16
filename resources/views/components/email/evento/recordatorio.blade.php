@@ -56,24 +56,40 @@
                               </table>
                               <h1
                                  style="font-size:1.5rem;line-height:1.3333333333333333;color:rgb(0,0,0);font-weight:400;text-align:left;padding:0rem;margin-bottom:2rem;margin-top:2rem;margin-right:0rem;margin-left:0rem">
-                                 Aviso importante de {{ $evento->nombre }}
+                                 ¿Readyyyy? Ya mismo empieza {{ $evento->nombre }}
                               </h1>
-
-                              <h2 style="font-size:1rem;line-height:1.3333333333333333;color:rgb(0,0,0);font-weight:400;text-align:left;padding:0rem;margin-bottom:2rem;margin-top:2rem;margin-right:0rem;margin-left:0rem">
-                                 {{ $asunto }}
-                              </h2>
-
                               <p
                                  style="font-size:0.875rem;line-height:1.625;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 {!! nl2br(e($cuerpo)) !!}
+                                 Ya está todo listo en {{ $evento->nombre }}. Tan solo quedan 24 horas para que empiece {{ $evento->nombre }}. Por si se te había olvidado tenemos tus entradas para que puedas tenerlas a mano.
                               </p>
+                              <table
+                                 align="center"
+                                 width="100%"
+                                 border="0"
+                                 cellpadding="0"
+                                 cellspacing="0"
+                                 role="presentation"
+                                 style="margin-top:24px;margin-bottom:24px;text-align:center">
+                                 <tbody>
+                                    <tr>
+                                       <td>
+                                          <a
+                                             href="https://rezerva.es/re/{{ $reserva->uuid }}"
+                                             target="_blank"
+                                             style="display:inline-block;background-color:rgb(0,0,0);color:rgb(255,255,255);font-size:0.875rem;font-weight:600;text-decoration:none;text-align:center;padding:12px 24px;border-radius:6px">
+                                             Ver mi pase
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
                               <p
-                                 style="font-size:0.6rem;line-height:1.4285714285714286;text-align:start;color:rgb(71, 71, 71);margin-top:16px;margin-bottom:16px">
-                                 Este mensaje es automático, para poder contactar con el organizador del evento puedes hacerlo a través de: {{ $negocio->info_email }}. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
+                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
+                                 Este mensaje es automático. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
                               </p>
                               <p
                                  style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
-                                 Enviado con la tecnología de <a class="text-blue-500 hover:underline" href="https://rezerva.es">Rezerva.es</a></strong>
+                                 Equipo de Rezerva.es
                               </p>
                            </td>
                         </tr>

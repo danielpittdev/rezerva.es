@@ -1,51 +1,71 @@
 @extends('components.html.plantilla.center')
 
 @section('contenido')
-   <section class="grid grid-cols-1 gap-4 grid-rows-[auto_1fr]">
+   @php
+      $suscripcionActiva = \App\Models\Suscripcion::where('user_id', Auth::id())
+         ->where('stripe_status', 'active')
+         ->exists();
+   @endphp
 
-      @if (!Auth::user()->negocios[0]->stripe_account_id)
-         <div class="rounded-md bg-yellow-50 border border-yellow-300 p-4">
-            <div class="flex">
-               <div class="shrink-0">
-                  <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
-                     <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"
-                        fill-rule="evenodd" />
-                  </svg>
-               </div>
-               <div class="ml-3">
-                  <h3 class="text-sm font-medium text-yellow-800">Pagos online desactivados</h3>
-                  <div class="mt-2 text-sm text-yellow-700">
-                     <p>Asegurate que tu negocio está conectado a Stripe para crear eventos y procesar pagos online.</p>
+   @if (!$suscripcionActiva)
+      <section class="flex items-center justify-center py-20">
+         <div class="text-center max-w-md space-y-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12 mx-auto text-base-content/30">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            </svg>
+            <h2 class="text-lg font-semibold">Funcionalidad exclusiva para suscriptores</h2>
+            <p class="text-sm text-base-content/60">Para gestionar eventos necesitas una suscripcion activa. Elige un plan desde los ajustes de tu cuenta.</p>
+            <a href="{{ route('ajustes') }}" class="inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+               Ver planes
+            </a>
+         </div>
+      </section>
+   @else
+      <section class="grid grid-cols-1 gap-4 grid-rows-[auto_1fr]">
+         @if (!Auth::user()->negocios[0]->stripe_account_id)
+            <div class="rounded-md bg-yellow-50 border border-yellow-300 p-4">
+               <div class="flex">
+                  <div class="shrink-0">
+                     <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-yellow-400">
+                        <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"
+                           fill-rule="evenodd" />
+                     </svg>
+                  </div>
+                  <div class="ml-3">
+                     <h3 class="text-sm font-medium text-yellow-800">Pagos online desactivados</h3>
+                     <div class="mt-2 text-sm text-yellow-700">
+                        <p>Asegurate que tu negocio está conectado a Stripe para crear eventos y procesar pagos online.</p>
+                     </div>
                   </div>
                </div>
             </div>
+         @endif
+
+         <div class="flex justify-between items-start p-2">
+            <div class="caja space-y-2 flex-1">
+               <h1 class="text-xl font-medium">
+                  Eventos
+               </h1>
+
+               <p class="text-xs text-base-content/70">
+                  Gestiona tus eventos cómodamente
+               </p>
+            </div>
+
+            <button command="show-modal" commandfor="drawer_crear_evento" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
+               Añadir evento
+            </button>
          </div>
-      @endif
 
-      <div class="flex justify-between items-start p-2">
-         <div class="caja space-y-2 flex-1">
-            <h1 class="text-xl font-medium">
-               Eventos
-            </h1>
-
-            <p class="text-xs text-base-content/70">
-               Gestiona tus eventos cómodamente
-            </p>
+         <div class="bg-base-100 p-2 rounded-box border border-base-content/10">
+            <ul id="load_lista_eventos" role="list" class="divide-y divide-base-content/10">
+               <li class="flex py-8">
+                  <span class="mx-auto loading loading-spinner loading-md"></span>
+               </li>
+            </ul>
          </div>
-
-         <button command="show-modal" commandfor="drawer_crear_evento" class="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
-            Añadir evento
-         </button>
-      </div>
-
-      <div class="bg-base-100 p-2 rounded-box border border-base-content/10">
-         <ul id="load_lista_eventos" role="list" class="divide-y divide-base-content/10">
-            <li class="flex py-8">
-               <span class="mx-auto loading loading-spinner loading-md"></span>
-            </li>
-         </ul>
-      </div>
-   </section>
+      </section>
+   @endif
 @endsection
 
 @section('drawers')

@@ -18,7 +18,7 @@ return [
         'eventos' => 100,
         'servicios' => 1,
         'pago_online' => false,
-        'envio_masivo' => false,
+        'envio_masivo' => true,
         'evento_toppings' => false,
     ],
     'plus-pn1' => [
