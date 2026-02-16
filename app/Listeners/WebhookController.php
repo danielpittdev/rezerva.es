@@ -109,6 +109,7 @@ class WebhookController
                     'confirmacion' => true,
                     'cantidad' => $metadata['cantidad'],
                     'toppings' => json_encode($toppingsData),
+                    'captions' => $metadata['captions'] ?? null,
                     'total' => $metadata['total'],
                     'evento_id' => $metadata['evento_id'],
                     'cliente_id' => $metadata['cliente_id'],
