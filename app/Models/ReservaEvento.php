@@ -24,7 +24,8 @@ class ReservaEvento extends Model
     'toppings',
     'evento_id',
     'cliente_id',
-    'stripe'
+    'stripe',
+    'captions'
   ];
 
   protected $casts = [

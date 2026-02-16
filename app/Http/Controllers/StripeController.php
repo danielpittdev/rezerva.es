@@ -140,6 +140,7 @@ class StripeController extends Controller
         $toppings = $datos['toppings'] ?? [];
         $cantidad = $datos['cantidad'];
         $total = $datos['total'];
+        $captions = $datos['captions'] ?? [];
 
         // Validar que el negocio tenga Stripe Connect
         if (empty($negocio->stripe_account_id)) {
@@ -218,7 +219,8 @@ class StripeController extends Controller
                 'evento_id' => $evento->id,
                 'cliente_id' => $cliente->id,
                 'reserva_evento' => $reservaEvento,
-                'toppings' => json_encode(collect($toppings)->pluck('id')->values())
+                'toppings' => json_encode(collect($toppings)->pluck('id')->values()),
+                'captions' => json_encode($captions)
             ],
             'success_url' => route('reserva_evento', ['reserva' => $reservaEvento]),
             'cancel_url' => route('evento', ['evento' => $evento->uuid]),

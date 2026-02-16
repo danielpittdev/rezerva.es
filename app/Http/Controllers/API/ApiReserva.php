@@ -335,6 +335,7 @@ class ApiReserva extends Controller
         $max_compra = $evento->max_compra;
 
         $toppings = $request->topping ?? [];
+        $captions = $request->captions ?? [];
 
         if ($cantidad > $max_compra) {
             return response()->json([
@@ -387,6 +388,7 @@ class ApiReserva extends Controller
                 'cantidad' => $cantidad,
                 'total' => $total,
                 'toppings' => json_encode($array_toppings),
+                'captions' => json_encode($captions),
                 'evento_id' => $evento->id,
                 'cliente_id' => $cliente->id,
             ]);
@@ -420,6 +422,7 @@ class ApiReserva extends Controller
             'cantidad' => $cantidad,
             'toppings' => $array_toppings,
             'total' => $total,
+            'captions' => $captions,
         ]);
 
         return response()->json([
