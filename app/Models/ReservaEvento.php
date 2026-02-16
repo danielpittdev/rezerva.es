@@ -24,13 +24,15 @@ class ReservaEvento extends Model
         'topings',
         'evento_id',
         'cliente_id',
-        'stripe'
+        'stripe',
+        'captions',
     ];
 
     protected $casts = [
         'pagado' => 'boolean',
         'confirmacion' => 'boolean',
         'toppings' => 'json',
+        'captions' => 'json',
     ];
 
     public function evento(): BelongsTo
