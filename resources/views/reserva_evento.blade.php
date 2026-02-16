@@ -1,94 +1,100 @@
 @extends('plantilla.web.blank')
 
 @section('contenido')
-   <section class="bg-base-100 min-h-[100vh] lg:pt-20 pb-30">
+   <section class="bg-base-200/50 min-h-[100vh] lg:pt-16 lg:pb-30">
 
-      <div class="relative border border-base-content/10 shadow bg-base-100 mx-auto max-w-xl lg:rounded-3xl overflow-hidden">
-         <!-- Imagen -->
-         <div class="p-0 shadow overflow-hidden">
-            <img class="w-full h-70 object-cover" src="@if ($evento->evento->negocio->banner) {{ Storage::url($evento->evento->negocio->banner) }} @else /media/img/banner.png @endif" alt="">
+      <div class="relative lg:border border-base-content/10 shadow-lg bg-base-100 mx-auto max-w-xl lg:rounded-3xl overflow-hidden">
+
+         <!-- Banner -->
+         <div class="relative overflow-hidden">
+            <img class="w-full h-52 sm:h-64 object-cover" src="@if ($evento->evento->negocio->banner) {{ Storage::url($evento->evento->negocio->banner) }} @else /media/logo/banner.png @endif" alt="">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
          </div>
 
-         <!-- Título -->
-         <div class="w-full flex gap-4 items-end p-5 absolute left-0 top-53 rounded-md space-y-3">
-            <div class="caja">
-               <img class="bg-base-100 object-cover rounded-full lg:size-25 size-25 aspect-1/1 border-3 border-base-200" src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
+         <!-- Negocio info -->
+         <div class="relative px-5 -mt-10 flex items-end gap-4">
+            <img class="bg-base-100 object-cover rounded-full size-20 sm:size-24 aspect-square border-4 border-base-100 shadow-md shrink-0"
+               src="@if ($evento->evento->negocio->icono) {{ Storage::url($evento->evento->negocio->icono) }} @else /media/logo/brand.png @endif" alt="">
+            <div class="pb-2 min-w-0">
+               <h1 class="text-lg sm:text-xl font-semibold flex items-center gap-2 truncate">
+                  <span class="truncate">{{ $evento->evento->nombre }}</span>
+                  @if ($evento->evento->negocio->verificado)
+                     @svg('gravityui-seal-check', 'size-5 shrink-0 text-blue-500')
+                  @endif
+               </h1>
             </div>
-            <h1 class="mb-5 text-2xl font-medium flex items-center justify-center gap-2">
-               <span>{{ $evento->evento->negocio->nombre }}</span>
-               @if ($evento->evento->negocio->verificado)
-                  @svg('gravityui-seal-check', 'size-6 items-center text-blue-500')
-               @endif
-            </h1>
          </div>
 
-         <!-- Cuerpo -->
-         <div class="cuerpo pt-10 pb-10">
+         <!-- QR Code -->
+         <div class="flex flex-col items-center mt-8 px-5">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-base-content/5">
+               {!! QrCode::size(160)->generate($evento->uuid) !!}
+            </div>
+            <p class="text-xs text-base-content/50 mt-3">Presenta este código en el evento</p>
+         </div>
 
-            <!-- Servicios -->
-            <section class="caja space-y-5">
+         <!-- Resumen de reserva -->
+         <div class="px-5 mt-8 lg:pb-8">
+            <h2 class="font-semibold text-base mb-4">Resumen de la reserva</h2>
 
-               <div class="caja flex pt-14">
-                  <div class="mx-auto">
-                     {!! QrCode::size(150)->generate($evento->uuid) !!}
+            <div class="bg-base-200/40 rounded-2xl border border-base-content/5 divide-y divide-base-content/5">
+               <!-- Evento -->
+               <div class="flex items-center gap-3 p-4">
+                  <div class="min-w-0">
+                     <p class="text-xs text-base-content/50">Evento</p>
+                     <p class="text-sm font-medium truncate">{{ $evento->evento->nombre }}</p>
                   </div>
                </div>
 
-               <div class="p-3 px-5 pt-7 text-start">
-                  <h2 class="font-medium text-lg">
-                     Datos de la reserva
-                  </h2>
+               <!-- Lugar -->
+               <div class="flex items-center gap-3 p-4">
+                  <div class="min-w-0">
+                     <p class="text-xs text-base-content/50">Lugar</p>
+                     <p class="text-sm font-medium truncate">{{ $evento->evento->lugar }}</p>
+                  </div>
                </div>
 
-               <div class="caja px-5 border-t border-base-content/10 pt-7">
-                  <ul class="space-y-3 grid lg:grid-cols-1 grid-cols-1 gap-2 text-start">
-                     <li>
-                        Evento: <strong>{{ $evento->evento->nombre }}</strong>
-                     </li>
-
-                     <li>
-                        Precio: <strong>{{ number_format($evento->evento->precio * $evento->cantidad, 2, ',', '.') }}€</strong>
-                     </li>
-
-                     <li>
-                        Unidades: <strong>{{ $evento->cantidad }}</strong>
-                     </li>
-
-                     <li>
-                        Lugar: <strong>{{ $evento->evento->lugar }}</strong>
-                     </li>
-                  </ul>
+               <!-- Unidades y Precio -->
+               <div class="grid grid-cols-2 divide-x divide-base-content/5">
+                  <div class="flex items-center gap-3 p-4">
+                     <div>
+                        <p class="text-xs text-base-content/50">Entradas</p>
+                        <p class="text-sm font-medium">{{ $evento->cantidad }}</p>
+                     </div>
+                  </div>
+                  <div class="flex items-center gap-3 p-4">
+                     <div>
+                        <p class="text-xs text-base-content/50">Total</p>
+                        <p class="text-sm font-semibold">{{ number_format($evento->evento->precio * $evento->cantidad, 2, ',', '.') }}€</p>
+                     </div>
+                  </div>
                </div>
+            </div>
 
-               <div class="caja px-5 border-t border-base-content/10 pt-9">
-                  <small class="text-base-content/60">
-                     No se pueden cancelar este tipo de reservas, al ser un evento no son reembolsables ni cancelables. Podrás recibir notificaciones de este evento próximamente. En caso de cancelación podrás solicitar tu devolución en <a
-                        class="text-blue-500 hover:underline" href="mailto:devoluciones@rezerva.es">devoluciones@rezerva.es</a>
-                  </small>
-               </div>
-
-            </section>
-         </div>
-
-         <!-- Discalimer -->
-         <div class="caja py-10 px-5 border-t border-base-content/10 shadow space-y-7">
-            <p class="text-base-content text-base-content/70 text-sm text-justify">
-               Rezerva.es. Todos los derechos reservados. Es una plataforma online para gestionar <strong>servicios</strong> y <strong>eventos</strong> de manera autónoma para <strong>particulares</strong>, <strong>negocios</strong> y <strong>empresas</strong>. Rápido <strong>posicionamiento en
-                  Google</strong>, aumenta
-               tus reservas de manera <strong>efectiva</strong>, gestiona tus
-               <strong>empleados</strong> y tus <strong>servicios</strong>.
-            </p>
-
-            <div class="caja">
-               <small class="text-base-content/50">Evento patrocinado por</small>
-               <img src="/media/logo/logo.png" class="size-8 w-auto" alt="">
-               <p class="text-base-content/90 text-sm">
-                  ¿Quieres estar con nosotros? <a class="hover:underline text-blue-600" href="https://rezerva.es/registro">Regístrate en Rezerva.es</a>
+            <!-- Aviso -->
+            <div class="mt-5 bg-amber-50 border border-amber-200/60 rounded-xl p-4">
+               <p class="text-xs text-amber-800/80 leading-relaxed">
+                  Este tipo de reservas no son reembolsables ni cancelables. En caso de cancelación del evento podrás solicitar tu devolución en
+                  <a class="font-medium text-amber-900 underline" href="mailto:devoluciones@rezerva.es">devoluciones@rezerva.es</a>
                </p>
             </div>
          </div>
-      </div>
 
+         <!-- Footer -->
+         <div class="px-5 py-8 border-t border-base-content/5 bg-base-200/30 space-y-4">
+            <div class="flex items-center gap-3">
+               <img src="/media/logo/logo.png" class="h-7 w-auto" alt="Rezerva.es">
+               <div>
+                  <p class="text-xs text-base-content/50">Evento gestionado con</p>
+                  <p class="text-sm font-medium text-base-content/80">Rezerva.es</p>
+               </div>
+            </div>
+            <p class="text-xs text-base-content/40 leading-relaxed">
+               Plataforma online para gestionar servicios y eventos. <a class="hover:underline text-blue-600" href="https://rezerva.es/registro">Regístrate gratis</a>
+            </p>
+         </div>
+
+      </div>
    </section>
 @endsection
 
