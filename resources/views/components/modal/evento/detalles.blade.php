@@ -83,6 +83,53 @@
       </div>
    </div>
 
+   <!-- Captions -->
+   @if ($reserva->captions)
+      <div class="caja space-y-1">
+         <div class="caja flex flex-col gap-1">
+            <span class="font-medium text-base-content text-sm">
+               Ciudad
+            </span>
+            <small class="text-base-content text-sm">
+               {{ $reserva->captions['ciudad'] }}
+            </small>
+         </div>
+      </div>
+
+      <div class="caja space-y-1">
+         <div class="caja flex flex-col gap-1">
+            <span class="font-medium text-base-content text-sm">
+               Iglesia
+            </span>
+            <small class="text-base-content text-sm">
+               {{ $reserva->captions['iglesia'] }}
+            </small>
+         </div>
+      </div>
+
+      @if ($reserva->captions['pastor'] ?? false)
+         <div class="caja space-y-1">
+            <div class="caja flex flex-col gap-1">
+               <span class="font-medium text-base-content text-sm">
+                  Pastor
+               </span>
+               <span class="badge badge-sm badge-success text-white">Sí</span>
+            </div>
+         </div>
+      @endif
+
+      @if ($reserva->captions['lider'] ?? false)
+         <div class="caja space-y-1">
+            <div class="caja flex flex-col gap-1">
+               <span class="font-medium text-base-content text-sm">
+                  Líder de jóvenes
+               </span>
+               <span class="badge badge-sm badge-success text-white">Sí</span>
+            </div>
+         </div>
+      @endif
+   @endif
+
    @if ($reserva->toppings)
       <div class="col-span-full">
          <ul class="col-span-full space-y-1">
