@@ -24,7 +24,9 @@ class ApiController extends Controller
             ->where('stripe_status', 'active')
             ->first();
 
-        if (!$suscripcion || config("limites.{$suscripcion->type}.envio_masivo", false)) {
+        $plan = $suscripcion->type ?? 'nonsus';
+
+        if (!config("limites.{$plan}.envio_masivo", false)) {
             return response()->json([
                 'mensaje' => ['No puedes usar esta caracteristica. Actualiza a un plan superior para poder usarla.']
             ], 401);

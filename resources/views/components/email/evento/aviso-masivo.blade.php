@@ -68,7 +68,7 @@
                                  {!! nl2br(e($cuerpo)) !!}
                               </p>
                               <p
-                                 style="font-size:0.875rem;line-height:1.4285714285714286;text-align:start;color:rgb(0,0,0);margin-top:16px;margin-bottom:16px">
+                                 style="font-size:0.6rem;line-height:1.4285714285714286;text-align:start;color:rgb(71, 71, 71);margin-top:16px;margin-bottom:16px">
                                  Este mensaje es automático, para poder contactar con el organizador del evento puedes hacerlo a través de: {{ $negocio->info_email }}. Nunca proporciones datos sensibles como teléfonos, correos electrónicos o temas relacionados con pagos.
                               </p>
                               <p

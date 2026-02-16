@@ -31,6 +31,7 @@
             <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/10">Editar evento</button>
             <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Añadir topping</button>
             <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
+            <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Compartir</button>
          </div>
          <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
 
@@ -750,6 +751,35 @@
                      <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">
                         Enviar aviso
                      </button>
+                  </div>
+
+               </section>
+            </el-dialog-panel>
+         </div>
+      </dialog>
+   </el-dialog>
+
+   <el-dialog id="md_compartir">
+      <dialog id="dialog_compartir" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+         <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+
+         <div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center focus:outline-none sm:p-4">
+            <el-dialog-panel
+               class="relative transform overflow-hidden bg-base-100 px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:max-w-md rounded-lg sm:p-6 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+               <section id="md_conten_md1" class="caja space-y-5">
+
+                  <div class="caja">
+                     <h3 class="font-medium text-lg">
+                        Compartir enlace
+                     </h3>
+
+                     <small class="text-base-content/70">
+                        Comparte el enlace del evento para que las personas puedan encontrar tu evento.
+                     </small>
+                  </div>
+
+                  <div class="caja">
+                     <a class="text-blue-500 hover:underline" href="https://rezerva.es/e/{{ $evento->uuid }}">https://rezerva.es/e/{{ $evento->uuid }}</a>
                   </div>
 
                </section>
