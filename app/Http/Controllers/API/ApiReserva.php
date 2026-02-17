@@ -116,16 +116,13 @@ class ApiReserva extends Controller
         }
 
         // Buscar o crear el cliente
-        $cliente = Clientes::where('email', $validated['cliente_email'])
-            ->where('negocio_id', $servicio->negocio_id)
-            ->first();
-
+        $cliente = Clientes::where('email', $validated['cliente_email'])->first();
         $negocio = Negocios::whereUuid($validated['negocio_id'])->first();
 
         if (!$cliente) {
             $cliente = Clientes::create([
-                'nombre' => $validated['cliente_nombre'],
-                'apellido' => $validated['cliente_apellido'],
+                'nombre' => ucfirst($validated['cliente_nombre']),
+                'apellido' => ucfirst($validated['cliente_apellido']),
                 'email' => $validated['cliente_email'],
                 'telefono' => $validated['cliente_telefono'],
                 'negocio_id' => $servicio->negocio_id,

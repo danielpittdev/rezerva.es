@@ -23,107 +23,148 @@
          </div>
       </div>
    @endif
-   <section class="h-full w-full grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-[auto_1fr_1fr] gap-2">
 
+   <section class="h-full w-full grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-[auto_1fr] gap-2">
       <!-- Barra superior -->
-      <div class="col-span-full flex flex-wrap items-center justify-between gap-2">
-         <div class="flex items-center gap-2">
-            <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/10">Editar evento</button>
-            <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Añadir topping</button>
-            <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Enviar invitación</button>
-            <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm border border-indigo-500/15 font-semibold text-white shadow-xs hover:bg-indigo-400">Compartir</button>
+      <div class="lg:block hidden col-span-full lg:flex flex-wrap items-center justify-between gap-2">
+         <div class="grid lg:grid-cols-4 grid-cols-1 items-center gap-2">
+            <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Editar evento</button>
+            <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Compartir</button>
+            <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Añadir topping</button>
+            <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Enviar invitación</button>
          </div>
          <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
-
       </div>
 
-      <!-- Panel 1: Reservas (2 cols, fila 1) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto divide-y divide-base-content/10">
-         <div class="p-3">
-            <h2 class="font-medium">
-               Resumen de entradas
-            </h2>
+      <section class="grid lg:grid-cols-3 lg:grid-rows-[auto_1fr] gap-2 main_cont col-span-full overflow-x-hidden">
+         <!-- botones -->
+         <div class="lg:hidden grid grid-cols-full gap-1">
+            <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Editar evento</button>
+            <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Compartir</button>
+            <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Añadir topping</button>
+            <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Invitar</button>
+
+            <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="col-span-full rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
+
          </div>
 
-         <ul id="evento_compras">
-
-         </ul>
-      </div>
-
-      <!-- Panel 1: Reservas (2 cols, fila 1) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[300px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto divide-y divide-base-content/10">
-         <div class="p-3">
-            <h2 class="font-medium">
-               Toppings
-            </h2>
-         </div>
-
-         <ul id="topping_lista">
-
-         </ul>
-      </div>
-
-      <!-- Panel 2: Métodos de pago (1 col, fila 1) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col">
-         <div class="flex items-center justify-between mb-1">
-            <div>
-               <h3 class="text-sm font-semibold text-base-content">Métodos de pago</h3>
-               <p class="text-xs text-base-content/50 mt-0.5">Distribución por tipo</p>
+         <!-- Rendimiento -->
+         <section class="lg:col-span-full border border-base-content/10 bg-base-100 rounded divide-y divide-base-content/10">
+            <div class="caja p-3">
+               <h2 class="font-medium lg:text-md text-sm">
+                  Rendimiento del evento
+               </h2>
+               <small class="text-base-content/60">
+                  Estadísticas del evento
+               </small>
             </div>
-            <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
-               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-               </svg>
-               Donut
-            </span>
-         </div>
-         <div class="flex-1 flex items-center justify-center min-h-0">
-            <div id="chart-metodos-pago" class="w-full"></div>
-         </div>
-      </div>
 
-      <!-- Panel 3: Resumen rápido (1 col, fila 2) -->
-      <div class="lg:col-span-1 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col gap-3">
-         <div>
-            <h3 class="text-sm font-semibold text-base-content">Resumen del evento</h3>
-            <p class="text-xs text-base-content/50 mt-0.5">Datos generales</p>
-         </div>
-         <div class="flex-1 grid grid-cols-1 gap-2 content-start">
-            <div class="rounded-lg bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 border border-indigo-500/10 p-3">
-               <p class="text-xs text-base-content/60 font-medium">Precio entrada</p>
-               <p class="text-lg font-bold text-indigo-600 mt-0.5">{{ number_format($evento->precio, 2, ',', '.') }} &euro;</p>
-            </div>
-            <div class="rounded-lg bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/10 p-3">
-               <p class="text-xs text-base-content/60 font-medium">Stock disponible</p>
-               <p class="text-lg font-bold text-emerald-600 mt-0.5">{{ $evento->stock }}</p>
-            </div>
-            <div class="rounded-lg bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/10 p-3">
-               <p class="text-xs text-base-content/60 font-medium">Total recaudado</p>
-               <p class="text-lg font-bold text-amber-600 mt-0.5">{{ number_format(array_sum($chartData ?? []) * $evento->precio, 2, ',', '.') }} &euro;</p>
-            </div>
-         </div>
-      </div>
+            <div class="grid lg:grid-cols-3 grid-cols-1 gap-3 p-2">
 
-      <!-- Panel 4: Ventas por día (2 cols, fila 2) -->
-      <div class="lg:col-span-2 lg:min-h-0 min-h-[250px] border border-base-content/10 rounded-box bg-base-100 overflow-y-auto p-4 flex flex-col">
-         <div class="flex items-center justify-between mb-1">
-            <div>
-               <h3 class="text-sm font-semibold text-base-content">Entradas vendidas por día</h3>
-               <p class="text-xs text-base-content/50 mt-0.5">Evolución de ventas</p>
-            </div>
-            <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-600">
-               <svg class="size-3 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
-               </svg>
-               Tendencia
-            </span>
-         </div>
-         <div class="flex-1 min-h-0">
-            <div id="chart-ventas-dia" class="w-full h-full"></div>
-         </div>
-      </div>
+               <!-- Caja -->
+               <div class="p-3 shadow-xs border border-base-content/10 rounded">
+                  <div class="caja flex flex-col">
+                     <small class="text-base-content/70 font-medium">
+                        Entradas vendidas
+                     </small>
 
+                     <span id="cont_localidades" class="font-medium">
+                        0
+                     </span>
+                  </div>
+               </div>
+
+               <!-- Caja -->
+               <div class="p-3 shadow-xs border border-base-content/10 rounded">
+                  <div class="caja flex flex-col">
+                     <small class="text-base-content/70 font-medium">
+                        Clientes
+                     </small>
+
+                     <span id="cont_clientes" class="font-medium">
+                        0
+                     </span>
+                  </div>
+               </div>
+
+               <!-- Caja -->
+               <div class="p-3 shadow-xs border border-base-content/10 rounded">
+                  <div class="caja flex flex-col">
+                     <small class="text-base-content/70 font-medium">
+                        Venta generada
+                     </small>
+
+                     <span><span id="cont_total" class="font-medium">
+                           0
+                        </span>€</span>
+                  </div>
+               </div>
+            </div>
+         </section>
+
+         <!-- Rendimiento -->
+         <section class="lg:col-span-2 border border-base-content/10 bg-base-100 rounded divide-y divide-base-content/10">
+            <div class="caja p-3">
+               <h2 class="font-medium lg:text-md text-sm">
+                  Rendimiento del evento
+               </h2>
+               <small class="text-base-content/60">
+                  Agrega más cosas
+               </small>
+            </div>
+
+            <div class="caja">
+               <ul id="evento_compras">
+
+               </ul>
+            </div>
+
+         </section>
+
+         <!-- Toppings -->
+         <section class="lg:col-span-1 border border-base-content/10 bg-base-100 rounded divide-y divide-base-content/10">
+            <div class="caja p-3">
+               <h2 class="font-medium lg:text-md text-sm">
+                  Toppings del evento
+               </h2>
+               <small class="text-base-content/60">
+                  Lista de extras que tus clientes podrán añadir
+               </small>
+            </div>
+
+            <div class="caja">
+               <ul id="topping_lista">
+
+               </ul>
+            </div>
+         </section>
+
+         <!-- Estadisticas -->
+         <section class="relative lg:col-span-1 border border-base-content/10 bg-base-100 rounded divide-y divide-base-content/10">
+            <div class="caja p-3">
+               <h2 class="font-medium lg:text-md text-sm">
+                  Estadísticas de ventas
+               </h2>
+               <small class="text-base-content/60">
+                  Diferenciador por tipo de pago
+               </small>
+            </div>
+            <div id="chart-metodos-pago"></div>
+         </section>
+
+         <!-- Estadisticas -->
+         <section class="relative lg:col-span-2 border border-base-content/10 bg-base-100 rounded divide-y divide-base-content/10">
+            <div class="caja p-3">
+               <h2 class="font-medium lg:text-md text-sm">
+                  Estadísticas de ventas
+               </h2>
+               <small class="text-base-content/60">
+                  Diferenciador por tipo de pago
+               </small>
+            </div>
+            <div id="chart-ventas-dia"></div>
+         </section>
+      </section>
    </section>
 @endsection
 
@@ -823,6 +864,7 @@
             success: function(r) {
                $('#cont_clientes').empty().append(r.datos.cont_clientes)
                $('#cont_localidades').empty().append(r.datos.cont_localidades)
+               $('#cont_total').empty().append(r.datos.cont_ingresos_estimados)
                $('#evento_compras').empty().append(r.listas.reservas)
                $('#topping_lista').empty().append(r.listas.toppings)
             },
@@ -846,7 +888,7 @@
             type: 'area',
             height: '100%',
             toolbar: {
-               show: false
+               show: true
             },
             fontFamily: 'inherit',
             sparkline: {
@@ -970,7 +1012,7 @@
             series: metodoData,
             chart: {
                type: 'donut',
-               height: '100%',
+               width: '100%',
                fontFamily: 'inherit',
             },
             labels: metodoLabels,
@@ -1019,7 +1061,7 @@
                         total: {
                            show: true,
                            label: 'Total',
-                           fontSize: '12px',
+                           fontSize: '15px',
                            fontWeight: 500,
                            color: '#9ca3af',
                            formatter: () => totalPagos
@@ -1036,7 +1078,7 @@
             tooltip: {
                enabled: true,
                style: {
-                  fontSize: '12px'
+                  fontSize: '15px'
                },
                y: {
                   formatter: (val) => val + ' pagos'

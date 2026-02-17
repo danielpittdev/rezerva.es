@@ -29,6 +29,8 @@ class SingleController extends Controller
         $evento = Evento::whereUuid($id)->with('negocio')->first();
         $reservas = $evento->reservas()->with('cliente')->get();
 
+        // return $reservas->pluck('cliente');
+
         // Entradas vendidas por día (agrupado por fecha de created_at)
         $ventasPorDia = $reservas->groupBy(fn($r) => $r->created_at->format('d M'))
             ->map(fn($grupo) => $grupo->sum('cantidad'));
@@ -50,9 +52,16 @@ class SingleController extends Controller
         $metodoData = $metodosPago->values()->toArray();
 
         return view('panel.single.evento', compact(
-            'evento', 'chartLabels', 'chartData',
-            'totalVendidas', 'ingresosTotales', 'stockOriginal', 'porcentajeOcupacion',
-            'metodoLabels', 'metodoData'
+            'evento',
+            'reservas',
+            'chartLabels',
+            'chartData',
+            'totalVendidas',
+            'ingresosTotales',
+            'stockOriginal',
+            'porcentajeOcupacion',
+            'metodoLabels',
+            'metodoData'
         ));
     }
 
