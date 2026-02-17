@@ -29,7 +29,7 @@ class ApiEvento extends Controller
     $datos = [
       'cont_clientes' => $reservas->count(),
       'cont_localidades' => $reservas->sum('cantidad'),
-      'cont_ingresos_estimados' => $reservas->sum('total')
+      'cont_ingresos_estimados' => number_format($reservas->sum('total'), 2, ',', '.'),
     ];
     $toppings = $evento->toppings;
 

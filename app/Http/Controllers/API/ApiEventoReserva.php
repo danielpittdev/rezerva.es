@@ -97,7 +97,7 @@ class ApiEventoReserva extends Controller
     });
 
     // dispatch(new RecordatorioEvento($reserva->id))->delay(Carbon::parse($evento->fecha)->subDay());
-    dispatch(new RecordatorioEvento($reserva->id))->delay(now()->addMinute());
+    dispatch(new RecordatorioEvento($reserva->id))->delay(Carbon::parse($evento->fecha)->subDay());
 
     return response()->json([
       'mensaje' => 'Creado con éxito',
@@ -109,7 +109,6 @@ class ApiEventoReserva extends Controller
   public function update(Request $request, $id)
   {
     $reserva = ReservaEvento::whereUuid($id)->first();
-
     $validacion = $request->validate([
       'request' => 'required|string'
     ]);
