@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ApiReserva;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,4 +11,4 @@ Route::get('/', function () {
   ]);
 });
 
-Route::apiResource('reserva')->name('reserva');
+Route::apiResource('reservas', ApiReserva::class);
