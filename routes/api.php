@@ -1,7 +1,13 @@
 <?php
 
-use App\Http\Controllers\API\ApiReserva;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WebController;
 
-Route::get('/', [WebController::class, 'inicio']);
+Route::get('/', function () {
+  return response()->json([
+    'api' => true,
+    'alive' => true,
+    'version' => '1.1.1'
+  ]);
+});
+
+Route::apiResource('reserva')->name('reserva');
