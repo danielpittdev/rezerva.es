@@ -108,9 +108,9 @@ class ApiEvento extends Controller
     ]);
 
     # Configuración adicional
-    $validacion['nombre'] = strtoupper($validacion['nombre']);
-    $validacion['descripcion'] = strtoupper($validacion['descripcion']);
-    $validacion['lugar'] = strtoupper($validacion['lugar']);
+    $validacion['nombre'] = ucfirst($validacion['nombre']);
+    $validacion['descripcion'] = ucfirst($validacion['descripcion']);
+    $validacion['lugar'] = ucfirst($validacion['lugar']);
     $validacion['pago_efectivo'] = $request->pago_efectivo ?? false;
     $validacion['pago_online'] = false;
 

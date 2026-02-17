@@ -26,8 +26,8 @@
 
    <section class="h-full w-full grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-[auto_1fr] gap-2">
       <!-- Barra superior -->
-      <div class="lg:block hidden col-span-full lg:flex flex-wrap items-center justify-between gap-2">
-         <div class="grid lg:grid-cols-4 grid-cols-1 items-center gap-2">
+      <div class="hidden lg:flex col-span-full flex-wrap items-center justify-between gap-2">
+         <div class="grid grid-cols-4 items-center gap-2">
             <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Editar evento</button>
             <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Compartir</button>
             <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-white px-2.5 py-1.5 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Añadir topping</button>
@@ -36,16 +36,15 @@
          <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
       </div>
 
-      <section class="grid lg:grid-cols-3 lg:grid-rows-[auto_1fr] gap-2 main_cont col-span-full overflow-x-hidden">
+      <section class="grid lg:grid-cols-3 lg:grid-rows-[auto_1fr] gap-2 main_cont col-span-full overflow-x-hidden overflow-y-auto">
          <!-- botones -->
-         <div class="lg:hidden grid grid-cols-full gap-1">
+         <div class="lg:hidden grid grid-cols-2 gap-1 col-span-full">
             <button type="button" command="show-modal" commandfor="drawer_editar_reserva" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Editar evento</button>
             <button type="button" command="show-modal" commandfor="dialog_compartir" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Compartir</button>
             <button type="button" command="show-modal" commandfor="drawer_add_topping" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Añadir topping</button>
             <button type="button" command="show-modal" commandfor="drawer_crear_invitacion" class="rounded-md bg-white p-2 text-sm border border-base-content/15 font-semibold text-base-content/70 shadow-xs hover:bg-base-content/5">Invitar</button>
 
             <button type="button" command="show-modal" commandfor="drawer_emitir_aviso" class="col-span-full rounded-md bg-yellow-500 px-2.5 py-1.5 text-sm border border-yellow-500/15 font-semibold text-white shadow-xs hover:bg-yellow-400">Emitir aviso</button>
-
          </div>
 
          <!-- Rendimiento -->
@@ -59,7 +58,7 @@
                </small>
             </div>
 
-            <div class="grid lg:grid-cols-3 grid-cols-1 gap-3 p-2">
+            <div class="grid sm:grid-cols-3 grid-cols-1 gap-3 p-2">
 
                <!-- Caja -->
                <div class="p-3 shadow-xs border border-base-content/10 rounded">
@@ -149,7 +148,9 @@
                   Diferenciador por tipo de pago
                </small>
             </div>
-            <div id="chart-metodos-pago"></div>
+            <div class="p-2 w-full min-h-[250px] lg:min-h-[300px]">
+               <div id="chart-metodos-pago" class="w-full"></div>
+            </div>
          </section>
 
          <!-- Estadisticas -->
@@ -162,7 +163,9 @@
                   Diferenciador por tipo de pago
                </small>
             </div>
-            <div id="chart-ventas-dia"></div>
+            <div class="p-2 w-full min-h-[250px] lg:min-h-[300px]">
+               <div id="chart-ventas-dia" class="w-full"></div>
+            </div>
          </section>
       </section>
    </section>
@@ -886,7 +889,7 @@
          }],
          chart: {
             type: 'area',
-            height: '100%',
+            height: 280,
             toolbar: {
                show: true
             },
@@ -898,6 +901,8 @@
                enabled: false
             },
             parentHeightOffset: 0,
+            redrawOnParentResize: true,
+            redrawOnWindowResize: true,
          },
          dataLabels: {
             enabled: false
@@ -1013,7 +1018,10 @@
             chart: {
                type: 'donut',
                width: '100%',
+               height: 280,
                fontFamily: 'inherit',
+               redrawOnParentResize: true,
+               redrawOnWindowResize: true,
             },
             labels: metodoLabels,
             colors: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b'],
