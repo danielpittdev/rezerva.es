@@ -90,12 +90,12 @@
          <!-- Información del evento -->
          <div class="caja py-10 px-5 border-t border-base-content/10 shadow space-y-7">
             <p class="text-base-content text-base-content/50 text-sm text-justify">
-               {{ $evento->nombre }} se encuentra en <strong>{{ $evento->postal_direccion }}</strong>. Para poder contactar con el establecimiento puede hacerlo con la información que se encuentra acontinuación:
+               {{ $evento->nombre }} se encuentra en <strong>{{ $evento->negocio->postal_direccion }}</strong>. Para poder contactar con el establecimiento puede hacerlo con la información que se encuentra acontinuación:
             </p>
 
             <ul>
-               <li class="text-sm text-base-content/90"><strong>Email</strong>: {{ $evento->info_email ?? 'No hay información' }}</li>
-               <li class="text-sm text-base-content/90"><strong>Teléfono</strong>: {{ $evento->info_telefono ?? 'No hay información' }}</li>
+               <li class="text-sm text-base-content/90"><strong>Email</strong>: {{ $evento->negocio->info_email ?? 'No hay información' }}</li>
+               <li class="text-sm text-base-content/90"><strong>Teléfono</strong>: {{ $evento->negocio->info_telefono ?? 'No hay información' }}</li>
             </ul>
          </div>
 
