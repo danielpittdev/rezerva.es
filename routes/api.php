@@ -19,7 +19,7 @@ use App\Http\Controllers\API\ApiServicioConf;
 use App\Http\Controllers\API\ApiEventoReserva;
 use App\Http\Controllers\API\ApiEventoTopping;
 
-Route::post('/login', [AuthController::class, 'login'])->name('tk_api_login');
+Route::post('/login', [AuthController::class, 'login_token'])->name('tk_api_login');
 Route::post('/registro', [AuthController::class, 'registro'])->name('tk_api_registro');
 Route::post('/recuperar', [AuthController::class, 'recuperar'])->name('tk_api_recuperar');
 Route::post('/restablecer', [AuthController::class, 'restablecer'])->name('tk_api_restablecer');

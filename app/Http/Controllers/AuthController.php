@@ -40,6 +40,30 @@ class AuthController extends Controller
         ]);
     }
 
+    # LOG TOKEN
+    public function login_token(Request $request): JsonResponse
+    {
+        $validacion = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        $usuario = Usuarios::where('email', $validacion['email'])->first();
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Credenciales inválidas'], 401);
+        }
+
+        $token = $usuario->createToken('auth_token')->plainTextToken;
+        setcookie('jwt', $token, time() + 3600, '/'); // 1 hora
+
+        return response()->json([
+            'mensaje' => 'Inicio correcto',
+            'token' => $token,
+            'redirect' => route('panel'),
+        ]);
+    }
+
     # Registro de usuario
     public function registro(Request $request): JsonResponse
     {
