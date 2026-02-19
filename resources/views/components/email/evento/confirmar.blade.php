@@ -71,9 +71,7 @@
                               <p
                                  style="font-size:14px;line-height:24px;color:rgb(0,0,0);text-align:justify;margin-top:16px;margin-bottom:16px">
                                  Has reservado tu entrada en <strong>{{ $reserva['evento']['nombre'] }}</strong>. Tus entradas ya se han generado y puedes verlas
-                                 pulsando el botón de abajo. Para tranquilidad tuya recibirás
-                                 tus entradas <strong>72 horas</strong> antes del comienzo
-                                 del evento.
+                                 pulsando el botón de abajo. Asegúrate de tener a mano tu código al momento de acceder al recinto. Para cualquier consulta puedes contactanos a través de <a class="text-blue-500 hover:underline" href="mailto:contactorezerva.es">contacto@rezerva.es</a>
                               </p>
                               <table
                                  align="center"
