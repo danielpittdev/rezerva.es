@@ -70,11 +70,11 @@
                         @svg('gravityui-clock-fill', 'size-5 items-center text-base-content') {{ Carbon\Carbon::parse($evento->fecha)->translatedFormat('d l F, H:i') }}
                      </p>
 
-                     @if ($evento->precio > 0)
+                     {{-- @if ($evento->precio > 0)
                         <p class="text-base-content">
                            Precio de entrada {{ number_format($evento->precio, 2, ',', '.') }}€
                         </p>
-                     @endif
+                     @endif --}}
                   </div>
                </div>
 
