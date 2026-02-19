@@ -35,6 +35,7 @@ class ApiController extends Controller
             'nombre' => 'required|string',
             'apellido' => 'required|string',
             'email' => 'required|email',
+            'terminos-condiciones' => 'required|in:on'
         ]);
 
         // Limpiar sesión anterior y guardar nueva
