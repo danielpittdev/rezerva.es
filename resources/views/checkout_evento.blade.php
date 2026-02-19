@@ -153,8 +153,84 @@
                            </div>
                            <div>
                               <label for="captions_ciudad" class="block text-sm font-medium text-base-content mb-1.5">Ciudad</label>
-                              <input id="captions_ciudad" type="text" name="captions[ciudad]" placeholder="Tu ciudad"
-                                 class="block w-full rounded-lg border border-base-content/15 bg-base-100 px-3 py-2.5 text-sm text-base-content placeholder:text-base-content/40 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all duration-200">
+                              <el-autocomplete class="relative block">
+                                 <input id="captions_ciudad" type="text" name="captions[ciudad]" placeholder="Tu ciudad"
+                                    class="block w-full rounded-lg border border-base-content/15 bg-base-100 px-3 py-2.5 pr-10 text-sm text-base-content placeholder:text-base-content/40 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all duration-200" />
+                                 <button type="button" class="absolute inset-y-0 right-0 flex items-center px-2 text-base-content/40">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5">
+                                       <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                    </svg>
+                                 </button>
+                                 <el-options anchor="bottom start" popover class="max-h-60 w-(--input-width) overflow-auto rounded-lg bg-base-100 py-1 text-sm shadow-lg border border-base-content/10 outline-none [--anchor-gap:--spacing(1)] transition-discrete data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0">
+                                    <el-option value="A Coruña" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">A Coruña</el-option>
+                                    <el-option value="Albacete" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Albacete</el-option>
+                                    <el-option value="Alcalá de Henares" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Alcalá de Henares</el-option>
+                                    <el-option value="Alcorcón" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Alcorcón</el-option>
+                                    <el-option value="Alicante" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Alicante</el-option>
+                                    <el-option value="Almería" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Almería</el-option>
+                                    <el-option value="Ávila" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Ávila</el-option>
+                                    <el-option value="Badajoz" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Badajoz</el-option>
+                                    <el-option value="Badalona" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Badalona</el-option>
+                                    <el-option value="Barcelona" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Barcelona</el-option>
+                                    <el-option value="Bilbao" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Bilbao</el-option>
+                                    <el-option value="Burgos" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Burgos</el-option>
+                                    <el-option value="Cáceres" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Cáceres</el-option>
+                                    <el-option value="Cádiz" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Cádiz</el-option>
+                                    <el-option value="Cartagena" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Cartagena</el-option>
+                                    <el-option value="Castellón de la Plana" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Castellón de la Plana</el-option>
+                                    <el-option value="Ciudad Real" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Ciudad Real</el-option>
+                                    <el-option value="Córdoba" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Córdoba</el-option>
+                                    <el-option value="Cuenca" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Cuenca</el-option>
+                                    <el-option value="Elche" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Elche</el-option>
+                                    <el-option value="Fuenlabrada" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Fuenlabrada</el-option>
+                                    <el-option value="Getafe" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Getafe</el-option>
+                                    <el-option value="Gijón" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Gijón</el-option>
+                                    <el-option value="Girona" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Girona</el-option>
+                                    <el-option value="Granada" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Granada</el-option>
+                                    <el-option value="Guadalajara" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Guadalajara</el-option>
+                                    <el-option value="Hospitalet de Llobregat" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Hospitalet de Llobregat</el-option>
+                                    <el-option value="Huelva" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Huelva</el-option>
+                                    <el-option value="Huesca" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Huesca</el-option>
+                                    <el-option value="Jaén" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Jaén</el-option>
+                                    <el-option value="Jerez de la Frontera" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Jerez de la Frontera</el-option>
+                                    <el-option value="Las Palmas de Gran Canaria" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Las Palmas de Gran Canaria</el-option>
+                                    <el-option value="Leganés" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Leganés</el-option>
+                                    <el-option value="León" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">León</el-option>
+                                    <el-option value="Lleida" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Lleida</el-option>
+                                    <el-option value="Logroño" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Logroño</el-option>
+                                    <el-option value="Lugo" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Lugo</el-option>
+                                    <el-option value="Madrid" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Madrid</el-option>
+                                    <el-option value="Málaga" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Málaga</el-option>
+                                    <el-option value="Marbella" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Marbella</el-option>
+                                    <el-option value="Móstoles" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Móstoles</el-option>
+                                    <el-option value="Murcia" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Murcia</el-option>
+                                    <el-option value="Ourense" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Ourense</el-option>
+                                    <el-option value="Oviedo" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Oviedo</el-option>
+                                    <el-option value="Palencia" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Palencia</el-option>
+                                    <el-option value="Palma" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Palma</el-option>
+                                    <el-option value="Pamplona" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Pamplona</el-option>
+                                    <el-option value="Pontevedra" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Pontevedra</el-option>
+                                    <el-option value="Sabadell" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Sabadell</el-option>
+                                    <el-option value="Salamanca" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Salamanca</el-option>
+                                    <el-option value="San Sebastián" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">San Sebastián</el-option>
+                                    <el-option value="Santa Cruz de Tenerife" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Santa Cruz de Tenerife</el-option>
+                                    <el-option value="Santander" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Santander</el-option>
+                                    <el-option value="Santiago de Compostela" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Santiago de Compostela</el-option>
+                                    <el-option value="Segovia" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Segovia</el-option>
+                                    <el-option value="Sevilla" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Sevilla</el-option>
+                                    <el-option value="Soria" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Soria</el-option>
+                                    <el-option value="Tarragona" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Tarragona</el-option>
+                                    <el-option value="Terrassa" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Terrassa</el-option>
+                                    <el-option value="Teruel" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Teruel</el-option>
+                                    <el-option value="Toledo" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Toledo</el-option>
+                                    <el-option value="Valencia" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Valencia</el-option>
+                                    <el-option value="Valladolid" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Valladolid</el-option>
+                                    <el-option value="Vigo" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Vigo</el-option>
+                                    <el-option value="Vitoria-Gasteiz" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Vitoria-Gasteiz</el-option>
+                                    <el-option value="Zamora" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Zamora</el-option>
+                                    <el-option value="Zaragoza" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Zaragoza</el-option>
+                                 </el-options>
+                              </el-autocomplete>
                            </div>
                         </div>
                      </div>
@@ -247,6 +323,7 @@
 @endsection
 
 @section('scripts')
+   <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
    <script>
       const reservaFormCrear = document.getElementById('crearEventoForm');
 
