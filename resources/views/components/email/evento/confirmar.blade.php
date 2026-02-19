@@ -254,7 +254,7 @@
                                  <strong>Rezerva.es</strong> no se hace responsable del
                                  evento. Cualquier duda o pregunta sobre el aspecto del
                                  evento es mejor contactar con el siguiente correo
-                                 electrónico CORREOEVEND
+                                 electrónico <a class="text-blue-500" href="mailto::contacto@rezerva.es">contacto@rezerva.es</a>
                               </p>
                               <hr
                                  style="width:100%;border:none;border-top:1px solid #eaeaea;margin-right:0rem;margin-left:0rem;margin-bottom:26px;margin-top:26px;border-style:solid;border-width:1px;border-color:rgb(234,234,234)" />
