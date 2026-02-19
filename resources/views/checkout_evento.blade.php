@@ -155,7 +155,7 @@
                               <label for="captions_ciudad" class="block text-sm font-medium text-base-content mb-1.5">Ciudad</label>
                               <el-autocomplete class="relative block">
                                  <input id="captions_ciudad" type="text" name="captions[ciudad]" placeholder="Tu ciudad"
-                                    class="block w-full rounded-lg border border-base-content/15 bg-base-100 px-3 py-2.5 pr-10 text-sm text-base-content placeholder:text-base-content/40 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all duration-200" />
+                                    class="block w-full rounded-lg border border-base-content/15 bg-base-100 px-3 py-2.5 pr-10 text-base sm:text-sm text-base-content placeholder:text-base-content/40 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all duration-200" />
                                  <button type="button" class="absolute inset-y-0 right-0 flex items-center px-2 text-base-content/40">
                                     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5">
                                        <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
