@@ -110,10 +110,6 @@
             </p>
 
             <p class="text-base-content text-base-content/50 text-sm text-justify">
-               El evento <strong>{{ $evento->nombre }}</strong>, con dirección en <strong>{{ $evento->postal_direccion }}</strong>, es el único responsable de la prestación del servicio, de la información publicada y de la correcta ejecución de la cita reservada.
-            </p>
-
-            <p class="text-base-content text-base-content/50 text-sm text-justify">
                Para más información sobre el funcionamiento de la plataforma, condiciones de uso y derechos del consumidor, puedes consultar las condiciones del servicio .
             </p>
 
