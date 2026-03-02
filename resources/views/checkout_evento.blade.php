@@ -36,15 +36,16 @@
                               clip-rule="evenodd" fill-rule="evenodd" />
                         </svg>
                         <div>
-                           <p class="text-sm font-medium text-amber-800">Antes de continuar</p>
+                           <p class="text-sm font-medium text-amber-800">A partir del 5 de marzo</p>
                            <p class="mt-1 text-sm text-amber-700">
-                              Revisa muy bien los datos del evento antes de adquirir una entrada o pase. Las entradas no son reembolsables, debes hablar con el comerciante en caso de que haya algún problema.
+                           <p>Desde el <strong>5 de marzo de 2026</strong>, se añadirá una tarifa de servicio de <strong>0,99€</strong> por entrada, aplicable a todas las entradas (independientemente del método de pago), para cubrir la emisión y validación de la entrada y mantener la plataforma segura
+                              y con soporte.</p>
                            </p>
                         </div>
                      </div>
                   </div>
 
-                  @if ($evento->max_compra > 0)
+                  {{-- @if ($evento->max_compra > 0)
                      <div class="rounded-lg bg-blue-50 border border-blue-200 p-3.5">
                         <div class="flex gap-3">
                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 shrink-0 text-blue-500 mt-0.5">
@@ -58,7 +59,7 @@
                            </div>
                         </div>
                      </div>
-                  @endif
+                  @endif --}}
                </div>
 
                <!-- Grid principal -->
@@ -161,7 +162,8 @@
                                        <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
                                     </svg>
                                  </button>
-                                 <el-options anchor="bottom start" popover class="max-h-60 w-(--input-width) overflow-auto rounded-lg bg-base-100 py-1 text-sm shadow-lg border border-base-content/10 outline-none [--anchor-gap:--spacing(1)] transition-discrete data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0">
+                                 <el-options anchor="bottom start" popover
+                                    class="max-h-60 w-(--input-width) overflow-auto rounded-lg bg-base-100 py-1 text-sm shadow-lg border border-base-content/10 outline-none [--anchor-gap:--spacing(1)] transition-discrete data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0">
                                     <el-option value="A Coruña" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">A Coruña</el-option>
                                     <el-option value="Albacete" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Albacete</el-option>
                                     <el-option value="Alcalá de Henares" class="block truncate px-3 py-2 text-base-content select-none cursor-pointer hover:bg-base-200 aria-selected:bg-indigo-600 aria-selected:text-white">Alcalá de Henares</el-option>
