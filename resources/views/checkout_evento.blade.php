@@ -29,17 +29,17 @@
 
                <!-- Avisos -->
                <div class="space-y-3 mb-6">
-                  <div class="rounded-lg bg-amber-50 border border-amber-200 p-3.5">
+                  <div class="rounded-lg bg-blue-50 border border-blue-200 p-3.5">
                      <div class="flex gap-3">
-                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5 shrink-0 text-amber-500 mt-0.5">
+                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="size-5 shrink-0 text-blue-500 mt-0.5">
                            <path d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
                               clip-rule="evenodd" fill-rule="evenodd" />
                         </svg>
                         <div>
-                           <p class="text-sm font-medium text-amber-800">A partir del 5 de marzo</p>
-                           <p class="mt-1 text-sm text-amber-700">
-                           <p>Desde el <strong>5 de marzo de 2026</strong>, se añadirá una tarifa de servicio de <strong>0,99€</strong> por entrada, aplicable a todas las entradas (independientemente del método de pago), para cubrir la emisión y validación de la entrada y mantener la plataforma segura
-                              y con soporte.</p>
+                           <p class="text-sm font-medium text-blue-800">Información para el consumidor</p>
+                           <p class="mt-1 text-sm text-blue-700">
+                           <p>
+                              <p><small>A partir del <strong>7 de marzo</strong> se aplicará <strong>0,90€</strong> de servicio por entrada. <strong>El precio del evento no cambia</strong>.</small></p>
                            </p>
                         </div>
                      </div>
