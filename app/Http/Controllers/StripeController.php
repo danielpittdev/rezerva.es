@@ -152,8 +152,33 @@ class StripeController extends Controller
         // Usar el UUID de la entrada ya pre-creada en base de datos
         $reservaEvento = $datos['reserva_evento_uuid'];
 
+        // Buscar o crear customer en la cuenta conectada del negocio
+        $stripeCustomerId = null;
+        try {
+            $existentes = $stripe->customers->all(
+                ['email' => $cliente->email, 'limit' => 1],
+                ['stripe_account' => $negocio->stripe_account_id]
+            );
+
+            if (!empty($existentes->data)) {
+                $stripeCustomerId = $existentes->data[0]->id;
+            } else {
+                $customer = $stripe->customers->create(
+                    [
+                        'email' => $cliente->email,
+                        'name'  => trim($cliente->nombre . ' ' . $cliente->apellido),
+                        'phone' => $cliente->telefono,
+                    ],
+                    ['stripe_account' => $negocio->stripe_account_id]
+                );
+                $stripeCustomerId = $customer->id;
+            }
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            Log::error("Error buscando/creando customer en Connect: {$e->getMessage()}");
+        }
+
         // Coste de servicios: 0,50€ por entrada (máximo 5 entradas) — retenido por la plataforma
-        $costeServicio = 50 * min($cantidad, 5);
+        $costeServicio = 50 * min($cantidad, 6);
 
         // Direct Charges: todos los precios inline con price_data
         $lineItems = [[
@@ -191,7 +216,9 @@ class StripeController extends Controller
         $checkoutData = [
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'customer_email' => $cliente->email,
+            ...($stripeCustomerId
+                ? ['customer' => $stripeCustomerId]
+                : ['customer_email' => $cliente->email]),
             'payment_intent_data' => [
                 'application_fee_amount' => $costeServicio,
             ],
