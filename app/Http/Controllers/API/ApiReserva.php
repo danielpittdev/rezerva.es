@@ -377,7 +377,8 @@ class ApiReserva extends Controller
             array_push($array_toppings, $topping);
         }
 
-        $total = ($evento->precio + $precio_toppings) * $cantidad;
+        $costeServicio = 0.90 * min($cantidad, 6);
+        $total = ($evento->precio + $precio_toppings) * $cantidad + $costeServicio;
 
         // Pago en efectivo: crear ReservaEvento directamente
         if ($val['metodo_pago'] === 'efectivo') {

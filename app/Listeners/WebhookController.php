@@ -105,6 +105,7 @@ class WebhookController
                     'pagado' => true,
                     'confirmacion' => true,
                     'stripe' => $data,
+                    'total' => isset($data['amount_total']) ? $data['amount_total'] / 100 : $reservaEvento->total,
                 ]);
 
                 $evento = $reservaEvento->evento;
