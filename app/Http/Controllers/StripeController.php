@@ -150,6 +150,21 @@ class StripeController extends Controller
 
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
 
+        // Crear customer en la cuenta plataforma (ARLINSA) si no existe
+        if (empty($cliente->stripe_id)) {
+            try {
+                $customer = $stripe->customers->create([
+                    'email' => $cliente->email,
+                    'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
+                    'phone' => $cliente->telefono,
+                    'metadata' => ['cliente_uuid' => $cliente->uuid],
+                ]);
+                $cliente->update(['stripe_id' => $customer->id]);
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+                Log::error("Error creando customer en plataforma: {$e->getMessage()}");
+            }
+        }
+
         // Usar el UUID de la entrada ya pre-creada en base de datos
         $reservaEvento = $datos['reserva_evento_uuid'];
 
@@ -195,7 +210,9 @@ class StripeController extends Controller
         $checkoutData = [
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'customer_email' => $cliente->email,
+            ...($cliente->stripe_id
+                ? ['customer' => $cliente->stripe_id]
+                : ['customer_email' => $cliente->email]),
             'payment_intent_data' => [
                 'on_behalf_of' => $negocio->stripe_account_id,
                 'transfer_data' => [
