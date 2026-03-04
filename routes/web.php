@@ -14,9 +14,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 Route::get('/', [WebController::class, 'inicio'])->name('inicio');
 Route::get('/n/{negocio}', [WebController::class, 'negocio'])->name('negocio');
-Route::get('/e/{evento}', [WebController::class, 'evento'])->name('evento');
-Route::get('/r/{reserva}', [WebController::class, 'reserva'])->name('reserva');
-Route::get('/re/{reserva}', [WebController::class, 'reserva_evento'])->name('reserva_evento');
+Route::get('/e/{evento}', [WebController::class, 'evento'])->name('evento')->whereUuid('evento');
+Route::get('/r/{reserva}', [WebController::class, 'reserva'])->name('reserva')->whereUuid('reserva');
+Route::get('/re/{reserva}', [WebController::class, 'reserva_evento'])->name('reserva_evento')->whereUuid('reserva');
 
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout');
 Route::get('/checkout/evento', [WebController::class, 'checkout_evento'])->name('checkout_evento');
