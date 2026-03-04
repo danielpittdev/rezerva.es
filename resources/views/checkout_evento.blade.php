@@ -39,7 +39,7 @@
                            <p class="text-sm font-medium text-blue-800">Información para el consumidor</p>
                            <p class="mt-1 text-sm text-blue-700">
                            <p>
-                              <p><small>A partir del <strong>7 de marzo</strong> se aplicará <strong>0,90€</strong> de servicio por entrada. <strong>El precio del evento no cambia</strong>.</small></p>
+                              <p><small>A partir hoy <strong>4 de marzo</strong> se aplicará <strong>0,90€</strong> de servicio por entrada. <strong>El precio del evento no cambia</strong>.</small></p>
                            </p>
                         </div>
                      </div>
