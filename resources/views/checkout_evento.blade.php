@@ -149,7 +149,7 @@
                            </div>
                            <div class="border-t border-base-content/10 pt-2.5 flex items-center justify-between">
                               <span class="text-sm font-semibold text-base-content">Total</span>
-                              <span id="resumen-total" class="text-sm font-semibold text-indigo-600">{{ number_format($evento->precio + 0.5, 2, ',', '.') }}€</span>
+                              <span id="resumen-total" class="text-sm font-semibold text-indigo-600">{{ number_format($evento->precio + 0.9, 2, ',', '.') }}€</span>
                            </div>
                         </div>
                      </div>
