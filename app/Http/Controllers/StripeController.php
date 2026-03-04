@@ -177,8 +177,8 @@ class StripeController extends Controller
             Log::error("Error buscando/creando customer en Connect: {$e->getMessage()}");
         }
 
-        // Coste de servicios: 0,50€ por entrada (máximo 5 entradas) — retenido por la plataforma
-        $costeServicio = 50 * min($cantidad, 6);
+        // Coste de servicios: 0,90€ por entrada (máximo 5 entradas) — retenido por la plataforma
+        $costeServicio = 90 * min($cantidad, 6);
 
         // Direct Charges: todos los precios inline con price_data
         $lineItems = [[
