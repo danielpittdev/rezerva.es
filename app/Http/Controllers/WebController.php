@@ -44,7 +44,10 @@ class WebController extends Controller
 
     public function reserva_evento($id)
     {
-        $evento = ReservaEvento::whereUuid($id)->first();
+        if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $id)) {
+            abort(404);
+        }
+        $evento = ReservaEvento::whereUuid($id)->firstOrFail();
         session()->forget('cliente');
         session()->forget('reserva_pendiente');
         return view('reserva_evento', compact('evento'));

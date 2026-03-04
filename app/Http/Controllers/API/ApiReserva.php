@@ -415,8 +415,23 @@ class ApiReserva extends Controller
             ], 201);
         }
 
-        // Pago con tarjeta: guardar en sesión y redirigir a Stripe
+        // Pago con tarjeta: crear entrada pendiente, descontar stock y redirigir a Stripe
+        $reserva = ReservaEvento::create([
+            'metodo_pago' => 'tarjeta',
+            'pagado' => false,
+            'confirmacion' => false,
+            'cantidad' => $cantidad,
+            'total' => $total,
+            'toppings' => json_encode($array_toppings),
+            'captions' => json_encode($captions),
+            'evento_id' => $evento->id,
+            'cliente_id' => $cliente->id,
+        ]);
+
+        $evento->decrement('stock', $cantidad);
+
         session()->put('evento_pendiente', [
+            'reserva_evento_uuid' => $reserva->uuid,
             'evento_id' => $evento->id,
             'cliente_id' => $cliente->id,
             'cantidad' => $cantidad,

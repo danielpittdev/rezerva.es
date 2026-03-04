@@ -9,7 +9,6 @@ use App\Models\Reserva;
 use App\Models\Clientes;
 use App\Models\Registros;
 use App\Models\Servicios;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ReservaEvento;
 use Illuminate\Support\Facades\Log;
@@ -151,10 +150,11 @@ class StripeController extends Controller
 
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
 
-        $reservaEvento = Str::uuid();
+        // Usar el UUID de la entrada ya pre-creada en base de datos
+        $reservaEvento = $datos['reserva_evento_uuid'];
 
-        // Coste de servicios: 0,40€ por entrada (máximo 3), mostrado como precio único
-        $comision = 50 * min($cantidad, 5);
+        // Coste de servicios: 0,50€ por entrada (máximo 5 entradas)
+        $costeServicio = 50 * min($cantidad, 5);
 
         // Destination Charges: todos los precios inline con price_data
         $lineItems = [[
@@ -169,7 +169,7 @@ class StripeController extends Controller
         $lineItems[] = [
             'price_data' => [
                 'currency' => 'eur',
-                'unit_amount' => $comision,
+                'unit_amount' => $costeServicio,
                 'product_data' => ['name' => 'Coste de servicios'],
             ],
             'quantity' => 1,
@@ -189,7 +189,8 @@ class StripeController extends Controller
             ];
         }
 
-        $tarifa = $evento->precio * 100 - 50;
+        // Transfer = precio evento + toppings (sin la tarifa de servicio que retiene la plataforma)
+        $transferAmount = (int) round($total * 100);
 
         $checkoutData = [
             'line_items' => $lineItems,
@@ -199,18 +200,12 @@ class StripeController extends Controller
                 'on_behalf_of' => $negocio->stripe_account_id,
                 'transfer_data' => [
                     'destination' => $negocio->stripe_account_id,
-                    'amount' => (int) round($tarifa) * $cantidad,
+                    'amount' => $transferAmount,
                 ],
             ],
             'metadata' => [
                 'fn' => 2,
-                'cantidad' => $cantidad,
-                'total' => $total,
-                'evento_id' => $evento->id,
-                'cliente_id' => $cliente->id,
                 'reserva_evento' => $reservaEvento,
-                'toppings' => json_encode(collect($toppings)->pluck('id')->values()),
-                'captions' => json_encode($captions)
             ],
             'success_url' => route('reserva_evento', ['reserva' => $reservaEvento]),
             'cancel_url' => route('evento', ['evento' => $evento->uuid]),

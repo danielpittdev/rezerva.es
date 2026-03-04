@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Jobs\RecordatorioEvento;
 use App\Jobs\RecordatorioReserva;
 use App\Models\Clientes;
-use App\Models\EventoTopping;
 use App\Models\Factura;
 use App\Models\Negocios;
 use App\Models\Reserva;
@@ -83,48 +82,37 @@ class WebhookController
             }
 
             if (($metadata['fn'] ?? null) == 2) {
-                // Evitar procesar webhooks duplicados
-                $existente = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
-                if ($existente) {
-                    Log::info("Webhook ignorado: reserva evento ya existe", [
-                        'reserva_evento_uuid' => $metadata['reserva_evento']
+                // Buscar la entrada pre-creada en el inicio del checkout
+                $reservaEvento = ReservaEvento::whereUuid($metadata['reserva_evento'])->first();
+
+                if (!$reservaEvento) {
+                    Log::error("Webhook fn=2: entrada no encontrada", [
+                        'reserva_evento_uuid' => $metadata['reserva_evento'] ?? null
                     ]);
                     return;
                 }
 
-                $evento = \App\Models\Evento::find($metadata['evento_id']);
-
-                // Reconstruir toppings completos desde los IDs del metadata
-                $toppingIds = json_decode($metadata['toppings'] ?? '[]', true);
-                $toppingsData = [];
-                if (!empty($toppingIds)) {
-                    $toppingsData = EventoTopping::whereIn('id', $toppingIds)->get()->toArray();
+                // Evitar procesar webhooks duplicados
+                if ($reservaEvento->pagado) {
+                    Log::info("Webhook ignorado: entrada ya confirmada", [
+                        'reserva_evento_uuid' => $reservaEvento->uuid
+                    ]);
+                    return;
                 }
 
-                // Crear la reserva del evento
-                $reservaEvento = ReservaEvento::create([
-                    'uuid' => $metadata['reserva_evento'],
-                    'metodo_pago' => 'tarjeta',
+                // Confirmar el pago de la entrada pre-creada
+                $reservaEvento->update([
                     'pagado' => true,
                     'confirmacion' => true,
-                    'cantidad' => $metadata['cantidad'],
-                    'toppings' => json_encode($toppingsData),
-                    'captions' => $metadata['captions'] ?? null,
-                    'total' => $metadata['total'],
-                    'evento_id' => $metadata['evento_id'],
-                    'cliente_id' => $metadata['cliente_id'],
+                    'stripe' => $data,
                 ]);
 
-                // Descontar stock del evento
-                if ($evento) {
-                    $evento->decrement('stock', $metadata['cantidad']);
-                }
-
+                $evento = $reservaEvento->evento;
                 $cliente = $reservaEvento->cliente;
 
                 Log::info("Pago de evento confirmado", [
                     'reserva_evento_uuid' => $reservaEvento->uuid,
-                    'evento' => $reservaEvento->evento->nombre ?? null,
+                    'evento' => $evento->nombre ?? null,
                     'cliente' => $cliente->email ?? null,
                 ]);
 
