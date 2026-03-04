@@ -149,68 +149,61 @@ class StripeController extends Controller
                 ->with('error', 'El negocio no tiene cuenta de Stripe conectada. No se puede procesar el pago con tarjeta.');
         }
 
-        // Validar que el evento tenga precio en Stripe
-        if (empty($evento->stripe_price)) {
-            session()->forget('evento_pendiente');
-            return redirect()->route('evento', ['evento' => $evento->uuid])
-                ->with('error', 'El evento no tiene configurado el pago con tarjeta.');
-        }
-
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
-
-        // Buscar o crear customer en la cuenta conectada
-        if (empty($cliente->stripe_id)) {
-            try {
-                // Buscar si ya existe un customer con ese email en la cuenta conectada
-                $existentes = $stripe->customers->all([
-                    'email' => $cliente->email,
-                    'limit' => 1,
-                ], ['stripe_account' => $negocio->stripe_account_id]);
-
-                if (!empty($existentes->data)) {
-                    $customer = $existentes->data[0];
-                } else {
-                    $customer = $stripe->customers->create([
-                        'email' => $cliente->email,
-                        'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
-                        'phone' => $cliente->telefono,
-                    ], ['stripe_account' => $negocio->stripe_account_id]);
-                }
-
-                $cliente->update(['stripe_id' => $customer->id]);
-            } catch (\Stripe\Exception\ApiErrorException $e) {
-                Log::error("Error buscando/creando customer en Connect: {$e->getMessage()}");
-            }
-        }
-
-        // Toppings
-        $lineItems = [[
-            'price' => $evento->stripe_price,
-            'quantity' => $cantidad,
-        ]];
-
-        if ($toppings) {
-            foreach ($toppings as $topping) {
-                if (empty($topping['stripe_price'])) {
-                    continue;
-                }
-                $lineItems[] = [
-                    'price' => $topping['stripe_price'],
-                    'quantity' => $cantidad,
-                ];
-            }
-        }
 
         $reservaEvento = Str::uuid();
 
-        // Comisión fija: 0,35€ por entrada
-        $comision = (int) (35 * $cantidad);
+        // Coste de servicios: 0,90€ por entrada (máximo 10)
+        $cantidadFee = min($cantidad, 10);
+        $comision = 90 * $cantidadFee;
+
+        // Destination Charges: todos los precios inline con price_data
+        $lineItems = [[
+            'price_data' => [
+                'currency' => 'eur',
+                'unit_amount' => (int) round($evento->precio * 100),
+                'product_data' => ['name' => $evento->nombre],
+            ],
+            'quantity' => $cantidad,
+        ]];
+
+        $lineItems[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'unit_amount' => 90,
+                'product_data' => ['name' => 'Coste de servicios'],
+            ],
+            'quantity' => $cantidadFee,
+        ];
+
+        foreach ($toppings as $topping) {
+            if (empty($topping['precio'])) {
+                continue;
+            }
+            $lineItems[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => (int) round($topping['precio'] * 100),
+                    'product_data' => ['name' => $topping['nombre'] ?? 'Extra'],
+                ],
+                'quantity' => $cantidad,
+            ];
+        }
 
         $checkoutData = [
             'line_items' => $lineItems,
             'mode' => 'payment',
+            'customer_email' => $cliente->email,
             'payment_intent_data' => [
                 'application_fee_amount' => $comision,
+                'on_behalf_of' => $negocio->stripe_account_id,
+                'transfer_data' => [
+                    'destination' => $negocio->stripe_account_id,
+                    // Transferencia explícita: solo el precio de la entrada × cantidad.
+                    // Los toppings NO se incluyen aquí → se quedan en la plataforma.
+                    // Si los toppings deben ir al comercio, elimina este 'amount'.
+                    'amount' => (int) round($evento->precio * 100) * $cantidad,
+                ],
             ],
             'metadata' => [
                 'fn' => 2,
@@ -226,15 +219,9 @@ class StripeController extends Controller
             'cancel_url' => route('evento', ['evento' => $evento->uuid]),
         ];
 
-        if ($cliente->stripe_id) {
-            $checkoutData['customer'] = $cliente->stripe_id;
-        }
-
         try {
-            $checkout = $stripe->checkout->sessions->create(
-                $checkoutData,
-                ['stripe_account' => $negocio->stripe_account_id]
-            );
+            // Destination Charge: sesión en la cuenta plataforma (sin stripe_account)
+            $checkout = $stripe->checkout->sessions->create($checkoutData);
 
             session()->forget('evento_pendiente');
 

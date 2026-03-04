@@ -78,8 +78,8 @@
                   </div>
                </div>
 
-               <div class="caja px-5 pt-10">
-                  <button type="button" class="pet_reservar rounded-full bg-indigo-600 px-5 py-2 lg:text-md text-lg font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+               <div class="caja flex flex-col px-5 pt-10">
+                  <button type="button" class="flex-auto pet_reservar rounded-full bg-indigo-600 px-5 py-2 lg:text-md text-lg font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                      Reserva tu entrada
                   </button>
                </div>
@@ -95,7 +95,6 @@
 
             <ul>
                <li class="text-sm text-base-content/90"><strong>Email</strong>: {{ $evento->negocio->info_email ?? 'No hay información' }}</li>
-               <li class="text-sm text-base-content/90"><strong>Teléfono</strong>: {{ $evento->negocio->info_telefono ?? 'No hay información' }}</li>
             </ul>
          </div>
 

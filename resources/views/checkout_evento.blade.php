@@ -36,10 +36,11 @@
                               clip-rule="evenodd" fill-rule="evenodd" />
                         </svg>
                         <div>
-                           <p class="text-sm font-medium text-blue-800">Información para el consumidor</p>
+                           <p class="text-sm font-medium text-blue-800">Atención</p>
                            <p class="mt-1 text-sm text-blue-700">
                            <p>
-                              <p><small>A partir hoy <strong>4 de marzo</strong> se aplicará <strong>0,90€</strong> de servicio por entrada. <strong>El precio del evento no cambia</strong>.</small></p>
+                           <p>
+                              <span>Por favor, asegúrate de que tu correo electrónico es válido antes de reservar tu entrada <strong>{{ $cliente['email'] }}</strong>.</span>
                            </p>
                         </div>
                      </div>
@@ -129,6 +130,29 @@
 
                   <!-- Columna derecha: Sidebar -->
                   <div class="lg:col-span-3 space-y-4">
+
+                     <!-- Resumen del pedido -->
+                     <div class="rounded-xl border border-base-content/10 overflow-hidden">
+                        <div class="bg-base-200/50 px-4 py-3 border-b border-base-content/10">
+                           <h3 class="text-sm font-semibold text-base-content">Resumen del pedido</h3>
+                        </div>
+                        <div class="p-4 space-y-2.5">
+                           <div class="flex items-center justify-between">
+                              <span class="text-sm text-base-content/70">
+                                 {{ number_format($evento->precio, 2, ',', '.') }}€ × <span id="resumen-cantidad">1</span> entrada<span id="resumen-plural"></span>
+                              </span>
+                              <span id="resumen-subtotal" class="text-sm font-medium text-base-content">{{ number_format($evento->precio, 2, ',', '.') }}€</span>
+                           </div>
+                           <div class="flex items-center justify-between">
+                              <span class="text-sm text-base-content/70">Coste de servicios</span>
+                              <span id="resumen-servicios" class="text-sm font-medium text-base-content">0,90€</span>
+                           </div>
+                           <div class="border-t border-base-content/10 pt-2.5 flex items-center justify-between">
+                              <span class="text-sm font-semibold text-base-content">Total</span>
+                              <span id="resumen-total" class="text-sm font-semibold text-indigo-600">{{ number_format($evento->precio + 0.9, 2, ',', '.') }}€</span>
+                           </div>
+                        </div>
+                     </div>
 
                      <!-- Campos especiales -->
                      <div class="rounded-xl border border-base-content/10 overflow-hidden">
@@ -327,6 +351,25 @@
 @section('scripts')
    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
    <script>
+      const precioBase = {{ $evento->precio }};
+      const costeServicio = 0.90;
+
+      function formatEur(n) {
+         return n.toFixed(2).replace('.', ',') + '€';
+      }
+
+      function actualizarResumen() {
+         const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
+         const cantidadFee = Math.min(cantidad, 10);
+         document.getElementById('resumen-cantidad').textContent = cantidad;
+         document.getElementById('resumen-plural').textContent = cantidad > 1 ? 's' : '';
+         document.getElementById('resumen-subtotal').textContent = formatEur(precioBase * cantidad);
+         document.getElementById('resumen-servicios').textContent = formatEur(costeServicio * cantidadFee);
+         document.getElementById('resumen-total').textContent = formatEur(precioBase * cantidad + costeServicio * cantidadFee);
+      }
+
+      document.getElementById('cantidad').addEventListener('input', actualizarResumen);
+
       const reservaFormCrear = document.getElementById('crearEventoForm');
 
       reservaFormCrear.addEventListener('submit', (e) => {
