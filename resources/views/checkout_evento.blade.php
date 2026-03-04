@@ -145,11 +145,11 @@
                            </div>
                            <div class="flex items-center justify-between">
                               <span class="text-sm text-base-content/70">Coste de servicios</span>
-                              <span id="resumen-servicios" class="text-sm font-medium text-base-content">0,90€</span>
+                              <span id="resumen-servicios" class="text-sm font-medium text-base-content">0,50€</span>
                            </div>
                            <div class="border-t border-base-content/10 pt-2.5 flex items-center justify-between">
                               <span class="text-sm font-semibold text-base-content">Total</span>
-                              <span id="resumen-total" class="text-sm font-semibold text-indigo-600">{{ number_format($evento->precio + 0.9, 2, ',', '.') }}€</span>
+                              <span id="resumen-total" class="text-sm font-semibold text-indigo-600">{{ number_format($evento->precio + 0.5, 2, ',', '.') }}€</span>
                            </div>
                         </div>
                      </div>
@@ -352,7 +352,7 @@
    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
    <script>
       const precioBase = {{ $evento->precio }};
-      const costeServicio = 0.90;
+      const costeServicio = 0.50;
 
       function formatEur(n) {
          return n.toFixed(2).replace('.', ',') + '€';
@@ -360,7 +360,7 @@
 
       function actualizarResumen() {
          const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
-         const cantidadFee = Math.min(cantidad, 10);
+         const cantidadFee = Math.min(cantidad, 5);
          document.getElementById('resumen-cantidad').textContent = cantidad;
          document.getElementById('resumen-plural').textContent = cantidad > 1 ? 's' : '';
          document.getElementById('resumen-subtotal').textContent = formatEur(precioBase * cantidad);

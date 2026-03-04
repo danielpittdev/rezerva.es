@@ -153,9 +153,8 @@ class StripeController extends Controller
 
         $reservaEvento = Str::uuid();
 
-        // Coste de servicios: 0,90€ por entrada (máximo 10)
-        $cantidadFee = min($cantidad, 10);
-        $comision = 90 * $cantidadFee;
+        // Coste de servicios: 0,40€ por entrada (máximo 3), mostrado como precio único
+        $comision = 50 * min($cantidad, 5);
 
         // Destination Charges: todos los precios inline con price_data
         $lineItems = [[
@@ -170,10 +169,10 @@ class StripeController extends Controller
         $lineItems[] = [
             'price_data' => [
                 'currency' => 'eur',
-                'unit_amount' => 90,
+                'unit_amount' => $comision,
                 'product_data' => ['name' => 'Coste de servicios'],
             ],
-            'quantity' => $cantidadFee,
+            'quantity' => 1,
         ];
 
         foreach ($toppings as $topping) {
@@ -190,19 +189,17 @@ class StripeController extends Controller
             ];
         }
 
+        $tarifa = $evento->precio * 100 - 50;
+
         $checkoutData = [
             'line_items' => $lineItems,
             'mode' => 'payment',
             'customer_email' => $cliente->email,
             'payment_intent_data' => [
-                'application_fee_amount' => $comision,
                 'on_behalf_of' => $negocio->stripe_account_id,
                 'transfer_data' => [
                     'destination' => $negocio->stripe_account_id,
-                    // Transferencia explícita: solo el precio de la entrada × cantidad.
-                    // Los toppings NO se incluyen aquí → se quedan en la plataforma.
-                    // Si los toppings deben ir al comercio, elimina este 'amount'.
-                    'amount' => (int) round($evento->precio * 100) * $cantidad,
+                    'amount' => (int) round($tarifa) * $cantidad,
                 ],
             ],
             'metadata' => [
