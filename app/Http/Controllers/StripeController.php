@@ -138,7 +138,6 @@ class StripeController extends Controller
         $negocio = $evento->negocio;
         $toppings = $datos['toppings'] ?? [];
         $cantidad = $datos['cantidad'];
-        $total = $datos['total'];
         $captions = $datos['captions'] ?? [];
 
         // Validar que el negocio tenga Stripe Connect
@@ -150,28 +149,13 @@ class StripeController extends Controller
 
         $stripe = new \Stripe\StripeClient(config('cashier.secret'));
 
-        // Crear customer en la cuenta plataforma (ARLINSA) si no existe
-        if (empty($cliente->stripe_id)) {
-            try {
-                $customer = $stripe->customers->create([
-                    'email' => $cliente->email,
-                    'name' => trim($cliente->nombre . ' ' . $cliente->apellido),
-                    'phone' => $cliente->telefono,
-                    'metadata' => ['cliente_uuid' => $cliente->uuid],
-                ]);
-                $cliente->update(['stripe_id' => $customer->id]);
-            } catch (\Stripe\Exception\ApiErrorException $e) {
-                Log::error("Error creando customer en plataforma: {$e->getMessage()}");
-            }
-        }
-
         // Usar el UUID de la entrada ya pre-creada en base de datos
         $reservaEvento = $datos['reserva_evento_uuid'];
 
-        // Coste de servicios: 0,50€ por entrada (máximo 5 entradas)
+        // Coste de servicios: 0,50€ por entrada (máximo 5 entradas) — retenido por la plataforma
         $costeServicio = 50 * min($cantidad, 5);
 
-        // Destination Charges: todos los precios inline con price_data
+        // Direct Charges: todos los precios inline con price_data
         $lineItems = [[
             'price_data' => [
                 'currency' => 'eur',
@@ -204,21 +188,12 @@ class StripeController extends Controller
             ];
         }
 
-        // Transfer = precio evento + toppings (sin la tarifa de servicio que retiene la plataforma)
-        $transferAmount = (int) round($total * 100);
-
         $checkoutData = [
             'line_items' => $lineItems,
             'mode' => 'payment',
-            ...($cliente->stripe_id
-                ? ['customer' => $cliente->stripe_id]
-                : ['customer_email' => $cliente->email]),
+            'customer_email' => $cliente->email,
             'payment_intent_data' => [
-                'on_behalf_of' => $negocio->stripe_account_id,
-                'transfer_data' => [
-                    'destination' => $negocio->stripe_account_id,
-                    'amount' => $transferAmount,
-                ],
+                'application_fee_amount' => $costeServicio,
             ],
             'metadata' => [
                 'fn' => 2,
@@ -229,8 +204,11 @@ class StripeController extends Controller
         ];
 
         try {
-            // Destination Charge: sesión en la cuenta plataforma (sin stripe_account)
-            $checkout = $stripe->checkout->sessions->create($checkoutData);
+            // Direct Charge: sesión en la cuenta del comercio conectado
+            $checkout = $stripe->checkout->sessions->create(
+                $checkoutData,
+                ['stripe_account' => $negocio->stripe_account_id]
+            );
 
             session()->forget('evento_pendiente');
 
