@@ -272,8 +272,7 @@
                               @foreach ($evento->toppings as $topping)
                                  <label class="group flex items-center gap-3 p-3 cursor-pointer transition-colors duration-200 hover:bg-base-200/30 has-checked:bg-indigo-50/50">
                                     <input type="checkbox" name="topping[]" value="{{ $topping->uuid }}"
-                                       data-precio="{{ $topping->precio }}"
-                                       class="topping-checkbox size-4 rounded border-base-content/30 accent-indigo-600 shrink-0" />
+                                       class="size-4 rounded border-base-content/30 accent-indigo-600 shrink-0" />
                                     <img class="size-10 rounded-lg object-cover border border-base-content/10 shrink-0"
                                        src="@if ($topping->icono) {{ Storage::url($topping->icono) }}@else/media/logo/brand.png @endif" alt="{{ $topping->nombre }}">
                                     <div class="flex-1 min-w-0">
@@ -362,23 +361,14 @@
       function actualizarResumen() {
          const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
          const cantidadFee = Math.min(cantidad, 6);
-
-         let toppingsTotal = 0;
-         document.querySelectorAll('.topping-checkbox:checked').forEach(cb => {
-            toppingsTotal += parseFloat(cb.dataset.precio || 0) * cantidad;
-         });
-
          document.getElementById('resumen-cantidad').textContent = cantidad;
          document.getElementById('resumen-plural').textContent = cantidad > 1 ? 's' : '';
          document.getElementById('resumen-subtotal').textContent = formatEur(precioBase * cantidad);
          document.getElementById('resumen-servicios').textContent = formatEur(costeServicio * cantidadFee);
-         document.getElementById('resumen-total').textContent = formatEur(precioBase * cantidad + costeServicio * cantidadFee + toppingsTotal);
+         document.getElementById('resumen-total').textContent = formatEur(precioBase * cantidad + costeServicio * cantidadFee);
       }
 
       document.getElementById('cantidad').addEventListener('input', actualizarResumen);
-      document.querySelectorAll('.topping-checkbox').forEach(cb => {
-         cb.addEventListener('change', actualizarResumen);
-      });
 
       const reservaFormCrear = document.getElementById('crearEventoForm');
 

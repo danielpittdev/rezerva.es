@@ -65,7 +65,7 @@
                   <div class="flex items-center gap-3 p-4">
                      <div>
                         <p class="text-xs text-base-content/50">Total</p>
-                        <p class="text-sm font-semibold">{{ number_format($reserva->total, 2, ',', '.') }}€</p>
+                        <p class="text-sm font-semibold">{{ number_format($evento->evento->precio * $evento->cantidad, 2, ',', '.') }}€</p>
                      </div>
                   </div>
                </div>
