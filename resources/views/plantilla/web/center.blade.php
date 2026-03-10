@@ -35,8 +35,11 @@
       <link rel="preconnect" href="https://www.googletagmanager.com">
       <link rel="preconnect" href="https://www.google-analytics.com">
 
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7142467172114206"
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9169987540021432"
          crossorigin="anonymous"></script>
+
+      <meta name="google-adsense-account" content="ca-pub-9169987540021432">
+
    </head>
 
    <body class="bg-base-100 h-full">
