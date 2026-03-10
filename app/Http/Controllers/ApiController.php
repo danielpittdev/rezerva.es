@@ -160,10 +160,6 @@ class ApiController extends Controller
         ], 200);
     }
 
-
-
-
-
     public function check_evento(Request $request)
     {
         $datos = $request->validate([
@@ -171,6 +167,7 @@ class ApiController extends Controller
             'nombre' => 'required|string',
             'apellido' => 'required|string',
             'email' => 'required|email',
+            'terminos-condiciones' => 'required'
         ]);
 
         // Limpiar sesión anterior y guardar nueva
